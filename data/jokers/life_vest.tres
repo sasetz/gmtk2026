@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="JokerLifeVest" format=3]
+
+[ext_resource type="Script" path="res://scripts/jokers/life_vest.gd" id="1_lifev"]
+
+[resource]
+script = ExtResource("1_lifev")
+id = &"life_vest"
+display_name = "Life Vest"
+description = "Your first would-be-voided stop scores its base instead. Gamble on a trap once."
+rarity = 1
+cost = 6
+params = {
+"immunities": 1.0
+}

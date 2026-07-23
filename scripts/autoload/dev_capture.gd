@@ -34,6 +34,14 @@ func _ready() -> void:
 		_run_game.call_deferred()
 	elif "--shop" in args:
 		_run_shop.call_deferred()
+	elif "--deception" in args:
+		_run_deception.call_deferred()
+	elif "--timertable" in args:
+		_run_timertable.call_deferred()
+	elif "--run2" in args:
+		_run_run2.call_deferred()
+	elif "--counter" in args:
+		_run_counter.call_deferred()
 	else:
 		_run_default.call_deferred()
 
@@ -290,6 +298,113 @@ func _run_shop() -> void:
 	expect("sell refunds", Economy.money == sell_money + sell_val, "$%d" % Economy.money)
 	expect("sell removes card", RunManager.jokers.size() == board_before)
 	await capture("31_shop_after")
+	get_tree().quit()
+
+
+## Drives the deception prototype: make the GREEDY pick to show the tempting
+## bait tally, then commit to reveal the trap and the breakdown "aha".
+func _run_deception() -> void:
+	await _settle()
+	get_tree().change_scene_to_file("res://scenes/deception_round.tscn")
+	await _frames(12)
+	var scene: Node = get_tree().current_scene
+	await get_tree().create_timer(2.8).timeout   # Peek (2.5s) done → Analyze
+	scene._toggle(0)   # Neon (the +5 mult bait)
+	scene._toggle(1)   # Slab
+	await _frames(4)
+	await capture("40_analyze_bait")             # tally shows the tempting 780
+	scene._commit()
+	await _frames(8)
+	await capture("41_commit_aha")               # Dead Air crushes it → 130, FAIL
+	get_tree().quit()
+
+
+## The reconnected model: table of modifiers, countdown-stop as the number.
+## Screenshots the peek/running states and both outcomes (obvious straight = trap,
+## humble odd = win) via the deterministic debug hook.
+func _run_timertable() -> void:
+	await _settle()
+	var scene: Node = get_tree().current_scene
+	await capture("50_peek")
+	await get_tree().create_timer(2.7).timeout   # peek → ready
+	Input.parse_input_event(_action(&"press", true)); await _frames(2)
+	Input.parse_input_event(_action(&"press", false)); await _frames(6)
+	await capture("51_running")
+	# Deterministic outcomes:
+	scene._debug_resolve(5500)   # 05:5 STRAIGHT → voided → 0 (the obvious trap)
+	await _frames(6)
+	await capture("52_straight_trap")
+	# reset + show the winning read
+	get_tree().reload_current_scene()
+	await _frames(20)
+	get_tree().current_scene._debug_resolve(6300)   # 06:3 ODD → 400 → PASS
+	await _frames(6)
+	await capture("53_odd_win")
+	get_tree().quit()
+
+
+func _action(name: StringName, pressed: bool) -> InputEventAction:
+	var e := InputEventAction.new()
+	e.action = name
+	e.pressed = pressed
+	return e
+
+
+## The full INTEGRATED run: generated table + persistent deck + shop between
+## rounds. Clears round 1, cashes out into the shop, buys a joker, plays round 2
+## with the grown deck.
+func _run_run2() -> void:
+	await _settle()
+	var scene: Node = get_tree().current_scene
+	await capture("60_peek")                       # generated table + countdown + deck
+	await get_tree().create_timer(3.2).timeout     # peek → ready
+	await capture("61_ready")
+	scene._debug_play(scene._board["best"]["seq"]) # play the solver's best → clear
+	await _frames(6)
+	expect("round 1 cleared", scene._total >= scene._target,
+		"%d/%d" % [scene._total, scene._target])
+	expect("payout banked (money > start)", Economy.money > 4, "$%d" % Economy.money)
+	await capture("62_round_clear")                # shows ROUND CLEAR + +$reward
+	# Cash out → the shared shop opens over the table.
+	Input.parse_input_event(_action(&"confirm", true)); await _frames(6)
+	Input.parse_input_event(_action(&"confirm", false)); await _frames(8)
+	var shop: Node = scene.get_node_or_null("Shop")
+	expect("cash out opens shop", shop != null)
+	await capture("63_shop")
+	# Buy the first affordable offer, then leave — the deck must persist.
+	var deck_before: int = RunManager.jokers.size()
+	if shop != null and not shop._offer_ids.is_empty():
+		Economy.add(20)  # ensure affordability for the smoke test
+		shop._on_buy(shop._offer_ids[0])
+	expect("shop grew the deck", RunManager.jokers.size() == deck_before + 1,
+		"%d→%d" % [deck_before, RunManager.jokers.size()])
+	scene._leave_shop()
+	await _frames(8)
+	expect("advanced to round 2", scene._round_idx == 1)
+	await capture("64_round2_with_deck")            # new board, deck strip shows growth
+	print("[verify] run reached round %d, deck size %d" % [scene._round_idx + 1, RunManager.jokers.size()])
+	get_tree().quit()
+
+
+## Counter-joker showcase: stack the deck with Trap Cutter + Life Vest, start a
+## boss board (both high-base grabs trapped), and screenshot the table showing a
+## trap visibly CUT — proof the owned deck bends the deceptive table.
+func _run_counter() -> void:
+	await _settle()
+	var scene: Node = get_tree().current_scene
+	RunManager.jokers = [
+		JokerCatalog.get_joker(&"trap_cutter"),
+		JokerCatalog.get_joker(&"life_vest"),
+		JokerCatalog.get_joker(&"analyst"),
+	]
+	scene._round_idx = 4  # boss round → both high-base props trapped
+	scene._start_round()
+	await _frames(8)
+	var cut: int = scene._ctx.disabled_cards.size()
+	expect("trap cutter disabled a trap", cut >= 1, "disabled=%d" % cut)
+	expect("life vest armed one immunity", scene._ctx.immunities_left == 1,
+		str(scene._ctx.immunities_left))
+	await capture("70_counter_table")   # a trap shows "(cut)"; deck strip visible
 	get_tree().quit()
 
 

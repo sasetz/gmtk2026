@@ -22,6 +22,10 @@ var rng := RandomNumberGenerator.new()
 ## The player's equipped board — persists across rounds, grown in the shop.
 var jokers: Array = []
 
+## The id pool the shop draws from. Empty → the full catalog (original game).
+## The deception run sets this to JokerCatalog.DECEPTION_POOL.
+var shop_pool: Array = []
+
 var blinds: Array[BlindDef] = []
 
 
@@ -31,6 +35,7 @@ func start_run(seed_value: int = 0) -> void:
 	ante = 1
 	round_index = 0
 	jokers = _starting_board()
+	shop_pool = []   # original game: shop draws from the full catalog
 	Economy.reset()
 	_build_ante()
 	state = State.BLIND_SELECT
@@ -131,3 +136,45 @@ func _resolve_round_end() -> void:
 func end_run(won: bool) -> void:
 	state = State.WON if won else State.GAME_OVER
 	EventBus.run_ended.emit(won)
+
+
+# --- deception run -----------------------------------------------------------
+# The integrated game (deception table + persistent deck + shop) drives itself
+# from the run host scene; RunManager just owns the shared, persistent pieces:
+# the seeded rng, the joker deck, and the shop pool. The original ante machine
+# above is left intact so the legacy game.tscn path still runs.
+
+## A small starting deck so a fresh deception run already shows a joker working.
+const DECEPTION_START := [&"multi_plus"]
+const DECEPTION_LIVES := 3
+
+## Lives left in the current deception run (miss a round → lose one).
+var dec_lives: int = 0
+
+
+func start_deception_run(seed_value: int = 0) -> void:
+	run_seed = seed_value if seed_value != 0 else int(Time.get_ticks_usec())
+	rng.seed = run_seed
+	dec_lives = DECEPTION_LIVES
+	jokers = []
+	for id: StringName in DECEPTION_START:
+		jokers.append(JokerCatalog.get_joker(id))
+	shop_pool = JokerCatalog.DECEPTION_POOL.duplicate()
+	Economy.reset()
+	EventBus.run_started.emit()
+
+
+func dec_lose_life() -> void:
+	dec_lives = maxi(0, dec_lives - 1)
+
+
+## End-of-round joker hooks for the deception run: pay out $ jokers (Compound
+## Interest) and add the round reward + interest. Returns the money gained.
+func deception_round_payout(reward: int) -> int:
+	var before: int = Economy.money
+	Economy.add(reward + Economy.interest())
+	for j in jokers:
+		var eff: Dictionary = j.on_round_end(null)
+		if int(eff.get("dollars", 0)) != 0:
+			Economy.add(int(eff["dollars"]))
+	return Economy.money - before

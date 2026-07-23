@@ -68,11 +68,18 @@ func _advance() -> void:
 		return
 	if _slow_until_us > _last_us:
 		var boundary: int = mini(_slow_until_us, now)
-		_consumed_us += float(boundary - _last_us) * _slow_rate
+		_consumed_us += float(boundary - _last_us) * _slow_rate * _rate
 		_last_us = boundary
 	if now > _last_us:
-		_consumed_us += float(now - _last_us)
+		_consumed_us += float(now - _last_us) * _rate
 		_last_us = now
+
+
+## Base speed of the countdown (1.0 = real time; 0.5 = falls at half speed so
+## each shown tenth lasts twice as long — easier to aim, per the "execution is
+## easy, the decision is the game" design).
+func set_rate(r: float) -> void:
+	_rate = maxf(r, 0.01)
 
 
 ## Lock in the current time. Returns the integer-ms value, or -1 if the clock

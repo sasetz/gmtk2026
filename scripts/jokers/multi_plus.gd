@@ -4,3 +4,8 @@ extends JokerDef
 
 func on_final_scoring(_ctx) -> Dictionary:
 	return {"mult": num("mult", 4.0)}
+
+
+## Deception run: +mult on every stop.
+func on_stop(_stop: Dictionary) -> Dictionary:
+	return {"mult": num("mult", 4.0)}

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="JokerEcho" format=3]
+
+[ext_resource type="Script" path="res://scripts/jokers/echo.gd" id="1_echo"]
+
+[resource]
+script = ExtResource("1_echo")
+id = &"echo"
+display_name = "Echo"
+description = "The first buff card you trigger each round fires again. Lead with the hidden buff."
+rarity = 2
+cost = 7
+params = {
+"echo": 1.0
+}

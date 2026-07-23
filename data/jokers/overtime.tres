@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="JokerOvertime" format=3]
+
+[ext_resource type="Script" path="res://scripts/jokers/overtime.gd" id="1_overt"]
+
+[resource]
+script = ExtResource("1_overt")
+id = &"overtime"
+display_name = "Overtime"
+description = "+1 stop each round, but the target rises 15%. More chances to build the mix."
+rarity = 1
+cost = 6
+params = {
+"stop_bonus": 1.0,
+"target_mult": 1.15
+}

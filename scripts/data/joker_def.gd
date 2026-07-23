@@ -83,3 +83,42 @@ func on_shop_enter() -> void:
 
 func on_sell() -> void:
 	pass
+
+
+# --- deception hooks (all no-op / neutral by default) ----------------------
+# The integrated run scores each STOP independently (points × mult, summed),
+# unlike the original single-accumulator round. Score-jokers add to a stop via
+# on_stop; counter-jokers interact with the deceptive TABLE via the query
+# methods below. The original game.tscn path never calls these, so it is
+# unaffected.
+
+## Per-stop score effect. `stop` describes the stop being resolved:
+##   {conditions:Array[StringName], key:String, first_of_kind:bool,
+##    voided:bool, points:int, mult:float, index:int}
+## Return {points, mult, xmult} added to THAT stop before its final multiply
+## (xmult picks up the +mult accumulated to its left, Balatro-style).
+func on_stop(_stop: Dictionary) -> Dictionary:
+	return {}
+
+
+## Counter: extra countdown stops this round (Overtime). The round bumps the
+## target to keep the fuzz-proven balance.
+func stop_bonus() -> int:
+	return 0
+
+
+## Counter: this joker disables one TRAP (void card) for the round (Trap Cutter).
+func disables_trap() -> bool:
+	return false
+
+
+## Counter: how many would-be-void stops this joker rescues to their base score
+## (Life Vest immunity).
+func void_immunities() -> int:
+	return 0
+
+
+## Counter: how many times the FIRST buff card triggered each round fires again
+## (Echo). 0 = no echo.
+func echo_count() -> int:
+	return 0

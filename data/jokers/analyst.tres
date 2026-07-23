@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="JokerAnalyst" format=3]
+
+[ext_resource type="Script" path="res://scripts/jokers/analyst.gd" id="1_analy"]
+
+[resource]
+script = ExtResource("1_analy")
+id = &"analyst"
+display_name = "Analyst"
+description = "+3 Mult on each new property-kind you hit this round. Paid to build the mix."
+rarity = 1
+cost = 5
+params = {
+"mult": 3.0
+}

@@ -19,7 +19,21 @@ const PATHS := {
 	&"compound_interest": "res://data/jokers/compound_interest.tres",
 	&"reroll_rebate": "res://data/jokers/reroll_rebate.tres",
 	&"microscope": "res://data/jokers/microscope.tres",
+	# Counter-jokers — the deception-run build layer (interact with the table).
+	&"trap_cutter": "res://data/jokers/trap_cutter.tres",
+	&"life_vest": "res://data/jokers/life_vest.tres",
+	&"overtime": "res://data/jokers/overtime.tres",
+	&"echo": "res://data/jokers/echo.tres",
+	&"analyst": "res://data/jokers/analyst.tres",
 }
+
+## The pool the DECEPTION shop offers: score-jokers that have a per-stop effect
+## plus the counter-jokers. Excludes original cards whose hooks only fire in the
+## countdown-round model (they'd be dead weight in a deception run).
+const DECEPTION_POOL := [
+	&"multi_plus", &"odd_ally", &"round_robin", &"all_in", &"compound_interest",
+	&"reroll_rebate", &"trap_cutter", &"life_vest", &"overtime", &"echo", &"analyst",
+]
 
 
 ## A fresh, mutable instance of the card.

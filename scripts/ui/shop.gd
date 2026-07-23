@@ -28,7 +28,10 @@ func _ready() -> void:
 func _roll_offers() -> void:
 	_bought.clear()
 	var owned: Array = RunManager.jokers.map(func(j) -> StringName: return j.id)
-	var pool: Array = JokerCatalog.all_ids().filter(func(id: StringName) -> bool: return not owned.has(id))
+	# The deception run restricts the shop to jokers that actually work in it;
+	# an empty pool means the full catalog (original game).
+	var source: Array = RunManager.shop_pool if not RunManager.shop_pool.is_empty() else JokerCatalog.all_ids()
+	var pool: Array = source.filter(func(id: StringName) -> bool: return not owned.has(id))
 	_shuffle(pool)
 	_offer_ids = pool.slice(0, mini(2, pool.size()))
 
