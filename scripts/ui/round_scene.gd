@@ -7,6 +7,7 @@ extends Control
 signal finished(passed: bool)
 
 const DEFAULT_DURATION_MS: int = 13000
+const DEFAULT_RATE: float = 0.5
 const DEFAULT_PRESS_COUNT: int = 4
 const DEFAULT_TIER: int = 1
 const DEFAULT_TARGET: int = 300
@@ -26,6 +27,7 @@ var config: Dictionary = {}
 @onready var _jokers_list: HBoxContainer = $Center/Jokers
 
 var _duration_ms: int
+var _rate: float
 var _tier: int
 var _presses_base: int
 var _target_base: int
@@ -46,6 +48,7 @@ func _ready() -> void:
 	# — a "hit the exact ms" game must not eat a frame of input latency.
 	Input.use_accumulated_input = false
 	_duration_ms = config.get("duration_ms", DEFAULT_DURATION_MS)
+	_rate = config.get("rate", DEFAULT_RATE)
 	_tier = config.get("tier", DEFAULT_TIER)
 	_presses_base = config.get("press_count", DEFAULT_PRESS_COUNT)
 	_target_base = config.get("target", DEFAULT_TARGET)
@@ -60,7 +63,7 @@ func _ready() -> void:
 			JokerCatalog.get_joker(&"round_robin"),
 		]
 	_slow_cards = jokers.filter(func(j) -> bool: return j is JokerSlowReveal)
-	_timer.configure(_duration_ms, _effective_presses(), _tier, .5)
+	_timer.configure(_duration_ms, _effective_presses(), _tier, _rate)
 	_timer.pressed.connect(_on_pressed)
 	_timer.expired.connect(_on_expired)
 	_reset_view()

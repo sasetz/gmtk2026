@@ -7,10 +7,10 @@ enum State { BOOT, BLIND_SELECT, ROUND, SHOP, WON, GAME_OVER }
 
 ## Ante-1 schedule (designer-tuned). [duration_ms, base_target, reward, boss_id].
 const SCHEDULE := [
-	[13000, 300, 3, &""],
-	[11000, 750, 4, &""],
-	[9000, 1800, 5, &""],
-	[7000, 3000, 7, &"miser"],
+	[13000, 300, 3, &"", .5],
+	[11000, 750, 4, &"", .7],
+	[9000, 1800, 5, &"", 1.0],
+	[7000, 3000, 7, &"miser", 0.6],
 ]
 
 var state: int = State.BOOT
@@ -50,7 +50,8 @@ func _build_ante() -> void:
 	var tier: int = _tier_for_ante()
 	for spec: Array in SCHEDULE:
 		var b := BlindDef.new()
-		b.duration_ms = spec[0]
+		b.stopwatches_ms[0] = spec[0]
+		b.stopwatch_rates[0] = spec[4]
 		b.target = int(round(float(spec[1]) * scale))
 		b.reward = spec[2]
 		b.boss_id = spec[3]
@@ -74,7 +75,8 @@ func current_blind() -> BlindDef:
 func round_config() -> Dictionary:
 	var b: BlindDef = current_blind()
 	return {
-		"duration_ms": b.duration_ms,
+		"duration_ms": b.stopwatches_ms[0],
+		"rate": b.stopwatch_rates[0],
 		"target": b.target,
 		"tier": b.tier,
 		"boss_id": b.boss_id,
