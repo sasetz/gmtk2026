@@ -23,6 +23,7 @@ var config: Dictionary = {}
 @onready var _presses_label: Label = $Center/PressesLabel
 @onready var _log: Label = $Center/Log
 @onready var _result: Label = $Center/Result
+@onready var _jokers_list: HBoxContainer = $Center/Jokers
 
 var _duration_ms: int
 var _tier: int
@@ -169,6 +170,9 @@ func _reset_view() -> void:
 	_presses_label.text = "Target %d   ·   Presses: %d" % [_effective_target(), _effective_presses()]
 	_log.text = ""
 	_result.text = ""
+	for j in jokers:
+		var jc: Control = ScoringEngine.make_joker_card(j)
+		_jokers_list.add_child(jc)
 
 
 func _restart() -> void:

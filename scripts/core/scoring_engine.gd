@@ -1,5 +1,8 @@
 class_name ScoringEngine
 extends RefCounted
+
+const FoilShader := preload("res://shaders/foil.gdshader")
+
 ## The generic scoring loop. It never knows any joker's identity — it just calls
 ## the same hooks on each card in board order and applies whatever struct comes
 ## back. Adding card #13 is a .tres + a tiny script, no change here.
@@ -57,3 +60,38 @@ static func score(presses: Array, jokers: Array, target: int,
 	ctx.current_index = -1
 	ctx.current_joker_index = -1
 	return ctx
+
+## A compact card showing an equipped joker's name.
+static func make_joker_card(joker) -> Control:
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = Vector2(96, 60)
+	var is_rare: bool = joker.rarity == JokerDef.Rarity.RARE
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.18, 0.14, 0.28)
+	style.set_corner_radius_all(6)
+	style.set_border_width_all(2)
+	style.border_color = Color(0.98, 0.82, 0.4, 0.9) if is_rare else Color(0.7, 0.6, 0.95, 0.7)
+	style.content_margin_left = 6
+	style.content_margin_right = 6
+	style.content_margin_top = 4
+	style.content_margin_bottom = 4
+	panel.add_theme_stylebox_override("panel", style)
+	# Rare cards get the animated holographic foil behind the label.
+	if is_rare:
+		var foil := ColorRect.new()
+		var mat := ShaderMaterial.new()
+		mat.shader = FoilShader
+		mat.set_shader_parameter("intensity", 0.5)
+		mat.set_shader_parameter("base_color", Color(0.18, 0.14, 0.28))
+		foil.material = mat
+		foil.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		panel.add_child(foil)
+	var l := Label.new()
+	l.text = joker.display_name
+	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	l.add_theme_font_size_override("font_size", 13)
+	l.add_theme_color_override("font_color", Color(0.9, 0.88, 0.98))
+	panel.add_child(l)
+	return panel
