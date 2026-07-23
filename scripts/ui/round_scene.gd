@@ -60,7 +60,7 @@ func _ready() -> void:
 			JokerCatalog.get_joker(&"round_robin"),
 		]
 	_slow_cards = jokers.filter(func(j) -> bool: return j is JokerSlowReveal)
-	_timer.configure(_duration_ms, _effective_presses(), _tier)
+	_timer.configure(_duration_ms, _effective_presses(), _tier, .5)
 	_timer.pressed.connect(_on_pressed)
 	_timer.expired.connect(_on_expired)
 	_reset_view()
@@ -183,5 +183,5 @@ func _restart() -> void:
 	_started = false
 	_finished = false
 	_press_results.clear()
-	_timer.configure(_duration_ms, _effective_presses(), _tier)
+	_timer.configure(_duration_ms, _effective_presses(), _tier, .5)
 	_reset_view()
