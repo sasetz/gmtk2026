@@ -8,7 +8,10 @@ extends Control
 
 signal finished(passed: bool)
 
-const BEAT_STAGGER: float = 0.34
+# Deliberately unhurried so you can read points/mult building and see which
+# card did what — the reveal is the payoff, not a formality.
+const BEAT_STAGGER: float = 0.52
+const ROLL_TIME: float = 0.42
 const COND_COLOR := Color(0.98, 0.86, 0.4)
 const POINTS_COLOR := Color(0.42, 0.72, 0.98)
 const MULT_COLOR := Color(0.98, 0.45, 0.4)
@@ -22,10 +25,18 @@ const FoilShader := preload("res://shaders/foil.gdshader")
 @onready var _score_label: Label = $Shake/Center/Score
 @onready var _verdict: Label = $Shake/Center/Verdict
 @onready var _burst: CPUParticles2D = $Burst
+@onready var _continue: Button = $Continue
 
 var _points: int = 0
 var _mult: float = 0.0
 var _joker_cards: Array[Control] = []
+var _passed: bool = false
+var _awaiting_continue: bool = false
+
+
+func _ready() -> void:
+	_continue.pressed.connect(_on_continue)
+	_continue.visible = false
 
 
 ## Replays the engine's ordered log so the animation matches the maths exactly.
@@ -56,27 +67,33 @@ func play(ctx: ScoringContext, log: Array) -> void:
 		await get_tree().create_timer(BEAT_STAGGER).timeout
 
 	# --- anticipation, then the slam ---
-	await get_tree().create_timer(0.35).timeout
+	await get_tree().create_timer(0.6).timeout
 	var score: int = ctx.final_score()
-	Juice.count(_score_label, 0, score, 0.6, "%d")
+	Juice.count(_score_label, 0, score, 0.85, "%d")
 	Juice.punch(_score_label, 1.7, 0.55)
 	Juice.flash(_score_label, Color.WHITE, 0.4)
 	Juice.shake(_shake, clampf(float(score) / 120.0, 8.0, 40.0), 0.4)
 	_burst.position = _score_label.global_position + _score_label.size * 0.5
 	_burst.restart()
 	_burst.emitting = true
-	await get_tree().create_timer(0.7).timeout
+	await get_tree().create_timer(1.0).timeout
 
-	# --- verdict ---
-	var passed: bool = ctx.passed()
-	_verdict.text = "PASS  (target %d)" % ctx.target if passed else "FAIL  (needed %d)" % ctx.target
-	_verdict.modulate = Color(0.4, 0.95, 0.55) if passed else Color(0.95, 0.4, 0.4)
-	Juice.punch(_verdict, 1.3, 0.35)
-	finished.emit(passed)
+	# --- verdict: a big, unmissable WIN / LOSE that holds on screen ---
+	_passed = ctx.passed()
+	_verdict.text = "WIN!" if _passed else "LOSE"
+	_verdict.add_theme_font_size_override("font_size", 64)
+	_verdict.modulate = Color(0.4, 0.95, 0.55) if _passed else Color(0.95, 0.4, 0.4)
+	Juice.punch(_verdict, 1.4, 0.5)
+	Juice.shake(_shake, 18.0, 0.4)
+
+	# --- hold, then hand control to the player: nothing advances until they hit
+	# Continue, so the score and what earned it stay readable as long as needed.
+	await get_tree().create_timer(0.7).timeout
+	_show_continue()
 
 
 func _roll_points(to_val: int) -> void:
-	Juice.count(_points_label, _points, to_val, 0.28)
+	Juice.count(_points_label, _points, to_val, ROLL_TIME)
 	_points = to_val
 	Juice.punch($Shake/Center/Board/Points, 1.15, 0.2)
 
@@ -86,11 +103,33 @@ func _roll_mult(to_val: float) -> void:
 	# fractional xmult ever lands, snap to a one-decimal readout at the end.
 	var from_i: int = int(round(_mult))
 	var to_i: int = int(round(to_val))
-	var t: Tween = Juice.count(_mult_label, from_i, to_i, 0.28)
+	var t: Tween = Juice.count(_mult_label, from_i, to_i, ROLL_TIME)
 	if not is_equal_approx(to_val, round(to_val)):
 		t.tween_callback(func() -> void: _mult_label.text = "%.1f" % to_val)
 	_mult = to_val
 	Juice.punch($Shake/Center/Board/Mult, 1.15, 0.2)
+
+
+## Reveal the Continue button and hand control to the player. Nothing advances
+## until they press it (or Enter), so the score stays readable as long as needed.
+func _show_continue() -> void:
+	_awaiting_continue = true
+	_continue.visible = true
+	_continue.pivot_offset = _continue.size * 0.5
+	Juice.punch(_continue, 1.25, 0.35)
+
+
+func _on_continue() -> void:
+	if not _awaiting_continue:
+		return
+	_awaiting_continue = false
+	finished.emit(_passed)
+
+
+func _input(event: InputEvent) -> void:
+	if _awaiting_continue and (event.is_action_pressed(&"confirm") or event.is_action_pressed(&"press")):
+		get_viewport().set_input_as_handled()
+		_on_continue()
 
 
 func _reset(target: int) -> void:

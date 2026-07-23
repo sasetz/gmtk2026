@@ -238,11 +238,21 @@ func _run_game() -> void:
 	for i: int in 4:
 		await get_tree().create_timer(0.35).timeout
 		await tap(&"press")
-	await get_tree().create_timer(3.2).timeout   # let the reveal play out
-	await capture("21_shop")
-	# A non-boss win opens the shop (replaces the old cashout overlay).
+	await get_tree().create_timer(7.5).timeout   # let the slower reveal play out
+	# The reveal now HOLDS on WIN/LOSE with a Continue button — it must not have
+	# auto-advanced to the shop.
+	var reveal: Node = game.get_node("RoundHost/Round").get_node_or_null("ScoreReveal")
+	expect("reveal holds (no auto-advance)", reveal != null and reveal._awaiting_continue)
+	if reveal != null:
+		expect("verdict shown", reveal.get_node("Shake/Center/Verdict").text != "")
+		expect("continue button visible", reveal.get_node("Continue").visible)
+	await capture("21_reveal_hold")
+	# Press Continue → shop opens.
+	await tap(&"confirm")
+	await _frames(6)
+	await capture("22_shop")
 	var shop: Node = game.get_node("RoundHost").get_node_or_null("Shop")
-	expect("shop opened after win", shop != null)
+	expect("continue opens shop", shop != null)
 	expect("money advanced", Economy.money > 4, "$%d" % Economy.money)
 	get_tree().quit()
 
