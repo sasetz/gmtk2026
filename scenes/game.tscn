@@ -1,7 +1,7 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene format=3 uid="uid://hiaohcb2vwvd"]
 
-[ext_resource type="Script" path="res://scripts/ui/game.gd" id="1_game"]
-[ext_resource type="Shader" path="res://shaders/crt.gdshader" id="2_crt"]
+[ext_resource type="Script" uid="uid://dsljdl2pvlfs8" path="res://scripts/ui/game.gd" id="1_game"]
+[ext_resource type="Shader" uid="uid://bqc8jmbkwabk0" path="res://shaders/crt.gdshader" id="2_crt"]
 
 [sub_resource type="StyleBoxFlat" id="sb_overlay"]
 bg_color = Color(0.05, 0.09, 0.08, 0.9)
@@ -13,27 +13,33 @@ shader_parameter/scanline_strength = 0.08
 shader_parameter/vignette_strength = 0.4
 shader_parameter/flicker_strength = 0.012
 
-[node name="Game" type="Control"]
+[node name="Game" type="Control" unique_id=336059269]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_game")
 
-[node name="Felt" type="ColorRect" parent="."]
+[node name="Felt" type="ColorRect" parent="." unique_id=52198246]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0.078, 0.22, 0.16, 1)
 
-[node name="RoundHost" type="Control" parent="."]
+[node name="RoundHost" type="Control" parent="." unique_id=1222940005]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="HUD" type="HBoxContainer" parent="."]
+[node name="HUD" type="HBoxContainer" parent="." unique_id=51507916]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -44,35 +50,37 @@ offset_bottom = 52.0
 grow_horizontal = 2
 theme_override_constants/separation = 40
 
-[node name="Money" type="Label" parent="HUD"]
+[node name="Money" type="Label" parent="HUD" unique_id=1293436834]
 layout_mode = 2
-text = "$4"
-theme_override_font_sizes/font_size = 28
 theme_override_colors/font_color = Color(0.98, 0.86, 0.4, 1)
-
-[node name="Ante" type="Label" parent="HUD"]
-layout_mode = 2
-text = "Ante 1"
 theme_override_font_sizes/font_size = 28
-theme_override_colors/font_color = Color(0.85, 0.9, 0.88, 1)
+text = "$4"
 
-[node name="Blind" type="Label" parent="HUD"]
+[node name="Ante" type="Label" parent="HUD" unique_id=1251545096]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.88, 1)
+theme_override_font_sizes/font_size = 28
+text = "Ante 1"
+
+[node name="Blind" type="Label" parent="HUD" unique_id=132916212]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.7, 0.85, 0.8, 1)
+theme_override_font_sizes/font_size = 24
 text = "Round 1"
 horizontal_alignment = 2
-theme_override_font_sizes/font_size = 24
-theme_override_colors/font_color = Color(0.7, 0.85, 0.8, 1)
 
-[node name="Overlay" type="Panel" parent="."]
+[node name="Overlay" type="Panel" parent="." unique_id=1962644226]
 visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_styles/panel = SubResource("sb_overlay")
 
-[node name="Box" type="VBoxContainer" parent="Overlay"]
+[node name="Box" type="VBoxContainer" parent="Overlay" unique_id=1480377809]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -88,27 +96,25 @@ grow_vertical = 2
 theme_override_constants/separation = 20
 alignment = 1
 
-[node name="Title" type="Label" parent="Overlay/Box"]
+[node name="Title" type="Label" parent="Overlay/Box" unique_id=1811239252]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.86, 0.4, 1)
+theme_override_font_sizes/font_size = 44
 text = "CASH OUT"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 44
-theme_override_colors/font_color = Color(0.98, 0.86, 0.4, 1)
 
-[node name="Sub" type="Label" parent="Overlay/Box"]
+[node name="Sub" type="Label" parent="Overlay/Box" unique_id=309664248]
 layout_mode = 2
-text = ""
-horizontal_alignment = 1
-theme_override_font_sizes/font_size = 22
 theme_override_colors/font_color = Color(0.88, 0.9, 0.92, 1)
+theme_override_font_sizes/font_size = 22
+horizontal_alignment = 1
 
-[node name="CRT" type="CanvasLayer" parent="."]
+[node name="CRT" type="CanvasLayer" parent="." unique_id=254561351]
 layer = 100
 
-[node name="Rect" type="ColorRect" parent="CRT"]
+[node name="Rect" type="ColorRect" parent="CRT" unique_id=1762701422]
 material = SubResource("mat_crt")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-color = Color(1, 1, 1, 1)
