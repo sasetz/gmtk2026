@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="JokerSlowReveal" format=3]
+
+[ext_resource type="Script" path="res://scripts/jokers/slow_reveal.gd" id="1_jcnhk"]
+
+[resource]
+script = ExtResource("1_jcnhk")
+id = &"slow_reveal"
+display_name = "Slow Reveal"
+description = "Hit a round number and the timer crawls at 0.3x for 1s."
+rarity = 1
+cost = 5
+params = {
+"slow_factor": 0.3,
+"slow_seconds": 1.0
+}

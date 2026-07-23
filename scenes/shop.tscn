@@ -1,0 +1,81 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/shop.gd" id="1_shop"]
+
+[sub_resource type="StyleBoxFlat" id="sb_shop"]
+bg_color = Color(0.05, 0.11, 0.09, 0.97)
+
+[node name="Shop" type="Panel"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_styles/panel = SubResource("sb_shop")
+script = ExtResource("1_shop")
+
+[node name="Box" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 60.0
+offset_top = 40.0
+offset_right = -60.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 18
+
+[node name="Header" type="HBoxContainer" parent="Box"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="Title" type="Label" parent="Box/Header"]
+layout_mode = 2
+text = "SHOP"
+theme_override_font_sizes/font_size = 40
+theme_override_colors/font_color = Color(0.98, 0.86, 0.4, 1)
+
+[node name="Money" type="Label" parent="Box/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "$0"
+horizontal_alignment = 2
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 32
+theme_override_colors/font_color = Color(0.98, 0.86, 0.4, 1)
+
+[node name="OffersLabel" type="Label" parent="Box"]
+layout_mode = 2
+text = "For sale"
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0.8, 0.82, 0.88, 1)
+
+[node name="Offers" type="HBoxContainer" parent="Box"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Row" type="HBoxContainer" parent="Box"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Reroll" type="Button" parent="Box/Row"]
+layout_mode = 2
+custom_minimum_size = Vector2(160, 40)
+text = "Reroll  $5"
+
+[node name="Continue" type="Button" parent="Box/Row"]
+layout_mode = 2
+custom_minimum_size = Vector2(200, 40)
+size_flags_horizontal = 10
+text = "Continue  ▶"
+
+[node name="BoardLabel" type="Label" parent="Box"]
+layout_mode = 2
+text = "Your board"
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0.8, 0.82, 0.88, 1)
+
+[node name="Board" type="HBoxContainer" parent="Box"]
+layout_mode = 2
+theme_override_constants/separation = 16

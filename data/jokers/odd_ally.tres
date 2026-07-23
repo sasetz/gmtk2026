@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="JokerOddAlly" format=3]
+
+[ext_resource type="Script" path="res://scripts/jokers/odd_ally.gd" id="1_sjkeg"]
+
+[resource]
+script = ExtResource("1_sjkeg")
+id = &"odd_ally"
+display_name = "Odd Ally"
+description = "+2 Mult on every odd hit."
+params = {
+"mult": 2.0
+}

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="JokerCopycat" format=3]
+
+[ext_resource type="Script" path="res://scripts/jokers/copycat.gd" id="1_tyyos"]
+
+[resource]
+script = ExtResource("1_tyyos")
+id = &"copycat"
+display_name = "Copycat"
+description = "Copies the main effect of the card to its right."
+rarity = 2
+cost = 7

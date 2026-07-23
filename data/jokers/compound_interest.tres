@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="JokerCompoundInterest" format=3]
+
+[ext_resource type="Script" path="res://scripts/jokers/compound_interest.gd" id="1_ttjah"]
+
+[resource]
+script = ExtResource("1_ttjah")
+id = &"compound_interest"
+display_name = "Compound Interest"
+description = "End of round: $1, growing by $1 each round."
+rarity = 1
+cost = 5
+params = {
+"base": 1.0,
+"step": 1.0
+}

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="JokerRoundRobin" format=3]
+
+[ext_resource type="Script" path="res://scripts/jokers/round_robin.gd" id="1_0xbk7"]
+
+[resource]
+script = ExtResource("1_0xbk7")
+id = &"round_robin"
+display_name = "Round Robin"
+description = "+30 Points each time you hit a round number."
+cost = 5
+params = {
+"points": 30.0
+}

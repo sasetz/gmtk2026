@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="JokerDeuce" format=3]
+
+[ext_resource type="Script" path="res://scripts/jokers/deuce.gd" id="1_eta08"]
+
+[resource]
+script = ExtResource("1_eta08")
+id = &"deuce"
+display_name = "Deuce"
+description = "Any press showing a 2: +24 Points and +6 Mult."
+rarity = 1
+cost = 5
+params = {
+"mult": 6.0,
+"points": 24.0
+}

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="JokerAllIn" format=3]
+
+[ext_resource type="Script" path="res://scripts/jokers/all_in.gd" id="1_vxds3"]
+
+[resource]
+script = ExtResource("1_vxds3")
+id = &"all_in"
+display_name = "All In"
+description = "x2 Mult — but score 0 if no condition is hit all round."
+kind = 1
+rarity = 2
+cost = 7
+params = {
+"xmult": 2.0
+}

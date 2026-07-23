@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="JokerExtraBeat" format=3]
+
+[ext_resource type="Script" path="res://scripts/jokers/extra_beat.gd" id="1_tvea1"]
+
+[resource]
+script = ExtResource("1_tvea1")
+id = &"extra_beat"
+display_name = "Extra Beat"
+description = "+1 press. Target +15%."
+kind = 1
+rarity = 1
+cost = 6
+params = {
+"press_bonus": 1.0,
+"target_mult": 1.15
+}

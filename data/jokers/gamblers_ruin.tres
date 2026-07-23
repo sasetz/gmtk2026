@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="JokerGamblersRuin" format=3]
+
+[ext_resource type="Script" path="res://scripts/jokers/gamblers_ruin.gd" id="1_1xgtn"]
+
+[resource]
+script = ExtResource("1_1xgtn")
+id = &"gamblers_ruin"
+display_name = "Gambler's Ruin"
+description = "+10 Mult. 1 in 5 chance to shatter at end of round."
+rarity = 1
+cost = 6
+params = {
+"destroy_chance": 0.2,
+"mult": 10.0
+}

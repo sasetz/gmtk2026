@@ -1,0 +1,130 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/score_reveal.gd" id="1_reveal"]
+
+[sub_resource type="StyleBoxFlat" id="sb_points"]
+bg_color = Color(0.09, 0.16, 0.28, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+content_margin_left = 22.0
+content_margin_top = 12.0
+content_margin_right = 22.0
+content_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxFlat" id="sb_mult"]
+bg_color = Color(0.28, 0.1, 0.11, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+content_margin_left = 22.0
+content_margin_top = 12.0
+content_margin_right = 22.0
+content_margin_bottom = 12.0
+
+[sub_resource type="Gradient" id="grad_burst"]
+colors = PackedColorArray(0.98, 0.86, 0.4, 1, 0.98, 0.86, 0.4, 0)
+
+[sub_resource type="GradientTexture1D" id="tex_burst"]
+gradient = SubResource("grad_burst")
+
+[node name="ScoreReveal" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_reveal")
+
+[node name="Shake" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Center" type="VBoxContainer" parent="Shake"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -420.0
+offset_top = -260.0
+offset_right = 420.0
+offset_bottom = 260.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 26
+alignment = 1
+
+[node name="Jokers" type="HBoxContainer" parent="Shake/Center"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="Hand" type="HBoxContainer" parent="Shake/Center"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="Board" type="HBoxContainer" parent="Shake/Center"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Points" type="PanelContainer" parent="Shake/Center/Board"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("sb_points")
+
+[node name="Value" type="Label" parent="Shake/Center/Board/Points"]
+layout_mode = 2
+text = "0"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 56
+theme_override_colors/font_color = Color(0.42, 0.72, 0.98, 1)
+
+[node name="X" type="Label" parent="Shake/Center/Board"]
+layout_mode = 2
+text = "×"
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 48
+theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 1)
+
+[node name="Mult" type="PanelContainer" parent="Shake/Center/Board"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("sb_mult")
+
+[node name="Value" type="Label" parent="Shake/Center/Board/Mult"]
+layout_mode = 2
+text = "0"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 56
+theme_override_colors/font_color = Color(0.98, 0.45, 0.4, 1)
+
+[node name="Score" type="Label" parent="Shake/Center"]
+layout_mode = 2
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 96
+theme_override_colors/font_color = Color(0.98, 0.86, 0.4, 1)
+
+[node name="Verdict" type="Label" parent="Shake/Center"]
+layout_mode = 2
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 32
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="Burst" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 40
+one_shot = true
+explosiveness = 0.9
+lifetime = 0.8
+texture = SubResource("tex_burst")
+spread = 180.0
+initial_velocity_min = 180.0
+initial_velocity_max = 420.0
+gravity = Vector2(0, 260)
+scale_amount_min = 3.0
+scale_amount_max = 7.0

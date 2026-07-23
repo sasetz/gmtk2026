@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="JokerRerollRebate" format=3]
+
+[ext_resource type="Script" path="res://scripts/jokers/reroll_rebate.gd" id="1_4kdyl"]
+
+[resource]
+script = ExtResource("1_4kdyl")
+id = &"reroll_rebate"
+display_name = "Reroll Rebate"
+description = "Shop rerolls cost $1 less."
+params = {
+"discount": 1.0
+}

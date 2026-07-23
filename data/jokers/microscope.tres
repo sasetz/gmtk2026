@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="JokerMicroscope" format=3]
+
+[ext_resource type="Script" path="res://scripts/jokers/microscope.gd" id="1_pc4og"]
+
+[resource]
+script = ExtResource("1_pc4og")
+id = &"microscope"
+display_name = "Microscope"
+description = "+50 Points on THE ONE or All or Nothing."
+rarity = 2
+cost = 6
+params = {
+"points": 50.0
+}

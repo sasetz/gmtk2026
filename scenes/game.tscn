@@ -1,0 +1,114 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/game.gd" id="1_game"]
+[ext_resource type="Shader" path="res://shaders/crt.gdshader" id="2_crt"]
+
+[sub_resource type="StyleBoxFlat" id="sb_overlay"]
+bg_color = Color(0.05, 0.09, 0.08, 0.9)
+
+[sub_resource type="ShaderMaterial" id="mat_crt"]
+shader = ExtResource("2_crt")
+shader_parameter/view_size = Vector2(1280, 720)
+shader_parameter/scanline_strength = 0.08
+shader_parameter/vignette_strength = 0.4
+shader_parameter/flicker_strength = 0.012
+
+[node name="Game" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_game")
+
+[node name="Felt" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.078, 0.22, 0.16, 1)
+
+[node name="RoundHost" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="HUD" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 24.0
+offset_top = 16.0
+offset_right = -24.0
+offset_bottom = 52.0
+grow_horizontal = 2
+theme_override_constants/separation = 40
+
+[node name="Money" type="Label" parent="HUD"]
+layout_mode = 2
+text = "$4"
+theme_override_font_sizes/font_size = 28
+theme_override_colors/font_color = Color(0.98, 0.86, 0.4, 1)
+
+[node name="Ante" type="Label" parent="HUD"]
+layout_mode = 2
+text = "Ante 1"
+theme_override_font_sizes/font_size = 28
+theme_override_colors/font_color = Color(0.85, 0.9, 0.88, 1)
+
+[node name="Blind" type="Label" parent="HUD"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Round 1"
+horizontal_alignment = 2
+theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(0.7, 0.85, 0.8, 1)
+
+[node name="Overlay" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_styles/panel = SubResource("sb_overlay")
+
+[node name="Box" type="VBoxContainer" parent="Overlay"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -280.0
+offset_top = -120.0
+offset_right = 280.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Title" type="Label" parent="Overlay/Box"]
+layout_mode = 2
+text = "CASH OUT"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 44
+theme_override_colors/font_color = Color(0.98, 0.86, 0.4, 1)
+
+[node name="Sub" type="Label" parent="Overlay/Box"]
+layout_mode = 2
+text = ""
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.88, 0.9, 0.92, 1)
+
+[node name="CRT" type="CanvasLayer" parent="."]
+layer = 100
+
+[node name="Rect" type="ColorRect" parent="CRT"]
+material = SubResource("mat_crt")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(1, 1, 1, 1)

@@ -1,0 +1,73 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Balatro Count-Down"
+run/main_scene="res://scenes/game.tscn"
+config/features=PackedStringArray("4.6", "GL Compatibility")
+config/icon="res://icon.svg"
+
+[autoload]
+
+EventBus="*res://scripts/autoload/event_bus.gd"
+Economy="*res://scripts/autoload/economy.gd"
+RunManager="*res://scripts/autoload/run_manager.gd"
+DevCapture="*res://scripts/autoload/dev_capture.gd"
+
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+; This is a "hit the exact millisecond" game: minimise the gap between a
+; physical press and the input callback, and between the true clock and what
+; the player sees. Enabled Vulkan-agnostic; matters on both renderers.
+window/vsync/vsync_mode=1
+window/vsync/swapchain_image_count=2
+
+[input]
+
+press={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":32)
+, Object(InputEventMouseButton,"button_index":1)
+]
+}
+confirm={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":4194309)
+]
+}
+cancel={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":4194305)
+]
+}
+reroll={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":82)
+]
+}
+
+[input_devices]
+
+buffering/agile_event_flushing=true
+
+[physics]
+
+3d/physics_engine="Jolt Physics"
+
+[rendering]
+
+rendering_device/driver.windows="d3d12"
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
