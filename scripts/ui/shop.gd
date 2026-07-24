@@ -75,6 +75,7 @@ func _render_offers() -> void:
 		var can_buy: bool = not sold and Economy.money >= joker.cost and RunManager.jokers.size() < MAX_BOARD
 		var card := _card(joker.display_name, joker.description,
 			"SOLD" if sold else "Buy  $%d" % joker.cost, can_buy)
+		_apply_foil(card, joker)
 		if not sold:
 			(card.get_meta("btn") as Button).pressed.connect(_on_buy.bind(id))
 		_offers.add_child(card)
@@ -86,6 +87,7 @@ func _render_board() -> void:
 	for i in RunManager.jokers.size():
 		var joker = RunManager.jokers[i]
 		var card := _card(joker.display_name, joker.description, "Sell  $%d" % joker.sell_value(), true, true)
+		_apply_foil(card, joker)
 		(card.get_meta("btn") as Button).pressed.connect(_on_sell.bind(i))
 		_board.add_child(card)
 
@@ -112,6 +114,28 @@ func _on_sell(index: int) -> void:
 	_refresh()
 
 
+const FoilShader := preload("res://shaders/foil.gdshader")
+
+
+## Rare cards get the animated holographic foil behind their contents, so the
+## sheen is visible at the moment you're deciding whether to buy — not only
+## later in the score reveal.
+func _apply_foil(card: PanelContainer, joker: JokerDef) -> void:
+	if joker.rarity != JokerDef.Rarity.RARE:
+		return
+	var foil := ColorRect.new()
+	var mat := ShaderMaterial.new()
+	mat.shader = FoilShader
+	mat.set_shader_parameter("intensity", 0.45)
+	mat.set_shader_parameter("base_color", Color(0.14, 0.12, 0.24))
+	foil.material = mat
+	foil.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	foil.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	# Behind the label/button (added last would cover them).
+	card.add_child(foil)
+	card.move_child(foil, 0)
+
+
 ## Small card widget with a title, blurb and an action button.
 func _card(title: String, blurb: String, action: String, enabled: bool, is_board: bool = false) -> Control:
 	var panel := PanelContainer.new()
@@ -136,7 +160,9 @@ func _card(title: String, blurb: String, action: String, enabled: bool, is_board
 	blurb_l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	blurb_l.custom_minimum_size = Vector2(0, 60)
 	blurb_l.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	blurb_l.add_theme_font_size_override("font_size", 12)
+	# 12px was the smallest text in the game and the first thing to fall apart
+	# under the pixelation pass — 15 survives it and reads better regardless.
+	blurb_l.add_theme_font_size_override("font_size", 15)
 	blurb_l.add_theme_color_override("font_color", Color(0.82, 0.85, 0.9))
 	vb.add_child(blurb_l)
 	var btn := Button.new()

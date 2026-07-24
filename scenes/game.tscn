@@ -1,19 +1,11 @@
 [gd_scene format=3 uid="uid://hiaohcb2vwvd"]
 
 [ext_resource type="Script" uid="uid://dsljdl2pvlfs8" path="res://scripts/ui/game.gd" id="1_game"]
-[ext_resource type="Shader" uid="uid://bqc8jmbkwabk0" path="res://shaders/crt.gdshader" id="2_crt"]
 
 [sub_resource type="StyleBoxFlat" id="sb_overlay"]
 bg_color = Color(0.05, 0.09, 0.08, 0.9)
 
-[sub_resource type="ShaderMaterial" id="mat_crt"]
-shader = ExtResource("2_crt")
-shader_parameter/view_size = Vector2(1280, 720)
-shader_parameter/scanline_strength = 0.08
-shader_parameter/vignette_strength = 0.4
-shader_parameter/flicker_strength = 0.012
-
-[node name="Game" type="Control" unique_id=336059269]
+[node name="Game" type="Control" unique_id=336059269 groups=["gameplay"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -108,13 +100,3 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.88, 0.9, 0.92, 1)
 theme_override_font_sizes/font_size = 22
 horizontal_alignment = 1
-
-[node name="CRT" type="CanvasLayer" parent="." unique_id=254561351]
-layer = 100
-
-[node name="Rect" type="ColorRect" parent="CRT" unique_id=1762701422]
-material = SubResource("mat_crt")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2

@@ -49,6 +49,7 @@ func play(ctx: ScoringContext, log: Array) -> void:
 		_joker_cards.append(jc)
 	await get_tree().process_frame
 
+	var beat_i: int = 0
 	for step: Dictionary in log:
 		if step["type"] == "beat":
 			var card: Control = _make_beat_card(step["beat"])
@@ -56,12 +57,18 @@ func play(ctx: ScoringContext, log: Array) -> void:
 			await get_tree().process_frame
 			card.pivot_offset = card.size * 0.5
 			Juice.punch(card, 1.2, 0.3)
+			# Each beat lands a chip, pitched up the row so the reveal climbs.
+			Audio.play_sfx(&"chip", 1.0 + 0.05 * beat_i)
+			beat_i += 1
 		else:  # joker
 			var jc: Control = _joker_cards[step["index"]]
 			jc.pivot_offset = jc.size * 0.5
 			Juice.punch(jc, 1.3, 0.3)
 			Juice.flash(jc, Color(1, 1, 0.6), 0.3)
 			_float_effect(jc, step["effect"])
+			# Jimbo pipes up when a joker fires, with a spark off the card.
+			Audio.play_sfx(&"jimbo")
+			_spark(jc.global_position + jc.size * 0.5, Color(1.0, 0.9, 0.45), 16, 200.0, 0.5)
 		_roll_points(int(step["points"]))
 		_roll_mult(step["mult"])
 		await get_tree().create_timer(BEAT_STAGGER).timeout
@@ -69,6 +76,9 @@ func play(ctx: ScoringContext, log: Array) -> void:
 	# --- anticipation, then the slam ---
 	await get_tree().create_timer(0.6).timeout
 	var score: int = ctx.final_score()
+	Audio.play_sfx(&"multihit")   # the Points × Mult slam
+	_spark(_score_label.global_position + _score_label.size * 0.5,
+		Color(1.0, 0.85, 0.3), 44, 380.0, 0.8)
 	Juice.count(_score_label, 0, score, 0.85, "%d")
 	Juice.punch(_score_label, 1.7, 0.55)
 	Juice.flash(_score_label, Color.WHITE, 0.4)
@@ -80,6 +90,17 @@ func play(ctx: ScoringContext, log: Array) -> void:
 
 	# --- verdict: a big, unmissable WIN / LOSE that holds on screen ---
 	_passed = ctx.passed()
+	# Win: a bright coin flourish + a shower of confetti. Lose: a deflating puff.
+	Audio.play_sfx(&"coin" if _passed else &"crumple", 1.0, 2.0 if _passed else 0.0)
+	var vc: Vector2 = _verdict.global_position + _verdict.size * 0.5
+	if _passed:
+		var top := Vector2(get_viewport_rect().size.x * 0.5, 130.0)
+		for e: CPUParticles2D in Fx.confetti():
+			add_child(e)
+			e.global_position = top
+		_spark(vc, Color(1.0, 0.9, 0.4), 40, 300.0, 0.7)
+	else:
+		_spark(vc, Color(0.7, 0.3, 0.3), 20, 160.0, 0.7)
 	_verdict.text = "WIN!" if _passed else "LOSE"
 	_verdict.add_theme_font_size_override("font_size", 64)
 	_verdict.modulate = Color(0.4, 0.95, 0.55) if _passed else Color(0.95, 0.4, 0.4)
@@ -90,6 +111,14 @@ func play(ctx: ScoringContext, log: Array) -> void:
 	# Continue, so the score and what earned it stay readable as long as needed.
 	await get_tree().create_timer(0.7).timeout
 	_show_continue()
+
+
+## Fire a self-freeing particle burst at a screen position.
+func _spark(pos: Vector2, col: Color, count: int = 24, speed: float = 240.0,
+		life: float = 0.6) -> void:
+	var b: CPUParticles2D = Fx.burst(col, count, speed, life)
+	add_child(b)
+	b.global_position = pos
 
 
 func _roll_points(to_val: int) -> void:

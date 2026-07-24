@@ -7,6 +7,7 @@ const RoundScene := preload("res://scenes/round.tscn")
 const ShopScene := preload("res://scenes/shop.tscn")
 
 @onready var _host: Control = $RoundHost
+@onready var _hud: HBoxContainer = $HUD
 @onready var _money: Label = $HUD/Money
 @onready var _ante: Label = $HUD/Ante
 @onready var _blind: Label = $HUD/Blind
@@ -29,6 +30,8 @@ func _ready() -> void:
 
 func _start_blind() -> void:
 	_overlay.visible = false
+	_hud.visible = true   # restored after a shop visit
+	Audio.play_music(&"round")
 	_free_round()
 	var b: BlindDef = RunManager.current_blind()
 	_blind.text = "%s   ·   target %d" % [b.display_name, b.target]
@@ -55,6 +58,11 @@ func _on_round_finished(passed: bool) -> void:
 func _open_shop() -> void:
 	_free_round()
 	_blind.text = "Shop"
+	# The shop is a full-screen takeover with its own title and money readout,
+	# and the HUD is a later sibling than RoundHost so it would draw straight
+	# over it — showing the balance twice and colliding "Ante 1" with "SHOP".
+	_hud.visible = false
+	Audio.play_music(&"shop")
 	_shop = ShopScene.instantiate()
 	_shop.continue_pressed.connect(_on_shop_continue)
 	_host.add_child(_shop)

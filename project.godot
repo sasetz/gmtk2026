@@ -11,15 +11,20 @@ config_version=5
 [application]
 
 config/name="Balatro Count-Down"
-run/main_scene="res://scenes/game.tscn"
+run/main_scene="res://scenes/main_menu.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
 EventBus="*res://scripts/autoload/event_bus.gd"
+Settings="*res://scripts/autoload/settings.gd"
 Economy="*res://scripts/autoload/economy.gd"
+Audio="*res://scripts/autoload/audio.gd"
 RunManager="*res://scripts/autoload/run_manager.gd"
+PauseMenu="*res://scenes/pause_menu.tscn"
+ScreenFX="*res://scenes/screen_fx.tscn"
+UiFx="*res://scripts/ui/ui_fx.gd"
 DevCapture="*res://scripts/autoload/dev_capture.gd"
 
 [display]
@@ -29,6 +34,10 @@ window/size/viewport_height=720
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/vsync/swapchain_image_count=2
+
+[gui]
+
+theme/custom="res://default_theme.tres"
 
 [input]
 
