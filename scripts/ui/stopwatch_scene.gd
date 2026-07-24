@@ -183,7 +183,7 @@ func _reset_view() -> void:
 	if _boss_id != &"":
 		boss_line = "  —  %s: %s" % [BossMods.name_of(_boss_id), BossMods.blurb_of(_boss_id)]
 	_button.text = "Start"
-	_presses_label.text = "Target %d   ·   Presses: %d" % [_effective_target(), _effective_presses()]
+	_presses_label.text = "Presses: %d" % [_effective_presses()]
 	_log.text = ""
 	_result.text = ""
 
