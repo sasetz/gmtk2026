@@ -4,9 +4,11 @@ extends Control
 ## run (Phase 4) feeds each blind's duration/target/tier/jokers/boss; falls back
 ## to standalone defaults so it still runs on its own for --round testing.
 
-signal finished(passed: bool)
+signal finished(score: int)
+signal started
 
 const DEFAULT_DURATION_MS: int = 13000
+const DEFAULT_RATE: float = 0.5
 const DEFAULT_PRESS_COUNT: int = 4
 const DEFAULT_TIER: int = 1
 const DEFAULT_TARGET: int = 300
@@ -19,11 +21,12 @@ var config: Dictionary = {}
 
 @onready var _timer: TimerCore = $Timer
 @onready var _time_label: Label = $Center/TimerLabel
-@onready var _prompt: Label = $Center/Prompt
+@onready var _button: Button = $Center/ActionButton
 @onready var _presses_label: Label = $Center/PressesLabel
 @onready var _pips: HBoxContainer = $Center/Pips
 @onready var _log: Label = $Center/Log
 @onready var _result: Label = $Center/Result
+# TODO: add stopwatch modifiers list
 
 ## Press-feedback pips: one square per available lock, filled as you spend them.
 const PIP_SIZE := Vector2(30, 30)
@@ -32,12 +35,13 @@ const PIP_HIT := Color(0.40, 0.90, 0.50)
 const PIP_MISS := Color(0.72, 0.34, 0.34)
 
 var _duration_ms: int
+var _rate: float
 var _tier: int
 var _presses_base: int
 var _target_base: int
 var _boss_id: StringName
-var _standalone: bool = false
 
+var _enabled: bool = true
 var _started: bool = false
 var _finished: bool = false
 var _press_results: Array[Dictionary] = []
@@ -47,29 +51,56 @@ var jokers: Array = []
 var _slow_cards: Array = []
 
 
+func disable() -> void:
+	if _finished or _started or not _enabled:
+		return
+	_enabled = false
+	_button.hide()
+
+
+func enable() -> void:
+	if _finished or _started or _enabled:
+		return
+	_enabled = true
+	_button.show()
+
+
+func is_finished() -> bool:
+	return _finished
+
+
 func _ready() -> void:
 	# Deliver input events immediately instead of merging them per rendered frame
 	# — a "hit the exact ms" game must not eat a frame of input latency.
 	Input.use_accumulated_input = false
 	_duration_ms = config.get("duration_ms", DEFAULT_DURATION_MS)
+	_rate = config.get("rate", DEFAULT_RATE)
 	_tier = config.get("tier", DEFAULT_TIER)
 	_presses_base = config.get("press_count", DEFAULT_PRESS_COUNT)
 	_target_base = config.get("target", DEFAULT_TARGET)
 	_boss_id = config.get("boss_id", &"")
 	jokers = config.get("jokers", jokers)
-	# Standalone (no run driving us): a demo board so the joker system is visible.
-	if jokers.is_empty():
-		_standalone = true
-		jokers = [
-			JokerCatalog.get_joker(&"multi_plus"),
-			JokerCatalog.get_joker(&"odd_ally"),
-			JokerCatalog.get_joker(&"round_robin"),
-		]
 	_slow_cards = jokers.filter(func(j) -> bool: return j is JokerSlowReveal)
-	_timer.configure(_duration_ms, _effective_presses(), _tier)
-	_timer.pressed.connect(_on_pressed)
+	_timer.configure(_duration_ms, _effective_presses(), _tier, _rate)
+	_timer.pressed.connect(_on_timer_pressed)
 	_timer.expired.connect(_on_expired)
 	_reset_view()
+	_button.button_up.connect(_on_press_action)
+
+
+var _last_tick_sec: int = -1
+
+
+func _process(_delta: float) -> void:
+	if _started and not _finished:
+		var ms: int = _timer.remaining_ms()
+		_time_label.text = ScoringRules.digits(ms, _tier)["display"]
+		# One soft tick per whole second of countdown — the pressure metronome.
+		var sec: int = ms / 1000
+		if sec != _last_tick_sec:
+			if _last_tick_sec != -1:
+				Audio.play_sfx(&"clock", 1.0, -10.0)
+			_last_tick_sec = sec
 
 
 func _effective_presses() -> int:
@@ -88,42 +119,28 @@ func _effective_target() -> int:
 	return int(round(t))
 
 
-var _last_tick_sec: int = -1
-
-
-func _process(_delta: float) -> void:
-	if _started and not _finished:
-		var ms: int = _timer.remaining_ms()
-		_time_label.text = ScoringRules.digits(ms, _tier)["display"]
-		# One soft tick per whole second of countdown — the pressure metronome.
-		var sec: int = ms / 1000
-		if sec != _last_tick_sec:
-			if _last_tick_sec != -1:
-				Audio.play_sfx(&"clock", 1.0, -10.0)
-			_last_tick_sec = sec
-
-
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed(&"press"):
+	if event.is_action_pressed(&"press") and _started and not _finished:
 		_on_press_action()
 		get_viewport().set_input_as_handled()
-	elif event.is_action_pressed(&"confirm") and _finished and _standalone:
-		_restart()
 
 
+## callback from button
 func _on_press_action() -> void:
 	if _finished:
 		return
 	if not _started:
+		started.emit()
 		_started = true
-		_prompt.text = "Lock your times!"
+		_button.text = "DOWN"
 		Audio.play_sfx(&"card")
 		_timer.start()
 		return
 	_timer.press()
 
 
-func _on_pressed(ms: int, index: int) -> void:
+## callback from timer
+func _on_timer_pressed(ms: int, index: int) -> void:
 	var result: Dictionary = ScoringRules.evaluate(ms, _tier)
 	_press_results.append(result)
 	_presses_label.text = "Presses left: %d" % _timer.presses_left()
@@ -149,6 +166,7 @@ func _apply_slow(card) -> void:
 	_timer.slow(card.slow_factor(), card.slow_seconds())
 
 
+## when timer expires with clicks remaining
 func _on_expired() -> void:
 	_finish()
 
@@ -169,9 +187,8 @@ func _finish() -> void:
 	_reveal.play(ctx, log)
 
 
-func _on_reveal_finished(passed: bool) -> void:
-	EventBus.round_scored.emit(0, _effective_target(), passed)
-	finished.emit(passed)
+func _on_reveal_finished(score: int) -> void:
+	finished.emit(score)
 
 
 func _append_log(index: int, result: Dictionary) -> void:
@@ -217,8 +234,8 @@ func _reset_view() -> void:
 	var boss_line: String = ""
 	if _boss_id != &"":
 		boss_line = "  —  %s: %s" % [BossMods.name_of(_boss_id), BossMods.blurb_of(_boss_id)]
-	_prompt.text = "Press SPACE to start%s" % boss_line
-	_presses_label.text = "Target %d   ·   Presses: %d" % [_effective_target(), _effective_presses()]
+	_button.text = "Start"
+	_presses_label.text = "Presses: %d" % [_effective_presses()]
 	_log.text = ""
 	_result.text = ""
 
@@ -231,5 +248,5 @@ func _restart() -> void:
 	_started = false
 	_finished = false
 	_press_results.clear()
-	_timer.configure(_duration_ms, _effective_presses(), _tier)
+	_timer.configure(_duration_ms, _effective_presses(), _tier, .5)
 	_reset_view()

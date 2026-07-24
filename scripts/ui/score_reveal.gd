@@ -6,7 +6,7 @@ extends Control
 ## with a screen-scaled punch, shake and particle burst, and the verdict lands
 ## against the target. Jokers slot between the beats and the slam in Phase 3.
 
-signal finished(passed: bool)
+signal finished(score: int)
 
 # Deliberately unhurried so you can read points/mult building and see which
 # card did what — the reveal is the payoff, not a formality.
@@ -15,38 +15,22 @@ const ROLL_TIME: float = 0.42
 const COND_COLOR := Color(0.98, 0.86, 0.4)
 const POINTS_COLOR := Color(0.42, 0.72, 0.98)
 const MULT_COLOR := Color(0.98, 0.45, 0.4)
-const FoilShader := preload("res://shaders/foil.gdshader")
 
 @onready var _shake: Control = $Shake
-@onready var _jokers: HBoxContainer = $Shake/Center/Jokers
 @onready var _hand: HBoxContainer = $Shake/Center/Hand
 @onready var _points_label: Label = $Shake/Center/Board/Points/Value
 @onready var _mult_label: Label = $Shake/Center/Board/Mult/Value
 @onready var _score_label: Label = $Shake/Center/Score
 @onready var _verdict: Label = $Shake/Center/Verdict
 @onready var _burst: CPUParticles2D = $Burst
-@onready var _continue: Button = $Continue
 
 var _points: int = 0
 var _mult: float = 0.0
-var _joker_cards: Array[Control] = []
-var _passed: bool = false
-var _awaiting_continue: bool = false
-
-
-func _ready() -> void:
-	_continue.pressed.connect(_on_continue)
-	_continue.visible = false
 
 
 ## Replays the engine's ordered log so the animation matches the maths exactly.
 func play(ctx: ScoringContext, log: Array) -> void:
 	_reset(ctx.target)
-	# The equipped board sits above the hand and lights up as each joker fires.
-	for j in ctx.jokers:
-		var jc: Control = _make_joker_card(j)
-		_jokers.add_child(jc)
-		_joker_cards.append(jc)
 	await get_tree().process_frame
 
 	var beat_i: int = 0
@@ -60,15 +44,8 @@ func play(ctx: ScoringContext, log: Array) -> void:
 			# Each beat lands a chip, pitched up the row so the reveal climbs.
 			Audio.play_sfx(&"chip", 1.0 + 0.05 * beat_i)
 			beat_i += 1
-		else:  # joker
-			var jc: Control = _joker_cards[step["index"]]
-			jc.pivot_offset = jc.size * 0.5
-			Juice.punch(jc, 1.3, 0.3)
-			Juice.flash(jc, Color(1, 1, 0.6), 0.3)
-			_float_effect(jc, step["effect"])
-			# Jimbo pipes up when a joker fires, with a spark off the card.
+		else:  # a joker step (no card in this reveal) — Jimbo still pipes up
 			Audio.play_sfx(&"jimbo")
-			_spark(jc.global_position + jc.size * 0.5, Color(1.0, 0.9, 0.45), 16, 200.0, 0.5)
 		_roll_points(int(step["points"]))
 		_roll_mult(step["mult"])
 		await get_tree().create_timer(BEAT_STAGGER).timeout
@@ -88,29 +65,13 @@ func play(ctx: ScoringContext, log: Array) -> void:
 	_burst.emitting = true
 	await get_tree().create_timer(1.0).timeout
 
-	# --- verdict: a big, unmissable WIN / LOSE that holds on screen ---
-	_passed = ctx.passed()
-	# Win: a bright coin flourish + a shower of confetti. Lose: a deflating puff.
-	Audio.play_sfx(&"coin" if _passed else &"crumple", 1.0, 2.0 if _passed else 0.0)
-	var vc: Vector2 = _verdict.global_position + _verdict.size * 0.5
-	if _passed:
-		var top := Vector2(get_viewport_rect().size.x * 0.5, 130.0)
-		for e: CPUParticles2D in Fx.confetti():
-			add_child(e)
-			e.global_position = top
-		_spark(vc, Color(1.0, 0.9, 0.4), 40, 300.0, 0.7)
-	else:
-		_spark(vc, Color(0.7, 0.3, 0.3), 20, 160.0, 0.7)
-	_verdict.text = "WIN!" if _passed else "LOSE"
-	_verdict.add_theme_font_size_override("font_size", 64)
-	_verdict.modulate = Color(0.4, 0.95, 0.55) if _passed else Color(0.95, 0.4, 0.4)
+	# --- the payoff flourish (pass/fail is decided at the round level now) ---
+	Audio.play_sfx(&"coin", 1.0, 1.0)
 	Juice.punch(_verdict, 1.4, 0.5)
 	Juice.shake(_shake, 18.0, 0.4)
 
-	# --- hold, then hand control to the player: nothing advances until they hit
-	# Continue, so the score and what earned it stay readable as long as needed.
 	await get_tree().create_timer(0.7).timeout
-	_show_continue()
+	finished.emit(score)
 
 
 ## Fire a self-freeing particle burst at a screen position.
@@ -139,32 +100,9 @@ func _roll_mult(to_val: float) -> void:
 	Juice.punch($Shake/Center/Board/Mult, 1.15, 0.2)
 
 
-## Reveal the Continue button and hand control to the player. Nothing advances
-## until they press it (or Enter), so the score stays readable as long as needed.
-func _show_continue() -> void:
-	_awaiting_continue = true
-	_continue.visible = true
-	_continue.pivot_offset = _continue.size * 0.5
-	Juice.punch(_continue, 1.25, 0.35)
-
-
-func _on_continue() -> void:
-	if not _awaiting_continue:
-		return
-	_awaiting_continue = false
-	finished.emit(_passed)
-
-
-func _input(event: InputEvent) -> void:
-	if _awaiting_continue and (event.is_action_pressed(&"confirm") or event.is_action_pressed(&"press")):
-		get_viewport().set_input_as_handled()
-		_on_continue()
-
-
 func _reset(target: int) -> void:
 	_points = 0
 	_mult = 0.0
-	_joker_cards.clear()
 	_points_label.text = "0"
 	_mult_label.text = "0"
 	_score_label.text = ""
@@ -172,44 +110,6 @@ func _reset(target: int) -> void:
 	_verdict.modulate = Color.WHITE
 	for c: Node in _hand.get_children():
 		c.queue_free()
-	for c: Node in _jokers.get_children():
-		c.queue_free()
-
-
-## A compact card showing an equipped joker's name.
-func _make_joker_card(joker) -> Control:
-	var panel := PanelContainer.new()
-	panel.custom_minimum_size = Vector2(96, 60)
-	var is_rare: bool = joker.rarity == JokerDef.Rarity.RARE
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.18, 0.14, 0.28)
-	style.set_corner_radius_all(6)
-	style.set_border_width_all(2)
-	style.border_color = Color(0.98, 0.82, 0.4, 0.9) if is_rare else Color(0.7, 0.6, 0.95, 0.7)
-	style.content_margin_left = 6
-	style.content_margin_right = 6
-	style.content_margin_top = 4
-	style.content_margin_bottom = 4
-	panel.add_theme_stylebox_override("panel", style)
-	# Rare cards get the animated holographic foil behind the label.
-	if is_rare:
-		var foil := ColorRect.new()
-		var mat := ShaderMaterial.new()
-		mat.shader = FoilShader
-		mat.set_shader_parameter("intensity", 0.5)
-		mat.set_shader_parameter("base_color", Color(0.18, 0.14, 0.28))
-		foil.material = mat
-		foil.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		panel.add_child(foil)
-	var l := Label.new()
-	l.text = joker.display_name
-	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	l.add_theme_font_size_override("font_size", 13)
-	l.add_theme_color_override("font_color", Color(0.9, 0.88, 0.98))
-	panel.add_child(l)
-	return panel
 
 
 ## Floating "+N" / "×N" over a joker as it fires.

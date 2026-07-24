@@ -25,7 +25,6 @@ RunManager="*res://scripts/autoload/run_manager.gd"
 PauseMenu="*res://scenes/pause_menu.tscn"
 ScreenFX="*res://scenes/screen_fx.tscn"
 UiFx="*res://scripts/ui/ui_fx.gd"
-DevCapture="*res://scripts/autoload/dev_capture.gd"
 
 [display]
 

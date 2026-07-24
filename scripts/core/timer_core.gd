@@ -24,17 +24,18 @@ var press_budget: int = 4
 # up microsecond precision at the press moment.
 var _last_us: int = 0
 var _consumed_us: float = 0.0
-var _rate: float = 1.0
+var _rate: float = .5
 var _slow_until_us: int = 0
 var _slow_rate: float = 1.0
 
 var presses: Array[int] = []
 
 
-func configure(duration_ms: int, press_count: int, precision_tier: int) -> void:
+func configure(duration_ms: int, press_count: int, precision_tier: int, rate: float) -> void:
 	duration_us = duration_ms * 1000
 	press_budget = press_count
 	tier = precision_tier
+	_rate = rate
 	presses.clear()
 	running = false
 
@@ -65,13 +66,14 @@ func _advance() -> void:
 		return
 	var now: int = Time.get_ticks_usec()
 	if now <= _last_us:
+		push_error("TimerCore: the clock is running irregularly!")
 		return
 	if _slow_until_us > _last_us:
 		var boundary: int = mini(_slow_until_us, now)
-		_consumed_us += float(boundary - _last_us) * _slow_rate
+		_consumed_us += float(boundary - _last_us) * _slow_rate * _rate
 		_last_us = boundary
 	if now > _last_us:
-		_consumed_us += float(now - _last_us)
+		_consumed_us += float(now - _last_us) * _rate
 		_last_us = now
 
 

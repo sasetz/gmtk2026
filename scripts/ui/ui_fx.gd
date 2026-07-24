@@ -73,9 +73,10 @@ func _to_scale(b: BaseButton, s: float) -> void:
 	if not is_instance_valid(b):
 		return
 	b.pivot_offset = b.size * 0.5   # scale about the centre
-	var prev: Variant = b.get_meta("tw", null)
-	if prev != null and (prev as Tween).is_valid():
-		(prev as Tween).kill()
+	if b.has_meta("tw"):
+		var prev: Tween = b.get_meta("tw") as Tween
+		if prev != null and prev.is_valid():
+			prev.kill()
 	var t: Tween = b.create_tween()
 	t.tween_property(b, "scale", Vector2.ONE * s, 0.11) \
 		.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
