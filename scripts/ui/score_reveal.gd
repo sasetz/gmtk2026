@@ -6,7 +6,7 @@ extends Control
 ## with a screen-scaled punch, shake and particle burst, and the verdict lands
 ## against the target. Jokers slot between the beats and the slam in Phase 3.
 
-signal finished(passed: bool)
+signal finished(score: int)
 
 # Deliberately unhurried so you can read points/mult building and see which
 # card did what — the reveal is the payoff, not a formality.
@@ -17,35 +17,20 @@ const POINTS_COLOR := Color(0.42, 0.72, 0.98)
 const MULT_COLOR := Color(0.98, 0.45, 0.4)
 
 @onready var _shake: Control = $Shake
-@onready var _jokers: HBoxContainer = $Shake/Center/Jokers
 @onready var _hand: HBoxContainer = $Shake/Center/Hand
 @onready var _points_label: Label = $Shake/Center/Board/Points/Value
 @onready var _mult_label: Label = $Shake/Center/Board/Mult/Value
 @onready var _score_label: Label = $Shake/Center/Score
 @onready var _verdict: Label = $Shake/Center/Verdict
 @onready var _burst: CPUParticles2D = $Burst
-@onready var _continue: Button = $Continue
 
 var _points: int = 0
 var _mult: float = 0.0
-var _joker_cards: Array[Control] = []
-var _passed: bool = false
-var _awaiting_continue: bool = false
-
-
-func _ready() -> void:
-	_continue.pressed.connect(_on_continue)
-	_continue.visible = false
 
 
 ## Replays the engine's ordered log so the animation matches the maths exactly.
 func play(ctx: ScoringContext, log: Array) -> void:
 	_reset(ctx.target)
-	# The equipped board sits above the hand and lights up as each joker fires.
-	for j in ctx.jokers:
-		var jc: Control = ScoringEngine.make_joker_card(j)
-		_jokers.add_child(jc)
-		_joker_cards.append(jc)
 	await get_tree().process_frame
 
 	for step: Dictionary in log:
@@ -55,12 +40,6 @@ func play(ctx: ScoringContext, log: Array) -> void:
 			await get_tree().process_frame
 			card.pivot_offset = card.size * 0.5
 			Juice.punch(card, 1.2, 0.3)
-		else:  # joker
-			var jc: Control = _joker_cards[step["index"]]
-			jc.pivot_offset = jc.size * 0.5
-			Juice.punch(jc, 1.3, 0.3)
-			Juice.flash(jc, Color(1, 1, 0.6), 0.3)
-			_float_effect(jc, step["effect"])
 		_roll_points(int(step["points"]))
 		_roll_mult(step["mult"])
 		await get_tree().create_timer(BEAT_STAGGER).timeout
@@ -78,17 +57,11 @@ func play(ctx: ScoringContext, log: Array) -> void:
 	await get_tree().create_timer(1.0).timeout
 
 	# --- verdict: a big, unmissable WIN / LOSE that holds on screen ---
-	_passed = ctx.passed()
-	_verdict.text = "WIN!" if _passed else "LOSE"
-	_verdict.add_theme_font_size_override("font_size", 64)
-	_verdict.modulate = Color(0.4, 0.95, 0.55) if _passed else Color(0.95, 0.4, 0.4)
 	Juice.punch(_verdict, 1.4, 0.5)
 	Juice.shake(_shake, 18.0, 0.4)
 
-	# --- hold, then hand control to the player: nothing advances until they hit
-	# Continue, so the score and what earned it stay readable as long as needed.
 	await get_tree().create_timer(0.7).timeout
-	_show_continue()
+	finished.emit(score)
 
 
 func _roll_points(to_val: int) -> void:
@@ -109,32 +82,9 @@ func _roll_mult(to_val: float) -> void:
 	Juice.punch($Shake/Center/Board/Mult, 1.15, 0.2)
 
 
-## Reveal the Continue button and hand control to the player. Nothing advances
-## until they press it (or Enter), so the score stays readable as long as needed.
-func _show_continue() -> void:
-	_awaiting_continue = true
-	_continue.visible = true
-	_continue.pivot_offset = _continue.size * 0.5
-	Juice.punch(_continue, 1.25, 0.35)
-
-
-func _on_continue() -> void:
-	if not _awaiting_continue:
-		return
-	_awaiting_continue = false
-	finished.emit(_passed)
-
-
-func _input(event: InputEvent) -> void:
-	if _awaiting_continue and (event.is_action_pressed(&"confirm") or event.is_action_pressed(&"press")):
-		get_viewport().set_input_as_handled()
-		_on_continue()
-
-
 func _reset(target: int) -> void:
 	_points = 0
 	_mult = 0.0
-	_joker_cards.clear()
 	_points_label.text = "0"
 	_mult_label.text = "0"
 	_score_label.text = ""
@@ -142,10 +92,6 @@ func _reset(target: int) -> void:
 	_verdict.modulate = Color.WHITE
 	for c: Node in _hand.get_children():
 		c.queue_free()
-	for c: Node in _jokers.get_children():
-		c.queue_free()
-
-
 
 
 ## Floating "+N" / "×N" over a joker as it fires.

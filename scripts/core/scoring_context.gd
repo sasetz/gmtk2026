@@ -41,7 +41,7 @@ func _init(press_results: Array = [], score_target: int = 0, run_rng: RandomNumb
 	# jokers) so the reveal can animate the accumulation from 0. base_* are kept
 	# only for reference.
 	points = 0
-	mult = 0.0
+	mult = 1.0
 
 
 ## Apply one joker's returned effect struct to the running totals, in place.

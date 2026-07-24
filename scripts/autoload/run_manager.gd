@@ -3,19 +3,13 @@ extends Node
 ## blind sequence, money payouts on a win, and the run's seeded RNG. The Game
 ## controller reads current_blind() and calls round_won()/round_lost().
 
-enum State { BOOT, BLIND_SELECT, ROUND, SHOP, WON, GAME_OVER }
+enum State { BOOT, STOPWATCH_SELECT, ROUND, SHOP, WON, GAME_OVER }
 
-## Ante-1 schedule (designer-tuned). [duration_ms, base_target, reward, boss_id].
-const SCHEDULE := [
-	[13000, 300, 3, &"", .5],
-	[11000, 750, 4, &"", .7],
-	[9000, 1800, 5, &"", 1.0],
-	[7000, 3000, 7, &"miser", 0.6],
-]
 
 var state: int = State.BOOT
 var ante: int = 1
 var round_index: int = 0
+var stopwatch_index: int = 0
 var run_seed: int = 0
 var rng := RandomNumberGenerator.new()
 
@@ -27,13 +21,14 @@ var blinds: Array[BlindDef] = []
 
 func start_run(seed_value: int = 0) -> void:
 	run_seed = seed_value if seed_value != 0 else int(Time.get_ticks_usec())
+	stopwatch_index = 0
 	rng.seed = run_seed
 	ante = 1
 	round_index = 0
 	jokers = _starting_board()
 	Economy.reset()
 	_build_ante()
-	state = State.BLIND_SELECT
+	state = State.STOPWATCH_SELECT
 	EventBus.run_started.emit()
 	EventBus.ante_changed.emit(ante)
 
@@ -48,17 +43,11 @@ func _build_ante() -> void:
 	blinds.clear()
 	var scale: float = pow(2.2, ante - 1)
 	var tier: int = _tier_for_ante()
-	for spec: Array in SCHEDULE:
-		var b := BlindDef.new()
-		b.stopwatches_ms[0] = spec[0]
-		b.stopwatch_rates[0] = spec[4]
-		b.target = int(round(float(spec[1]) * scale))
-		b.reward = spec[2]
-		b.boss_id = spec[3]
-		b.is_boss = spec[3] != &""
-		b.tier = tier
-		b.display_name = BossMods.name_of(spec[3]) if b.is_boss else "Round %d" % (blinds.size() + 1)
-		blinds.append(b)
+	blinds.assign(BlindCatalog.get_ante(ante - 1))
+	for i in range(blinds.size()):
+		var blind = blinds[i]
+		blind.display_name = BossMods.name_of(blind.boss_id) if blind.is_boss \
+		else "Round %d" % (i + 1)
 
 
 func _tier_for_ante() -> int:
@@ -72,11 +61,11 @@ func current_blind() -> BlindDef:
 
 
 ## Config dict the round scene consumes.
-func round_config() -> Dictionary:
+func stopwatch_config(index: int) -> Dictionary:
 	var b: BlindDef = current_blind()
 	return {
-		"duration_ms": b.stopwatches_ms[0],
-		"rate": b.stopwatch_rates[0],
+		"duration_ms": b.stopwatches_ms[index],
+		"rate": b.stopwatch_rates[index],
 		"target": b.target,
 		"tier": b.tier,
 		"boss_id": b.boss_id,
@@ -113,7 +102,7 @@ func round_lost() -> int:
 
 ## Leave the shop and move to the next blind.
 func leave_shop() -> void:
-	state = State.BLIND_SELECT
+	state = State.STOPWATCH_SELECT
 	EventBus.shop_left.emit()
 
 

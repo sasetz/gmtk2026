@@ -3,7 +3,7 @@ extends Control
 ## win/lose, reusing the round scene per blind. The cashout screen is the Phase-5
 ## shop's mount point; for now it just banks the money and continues.
 
-const RoundScene := preload("res://scenes/round.tscn")
+const RoundScene := preload("res://scenes/round_scene.tscn")
 const ShopScene := preload("res://scenes/shop.tscn")
 
 @onready var _host: Control = $RoundHost
@@ -14,7 +14,7 @@ const ShopScene := preload("res://scenes/shop.tscn")
 @onready var _overlay_title: Label = $Overlay/Box/Title
 @onready var _overlay_sub: Label = $Overlay/Box/Sub
 
-var _round: Node
+var _round: RoundScene
 var _shop: Node
 var _mode: String = ""
 
@@ -33,7 +33,7 @@ func _start_blind() -> void:
 	var b: BlindDef = RunManager.current_blind()
 	_blind.text = "%s   ·   target %d" % [b.display_name, b.target]
 	_round = RoundScene.instantiate()
-	_round.config = RunManager.round_config()
+	_round.configure(b)
 	_round.finished.connect(_on_round_finished)
 	_host.add_child(_round)
 

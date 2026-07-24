@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://dy4p8av3o00ac"]
+
+[ext_resource type="Script" uid="uid://bv2mhlh5coe1v" path="res://scenes/round_scene.gd" id="1_mc1jw"]
+
+[node name="RoundScene" type="Control" unique_id=1374189618]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_mc1jw")
+
+[node name="Jokers" type="HBoxContainer" parent="." unique_id=1474932921]
+layout_mode = 0
+offset_left = 240.0
+offset_top = 40.0
+offset_right = 1040.0
+offset_bottom = 40.0
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="Stopwatches" type="HBoxContainer" parent="." unique_id=1477141213]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 100.0
+offset_top = 120.0
+offset_right = -100.0
+offset_bottom = -60.0
+grow_horizontal = 2
+grow_vertical = 2
