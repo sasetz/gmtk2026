@@ -1,19 +1,21 @@
 extends Control
 ## The round screen. It builds a stopwatch view per StopwatchDef and a button
-## view per dealt button, all pulled from RoundManager. The button hand is rebuilt
-## whenever a stopwatch starts, since starting one spends the active buttons.
+## view per dealt button, all pulled from RoundManager, and shows progress toward
+## the round target. Buttons stay put once spent (they grey themselves out).
 
 @export var stopwatch_scene: PackedScene
 @export var button_scene: PackedScene
 
 @onready var _stopwatches: HBoxContainer = $Stopwatches
 @onready var _buttons: HBoxContainer = $Buttons
+@onready var _progress: Label = $Progress
 
 
 func _ready() -> void:
-	EventBus.stopwatch_started.connect(_rebuild_buttons)
+	EventBus.stopwatch_ended.connect(_update_progress)
 	_build_stopwatches()
-	_rebuild_buttons()
+	_build_buttons()
+	_update_progress()
 
 
 func _build_stopwatches() -> void:
@@ -23,10 +25,12 @@ func _build_stopwatches() -> void:
 		_stopwatches.add_child(view)
 
 
-func _rebuild_buttons() -> void:
-	for c: Node in _buttons.get_children():
-		c.queue_free()
+func _build_buttons() -> void:
 	for def: ButtonDef in RoundManager.buttons:
 		var view := button_scene.instantiate()
 		view.setup(def)
 		_buttons.add_child(view)
+
+
+func _update_progress() -> void:
+	_progress.text = "Score %d / %d" % [RoundManager.total_score, RoundManager.round_def.target]

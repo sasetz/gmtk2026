@@ -9,6 +9,7 @@ extends Resource
 @export var display_name: String = ""
 @export var description: String = ""
 @export var cost: int = 3
+@export var texture: Texture2D
 
 ## RunManager stamps this so the HUD can pulse the matching card view.
 var run_index: int = -1
@@ -26,3 +27,8 @@ func detach() -> void:
 
 func activate() -> void:
 	EventBus.card_activated.emit(run_index)
+
+
+## The tenths-of-a-second digit of a millisecond time (the "decimal").
+func tenths(ms: int) -> int:
+	return (ms / 100) % 10

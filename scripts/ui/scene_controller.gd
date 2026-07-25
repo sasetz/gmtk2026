@@ -1,12 +1,11 @@
 class_name SceneController
 extends Control
 ## The one node that owns which top-level scene is on screen and the overlays on
-## top of it. It listens to the EventBus (switch_scene / switch_overlay /
+## top of it. It listens to the EventBus (switch_scene / round_result /
 ## toggle_pause) instead of being called directly, so any UI element or manager
 ## can request a change. The scenes themselves handle their own inner state.
 
 enum Scene { MAIN_MENU, ROUND, SHOP }
-enum State { DEFAULT, WON, LOST }
 
 @export var menu_scene: PackedScene
 @export var round_scene: PackedScene
@@ -21,16 +20,17 @@ enum State { DEFAULT, WON, LOST }
 @onready var _result: Panel = $Result
 @onready var _result_title: Label = $Result/Box/Title
 @onready var _result_sub: Label = $Result/Box/Sub
-@onready var _result_again: Button = $Result/Box/Again
+@onready var _result_continue: Button = $Result/Box/Continue
 
 var _current: Scene = Scene.MAIN_MENU
 var _overlay: Control = null   # options / credits
 var _pause: Control = null
+var _pending_won: bool = false
 
 
 func _ready() -> void:
 	EventBus.switch_scene.connect(_select_scene)
-	EventBus.switch_overlay.connect(_select_overlay)
+	EventBus.round_result.connect(_on_round_result)
 	EventBus.toggle_pause.connect(_toggle_pause)
 	_select_scene(Scene.MAIN_MENU)
 
@@ -68,35 +68,26 @@ func _select_scene(scene: Scene) -> void:
 			Audio.play_music(&"shop")
 
 
-# --- result (win / lose) ----------------------------------------------------
+# --- round result (gated behind Continue) -----------------------------------
 
-func _select_overlay(state: State) -> void:
-	match state:
-		State.DEFAULT:
-			_result.visible = false
-		State.WON:
-			_show_result("YOU BEAT THE LAP", "Nicely timed.")
-		State.LOST:
-			_show_result("GAME OVER", "Ran out of score.")
-
-
-func _show_result(title: String, sub: String) -> void:
+func _on_round_result(won: bool, is_boss: bool, reward: int) -> void:
+	_pending_won = won
 	_hud.visible = false
-	_result_title.text = title
-	_result_sub.text = sub
+	if won:
+		_result_title.text = "BOSS DEFEATED" if is_boss else "ROUND CLEARED"
+		_result_sub.text = "+$%d banked" % reward
+		_result_continue.text = "Continue"
+	else:
+		_result_title.text = "GAME OVER"
+		_result_sub.text = "You ran out of score."
+		_result_continue.text = "Back to Menu"
 	_result.visible = true
-	_result_again.grab_focus()
+	_result_continue.grab_focus()
 
 
-func _on_again_pressed() -> void:
+func _on_continue_pressed() -> void:
 	Audio.play_sfx(&"ui_click")
-	RunManager.start_run()
-
-
-func _on_menu_pressed() -> void:
-	Audio.play_sfx(&"ui_click")
-	RunManager.end_run()
-	_select_scene(Scene.MAIN_MENU)
+	RunManager.continue_from_result(_pending_won)
 
 
 # --- overlays (options / credits) -------------------------------------------

@@ -1,8 +1,9 @@
 extends Node
 # Lifetime: round
 ## Holds the running score and the hand of buttons for the current round, and
-## tracks which buttons are active for the next stopwatch. When every stopwatch
-## in the round has scored, it decides pass/fail against the target.
+## tracks which buttons are active for the next stopwatch. Buttons stay in the
+## hand once spent (greyed out, not removed). When every stopwatch has scored, it
+## decides pass/fail against the target.
 
 var round_def: RoundDef
 var total_score: int = 0
@@ -40,10 +41,11 @@ func active_buttons() -> Array[ButtonDef]:
 	return _active
 
 
-## Spend the active buttons — called when a stopwatch starts.
+## Mark the active buttons as spent - called when a stopwatch starts. They stay
+## in the hand so their views can show a disabled state.
 func consume_active() -> void:
-	for b in _active:
-		buttons.erase(b)
+	for b: ButtonDef in _active:
+		b.spent = true
 	_active.clear()
 
 
