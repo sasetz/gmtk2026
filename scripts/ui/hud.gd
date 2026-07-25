@@ -1,27 +1,44 @@
 extends Control
+## The run HUD: money, lap, round name, and a view per card. It pulls everything
+## from the managers and refreshes off the EventBus.
 
-@onready var Money = $Money
-@onready var Lap = $Lap
-@onready var Round = $Round
-@onready var Cards = $Cards
+@export var card_scene: PackedScene
 
-@export var CardScene: PackedScene
+@onready var _money: Label = $Money
+@onready var _lap: Label = $Lap
+@onready var _round: Label = $Round
+@onready var _cards: HBoxContainer = $Cards
 
-var cards := []
 
 func _ready() -> void:
-	EventBus.money_changed.connect(func(m: int) -> void: Money.text = "$%d" % m)
-	EventBus.lap_changed.connect(func(a: int) -> void: Lap.text = "Lap %d" % a)
-	EventBus.round_started.connect(func() -> void: pass)
+	EventBus.money_changed.connect(_on_money_changed)
+	EventBus.lap_changed.connect(_on_lap_changed)
+	EventBus.round_started.connect(_on_round_started)
+	EventBus.card_activated.connect(_on_card_activated)
+
+
+func _on_money_changed(amount: int) -> void:
+	_money.text = "$%d" % amount
+
+
+func _on_lap_changed(lap: int) -> void:
+	_lap.text = "Lap %d" % lap
+
+
+func _on_round_started() -> void:
+	_round.text = RoundManager.round_def.display_name
+	_populate()
 
 
 func _populate() -> void:
-	cards.clear()
-	for card_index in RunManager.cards.size():
-		var card = RunManager.cards[card_index]
-		cards.append(card.instantiate())
-		cards.back().card = card
-		EventBus.card_activated(func(index: int) -> void:
-			if index == card_index:
-				cards.back().card_activated.emit(card_index)
-		)
+	for c: Node in _cards.get_children():
+		c.queue_free()
+	for card: Card in RunManager.cards:
+		var view := card_scene.instantiate()
+		view.setup(card)
+		_cards.add_child(view)
+
+
+func _on_card_activated(index: int) -> void:
+	if index >= 0 and index < _cards.get_child_count():
+		_cards.get_child(index).on_activation()

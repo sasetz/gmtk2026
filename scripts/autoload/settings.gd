@@ -12,8 +12,8 @@ signal changed
 var master_volume: float = 1.0
 var music_volume: float = 1.0
 var sfx_volume: float = 1.0
-## Screen shake is the one effect most likely to bother people; Juice.shake
-## checks this before doing anything.
+## Screen shake is the one effect most likely to bother people; effects that
+## shake the screen check this flag before doing anything.
 var screen_shake: bool = true
 
 
