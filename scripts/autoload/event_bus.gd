@@ -1,28 +1,25 @@
 extends Node
-## Loosely-coupled signal hub.
-##
-## Used for reactive UI/economy events that don't need ordering — money changed,
-## round won, shop opened. The *scoring* pipeline deliberately does NOT go
-## through here: scoring needs strict left-to-right order and a mutable
-## accumulator, which is the ScoringEngine's job, not a fire-and-forget signal.
+
+signal switch_scene(new_scene: SceneSelector.Scene)
+signal switch_overlay(new_overlay: SceneSelector.State)
+signal toggle_pause
 
 ## Economy
 signal money_changed(amount: int)
 signal money_spent(amount: int)
 
-## Run / round lifecycle
+## Lifecycle
 signal run_started
-signal run_ended(won: bool)
-signal round_started(blind: Resource)
-signal round_scored(total: int, target: int, passed: bool)
-signal ante_changed(ante: int)
+signal run_ended
+signal round_started
+signal round_scored
+signal stopwatch_started
+signal stopwatch_clicked
+signal stopwatch_ended
+signal lap_changed(lap: int)
 
 ## Shop
 signal shop_entered
 signal shop_left
-signal card_bought(joker: Resource)
-signal card_sold(joker: Resource)
-
-## Juice — the score reveal broadcasts its beats so audio/screenshake can react
-## without the reveal code knowing about them.
-signal reveal_beat(kind: StringName, payload: Dictionary)
+signal card_bought(new_card_index: int)
+signal card_sold(old_card_index: int)
