@@ -18,26 +18,21 @@ content_margin_top = 30.0
 content_margin_right = 40.0
 content_margin_bottom = 30.0
 
-[node name="PauseMenu" type="CanvasLayer"]
-layer = 100
-process_mode = 3
-script = ExtResource("1_pause")
-
-[node name="Root" type="Control" parent="."]
-visible = false
+[node name="PauseMenu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+script = ExtResource("1_pause")
 
-[node name="Dim" type="ColorRect" parent="Root"]
+[node name="Dim" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0.02, 0.05, 0.04, 0.75)
 
-[node name="Panel" type="PanelContainer" parent="Root"]
+[node name="Panel" type="PanelContainer" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -52,39 +47,39 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("sb_pause")
 
-[node name="Box" type="VBoxContainer" parent="Root/Panel"]
+[node name="Box" type="VBoxContainer" parent="Panel"]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="Title" type="Label" parent="Root/Panel/Box"]
+[node name="Title" type="Label" parent="Panel/Box"]
 layout_mode = 2
 text = "PAUSED"
 horizontal_alignment = 1
 theme_override_font_sizes/font_size = 44
 theme_override_colors/font_color = Color(0.98, 0.86, 0.4, 1)
 
-[node name="Resume" type="Button" parent="Root/Panel/Box"]
+[node name="Resume" type="Button" parent="Panel/Box"]
 custom_minimum_size = Vector2(280, 50)
 layout_mode = 2
 text = "Resume"
 
-[node name="Options" type="Button" parent="Root/Panel/Box"]
+[node name="Options" type="Button" parent="Panel/Box"]
 custom_minimum_size = Vector2(280, 50)
 layout_mode = 2
 text = "Options"
 
-[node name="MainMenu" type="Button" parent="Root/Panel/Box"]
+[node name="MainMenu" type="Button" parent="Panel/Box"]
 custom_minimum_size = Vector2(280, 50)
 layout_mode = 2
 text = "Main Menu"
 
-[node name="Hint" type="Label" parent="Root/Panel/Box"]
+[node name="Hint" type="Label" parent="Panel/Box"]
 layout_mode = 2
 text = "Esc to resume"
 horizontal_alignment = 1
 theme_override_font_sizes/font_size = 16
 theme_override_colors/font_color = Color(0.65, 0.75, 0.72, 1)
 
-[connection signal="pressed" from="Root/Panel/Box/Resume" to="." method="_on_resume_pressed"]
-[connection signal="pressed" from="Root/Panel/Box/Options" to="." method="_on_options_pressed"]
-[connection signal="pressed" from="Root/Panel/Box/MainMenu" to="." method="_on_main_menu_pressed"]
+[connection signal="pressed" from="Panel/Box/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="Panel/Box/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="Panel/Box/MainMenu" to="." method="_on_main_menu_pressed"]

@@ -1,10 +1,16 @@
-[gd_scene format=3]
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/scene_controller.gd" id="1_ctrl"]
+
+[sub_resource type="StyleBoxFlat" id="sb_result"]
+bg_color = Color(0.05, 0.09, 0.08, 0.92)
 
 [node name="Main" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+script = ExtResource("1_ctrl")
 
 [node name="Felt" type="ColorRect" parent="."]
 layout_mode = 1
@@ -13,21 +19,99 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0.078, 0.22, 0.16, 1)
 
-[node name="Title" type="Label" parent="."]
+[node name="Screen" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="HUD" type="HBoxContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 24.0
+offset_top = 16.0
+offset_right = -24.0
+offset_bottom = 52.0
+grow_horizontal = 2
+theme_override_constants/separation = 40
+
+[node name="Money" type="Label" parent="HUD"]
+layout_mode = 2
+text = "$4"
+theme_override_font_sizes/font_size = 28
+theme_override_colors/font_color = Color(0.98, 0.86, 0.4, 1)
+
+[node name="Ante" type="Label" parent="HUD"]
+layout_mode = 2
+text = "Ante 1"
+theme_override_font_sizes/font_size = 28
+theme_override_colors/font_color = Color(0.85, 0.9, 0.88, 1)
+
+[node name="Blind" type="Label" parent="HUD"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Round 1"
+horizontal_alignment = 2
+theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(0.7, 0.85, 0.8, 1)
+
+[node name="Overlays" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="Result" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_styles/panel = SubResource("sb_result")
+
+[node name="Box" type="VBoxContainer" parent="Result"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -300.0
-offset_top = -40.0
-offset_right = 300.0
-offset_bottom = 40.0
+offset_left = -220.0
+offset_top = -130.0
+offset_right = 220.0
+offset_bottom = 130.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "BALATRO COUNT-DOWN"
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="Title" type="Label" parent="Result/Box"]
+layout_mode = 2
+text = "YOU BEAT THE ANTE"
 horizontal_alignment = 1
-vertical_alignment = 1
-theme_override_font_sizes/font_size = 48
-theme_override_colors/font_color = Color(0.95, 0.9, 0.75, 1)
+theme_override_font_sizes/font_size = 44
+theme_override_colors/font_color = Color(0.98, 0.86, 0.4, 1)
+
+[node name="Sub" type="Label" parent="Result/Box"]
+layout_mode = 2
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.88, 0.9, 0.92, 1)
+
+[node name="Again" type="Button" parent="Result/Box"]
+custom_minimum_size = Vector2(280, 48)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Play again"
+
+[node name="Menu" type="Button" parent="Result/Box"]
+custom_minimum_size = Vector2(280, 48)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Main Menu"
+
+[connection signal="pressed" from="Result/Box/Again" to="." method="_on_again_pressed"]
+[connection signal="pressed" from="Result/Box/Menu" to="." method="_on_menu_pressed"]
