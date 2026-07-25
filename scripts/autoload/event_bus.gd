@@ -1,28 +1,37 @@
 extends Node
-## Loosely-coupled signal hub.
-##
-## Used for reactive UI/economy events that don't need ordering — money changed,
-## round won, shop opened. The *scoring* pipeline deliberately does NOT go
-## through here: scoring needs strict left-to-right order and a mutable
-## accumulator, which is the ScoringEngine's job, not a fire-and-forget signal.
+## The game's spine. Everything that crosses a system boundary rides these
+## signals: scene changes, economy, the four lifecycles, card/combo/button
+## activation, and the shop. Nodes subscribe to what they care about and push
+## state back out through the managers.
+
+## Scene / UI
+signal switch_scene(new_scene: SceneController.Scene)
+signal toggle_pause
 
 ## Economy
 signal money_changed(amount: int)
 signal money_spent(amount: int)
 
-## Run / round lifecycle
+## Lifecycle
 signal run_started
-signal run_ended(won: bool)
-signal round_started(blind: Resource)
-signal round_scored(total: int, target: int, passed: bool)
-signal ante_changed(ante: int)
+signal run_ended
+signal round_started
+signal round_scored(passed: bool)
+## A finished round, gated behind a continue button before the shop / game over.
+signal round_result(won: bool, is_boss: bool, reward: int)
+signal stopwatch_started
+signal stopwatch_clicked
+signal stopwatch_ended
+signal lap_changed(lap: int)
+
+## Activation pulses (for visual flare)
+signal card_activated(card_index: int)
+signal combo_triggered(combo: ComboDef)
+signal button_fired(button: ButtonDef)
 
 ## Shop
 signal shop_entered
 signal shop_left
-signal card_bought(joker: Resource)
-signal card_sold(joker: Resource)
-
-## Juice — the score reveal broadcasts its beats so audio/screenshake can react
-## without the reveal code knowing about them.
-signal reveal_beat(kind: StringName, payload: Dictionary)
+signal shop_rolled
+signal card_bought(new_card_index: int)
+signal card_sold(old_card_index: int)

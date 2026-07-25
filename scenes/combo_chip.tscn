@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/combo_chip.gd" id="1_chip"]
+
+[sub_resource type="StyleBoxFlat" id="sb_chip"]
+bg_color = Color(0.12, 0.24, 0.2, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+content_margin_left = 8.0
+content_margin_top = 3.0
+content_margin_right = 8.0
+content_margin_bottom = 3.0
+
+[node name="ComboChip" type="PanelContainer"]
+theme_override_styles/panel = SubResource("sb_chip")
+script = ExtResource("1_chip")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "Combo"
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.85, 0.95, 0.9, 1)

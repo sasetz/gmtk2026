@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://dbfxw11vxefdi"]
+
+[ext_resource type="Script" uid="uid://btlp6ktpfuauq" path="res://scripts/ui/card.gd" id="1_6u4wf"]
+[ext_resource type="Texture2D" uid="uid://nc64goluwich" path="res://icon.svg" id="1_d81rb"]
+
+[node name="Card" type="PanelContainer" unique_id=1948585430]
+offset_right = 100.0
+offset_bottom = 150.0
+script = ExtResource("1_6u4wf")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=209560009]
+layout_mode = 2
+alignment = 2
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer" unique_id=593961331]
+layout_mode = 2
+texture = ExtResource("1_d81rb")
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=737768157]
+layout_mode = 2
+text = "Card Name"
+horizontal_alignment = 1

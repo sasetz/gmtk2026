@@ -1,0 +1,55 @@
+[gd_scene load_steps=4 format=3 uid="uid://70ho33ifg5km"]
+
+[ext_resource type="Script" path="res://scripts/ui/round.gd" id="1_round"]
+[ext_resource type="PackedScene" path="res://scenes/stopwatch.tscn" id="2_sw"]
+[ext_resource type="PackedScene" path="res://scenes/button.tscn" id="3_btn"]
+
+[node name="Round" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_round")
+stopwatch_scene = ExtResource("2_sw")
+button_scene = ExtResource("3_btn")
+
+[node name="Progress" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -160.0
+offset_top = 12.0
+offset_right = 160.0
+offset_bottom = 44.0
+grow_horizontal = 2
+text = "Score 0 / 0"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 26
+theme_override_colors/font_color = Color(0.85, 0.9, 0.88, 1)
+
+[node name="Stopwatches" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.078
+anchor_top = 0.5
+anchor_right = 0.922
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Buttons" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.078
+anchor_top = 0.9
+anchor_right = 0.922
+anchor_bottom = 0.9
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 12
+alignment = 1

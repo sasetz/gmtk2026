@@ -1,78 +1,120 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene format=3 uid="uid://dbvjhr6hftuui"]
 
-[ext_resource type="Script" path="res://scripts/ui/scene_controller.gd" id="1_ctrl"]
+[ext_resource type="Script" uid="uid://b114wi2dd053m" path="res://scripts/ui/scene_controller.gd" id="1_ctrl"]
+[ext_resource type="Script" uid="uid://b7bl7i4yl0llv" path="res://scripts/ui/hud.gd" id="2_hud"]
+[ext_resource type="PackedScene" path="res://scenes/main_menu.tscn" id="3_menu"]
+[ext_resource type="PackedScene" uid="uid://70ho33ifg5km" path="res://scenes/round.tscn" id="4_round"]
+[ext_resource type="PackedScene" path="res://scenes/shop.tscn" id="5_shop"]
+[ext_resource type="PackedScene" path="res://scenes/options_menu.tscn" id="6_options"]
+[ext_resource type="PackedScene" path="res://scenes/credits.tscn" id="7_credits"]
+[ext_resource type="PackedScene" path="res://scenes/pause_menu.tscn" id="8_pause"]
+[ext_resource type="PackedScene" uid="uid://dbfxw11vxefdi" path="res://scenes/card.tscn" id="9_card"]
 
 [sub_resource type="StyleBoxFlat" id="sb_result"]
 bg_color = Color(0.05, 0.09, 0.08, 0.92)
 
-[node name="Main" type="Control"]
+[node name="Main" type="Control" unique_id=346794445]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_ctrl")
+menu_scene = ExtResource("3_menu")
+round_scene = ExtResource("4_round")
+shop_scene = ExtResource("5_shop")
+options_scene = ExtResource("6_options")
+credits_scene = ExtResource("7_credits")
+pause_scene = ExtResource("8_pause")
 
-[node name="Felt" type="ColorRect" parent="."]
+[node name="Felt" type="ColorRect" parent="." unique_id=817648203]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0.078, 0.22, 0.16, 1)
 
-[node name="Screen" type="Control" parent="."]
+[node name="Screen" type="Control" parent="." unique_id=815400404]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="HUD" type="HBoxContainer" parent="."]
-visible = false
+[node name="HUD" type="Control" parent="." unique_id=1624209618]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_left = 24.0
 offset_top = 16.0
 offset_right = -24.0
-offset_bottom = 52.0
+offset_bottom = 686.0
 grow_horizontal = 2
-theme_override_constants/separation = 40
+mouse_filter = 2
+script = ExtResource("2_hud")
+card_scene = ExtResource("9_card")
 
-[node name="Money" type="Label" parent="HUD"]
-layout_mode = 2
-text = "$4"
-theme_override_font_sizes/font_size = 28
+[node name="Money" type="Label" parent="HUD" unique_id=869760463]
+layout_mode = 1
+offset_right = 120.0
+offset_bottom = 32.0
 theme_override_colors/font_color = Color(0.98, 0.86, 0.4, 1)
-
-[node name="Ante" type="Label" parent="HUD"]
-layout_mode = 2
-text = "Ante 1"
 theme_override_font_sizes/font_size = 28
-theme_override_colors/font_color = Color(0.85, 0.9, 0.88, 1)
+text = "$4"
 
-[node name="Blind" type="Label" parent="HUD"]
-layout_mode = 2
-size_flags_horizontal = 3
+[node name="Lap" type="Label" parent="HUD" unique_id=1773372105]
+layout_mode = 1
+offset_left = 140.0
+offset_right = 300.0
+offset_bottom = 32.0
+theme_override_colors/font_color = Color(0.85, 0.9, 0.88, 1)
+theme_override_font_sizes/font_size = 28
+text = "Lap 1"
+
+[node name="Cards" type="VBoxContainer" parent="HUD" unique_id=1796798582]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+grow_vertical = 2
+alignment = 1
+
+[node name="Round" type="Label" parent="HUD" unique_id=1072991265]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -213.0
+offset_bottom = 32.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(0.7, 0.85, 0.8, 1)
+theme_override_font_sizes/font_size = 24
 text = "Round 1"
 horizontal_alignment = 2
-theme_override_font_sizes/font_size = 24
-theme_override_colors/font_color = Color(0.7, 0.85, 0.8, 1)
 
-[node name="Overlays" type="Control" parent="."]
+[node name="Overlays" type="Control" parent="." unique_id=119692354]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 
-[node name="Result" type="Panel" parent="."]
+[node name="Result" type="Panel" parent="." unique_id=2005548149]
 visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_styles/panel = SubResource("sb_result")
 
-[node name="Box" type="VBoxContainer" parent="Result"]
+[node name="Box" type="VBoxContainer" parent="Result" unique_id=1387256949]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -88,30 +130,23 @@ grow_vertical = 2
 theme_override_constants/separation = 18
 alignment = 1
 
-[node name="Title" type="Label" parent="Result/Box"]
+[node name="Title" type="Label" parent="Result/Box" unique_id=1923873468]
 layout_mode = 2
-text = "YOU BEAT THE ANTE"
-horizontal_alignment = 1
-theme_override_font_sizes/font_size = 44
 theme_override_colors/font_color = Color(0.98, 0.86, 0.4, 1)
-
-[node name="Sub" type="Label" parent="Result/Box"]
-layout_mode = 2
+theme_override_font_sizes/font_size = 44
+text = "ROUND CLEARED"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 22
+
+[node name="Sub" type="Label" parent="Result/Box" unique_id=1189351156]
+layout_mode = 2
 theme_override_colors/font_color = Color(0.88, 0.9, 0.92, 1)
+theme_override_font_sizes/font_size = 22
+horizontal_alignment = 1
 
-[node name="Again" type="Button" parent="Result/Box"]
+[node name="Continue" type="Button" parent="Result/Box" unique_id=58529263]
 custom_minimum_size = Vector2(280, 48)
 layout_mode = 2
 size_flags_horizontal = 4
-text = "Play again"
+text = "Continue"
 
-[node name="Menu" type="Button" parent="Result/Box"]
-custom_minimum_size = Vector2(280, 48)
-layout_mode = 2
-size_flags_horizontal = 4
-text = "Main Menu"
-
-[connection signal="pressed" from="Result/Box/Again" to="." method="_on_again_pressed"]
-[connection signal="pressed" from="Result/Box/Menu" to="." method="_on_menu_pressed"]
+[connection signal="pressed" from="Result/Box/Continue" to="." method="_on_continue_pressed"]

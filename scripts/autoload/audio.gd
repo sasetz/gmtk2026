@@ -186,7 +186,8 @@ func _fade(player: AudioStreamPlayer, to_db: float, stop_after: bool = false) ->
 # --- gameplay event cues ----------------------------------------------------
 
 func _connect_events() -> void:
-	_last_money = Economy.money
+	# _last_money starts at -1 so the first money_changed (the run's opening
+	# balance) just sets the baseline instead of jingling.
 	EventBus.money_changed.connect(_on_money_changed)
 	EventBus.card_bought.connect(func(_j) -> void: play_sfx(&"card_slide"))
 	EventBus.card_sold.connect(func(_j) -> void: play_sfx(&"crumple"))

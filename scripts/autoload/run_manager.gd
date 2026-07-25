@@ -1,124 +1,157 @@
 extends Node
-## Run-level state machine + the blind schedule. Owns the ante, the current
-## blind sequence, money payouts on a win, and the run's seeded RNG. The Game
-## controller reads current_blind() and calls round_won()/round_lost().
+# Lifetime: run
+## Holds the money, the card deck, the data generator, and the shop offers, and
+## drives the run loop. A scored round is gated behind a continue screen before
+## the shop (or game over), so the player is never dumped straight into shopping.
 
-enum State { BOOT, STOPWATCH_SELECT, ROUND, SHOP, WON, GAME_OVER }
+const ROUNDS_PER_LAP: int = 4
+const STARTING_MONEY: int = 4
+const BUTTONS_PER_ROUND: int = 4
+const SHOP_OFFERS: int = 3
+const REROLL_COST: int = 5
 
-
-var state: int = State.BOOT
-var ante: int = 1
-var round_index: int = 0
-var stopwatch_index: int = 0
-var run_seed: int = 0
+var money: int = 0
+var cards: Array[Card] = []
+var shop_offers: Array[Card] = []
+var generator: DataGenerator
 var rng := RandomNumberGenerator.new()
-
-## The player's equipped board — persists across rounds, grown in the shop.
-var jokers: Array = []
-
-var blinds: Array[BlindDef] = []
+var lap: int = 1
+var round_index: int = 0   # index within the current lap
 
 
-func start_run(seed_value: int = 0) -> void:
-	run_seed = seed_value if seed_value != 0 else int(Time.get_ticks_usec())
-	stopwatch_index = 0
-	rng.seed = run_seed
-	ante = 1
+func _ready() -> void:
+	EventBus.round_scored.connect(_on_round_scored)
+	EventBus.shop_left.connect(_start_round)
+
+
+func start_run() -> void:
+	_detach_cards()
+	rng.randomize()
+	generator = DataGenerator.new(rng)
+	money = STARTING_MONEY
+	lap = 1
 	round_index = 0
-	jokers = _starting_board()
-	Economy.reset()
-	_build_ante()
-	state = State.STOPWATCH_SELECT
+	shop_offers.clear()
+	cards = generator.starting_cards()
+	for i in cards.size():
+		cards[i].run_index = i
+		cards[i].attach()
 	EventBus.run_started.emit()
-	EventBus.ante_changed.emit(ante)
+	EventBus.money_changed.emit(money)
+	EventBus.lap_changed.emit(lap)
+	_start_round()
 
 
-## A small starting board so a fresh run already shows the systems working.
-## The real game would start empty / with one gift card.
-func _starting_board() -> Array:
-	return [JokerCatalog.get_joker(&"multi_plus"), JokerCatalog.get_joker(&"odd_ally")]
+func end_run() -> void:
+	_detach_cards()
+	cards.clear()
+	EventBus.run_ended.emit()
 
 
-func _build_ante() -> void:
-	blinds.clear()
-	var scale: float = pow(2.2, ante - 1)
-	var tier: int = _tier_for_ante()
-	blinds.assign(BlindCatalog.get_ante(ante - 1))
-	for i in range(blinds.size()):
-		var blind = blinds[i]
-		blind.display_name = BossMods.name_of(blind.boss_id) if blind.is_boss \
-		else "Round %d" % (i + 1)
+func add_money(amount: int) -> void:
+	money += amount
+	EventBus.money_changed.emit(money)
 
 
-func _tier_for_ante() -> int:
-	if ante < 3:
-		return 1
-	return 2 if ante < 5 else 3
+func spend_money(amount: int) -> bool:
+	if money < amount:
+		return false
+	money -= amount
+	EventBus.money_changed.emit(money)
+	EventBus.money_spent.emit(amount)
+	return true
 
 
-func current_blind() -> BlindDef:
-	return blinds[round_index]
+# --- cards ------------------------------------------------------------------
+
+func add_card(card: Card) -> void:
+	card.run_index = cards.size()
+	cards.append(card)
+	card.attach()
 
 
-## Config dict the round scene consumes.
-func stopwatch_config(index: int) -> Dictionary:
-	var b: BlindDef = current_blind()
-	return {
-		"duration_ms": b.stopwatches_ms[index],
-		"rate": b.stopwatch_rates[index],
-		"target": b.target,
-		"tier": b.tier,
-		"boss_id": b.boss_id,
-		"blind_name": b.display_name,
-		"jokers": jokers,
-	}
+func remove_card(card: Card) -> void:
+	var idx: int = cards.find(card)
+	if idx < 0:
+		return
+	card.detach()
+	cards.remove_at(idx)
+	for i in cards.size():
+		cards[i].run_index = i
 
 
-## Called when a round is beaten. Pays out, resolves end-of-round joker effects,
-## and advances. Returns the next State the Game should present.
-func round_won() -> int:
-	var b: BlindDef = current_blind()
-	var payout: int = b.reward + Economy.interest()
-	Economy.add(payout)
-	_resolve_round_end()
+# --- shop -------------------------------------------------------------------
 
-	if b.is_boss:
-		# Beating the ante-1 boss is the vertical slice's win.
-		state = State.WON
-		EventBus.run_ended.emit(true)
-		return state
+func roll_shop() -> void:
+	var owned: Array[StringName] = []
+	for c: Card in cards:
+		owned.append(c.id)
+	shop_offers = generator.shop_cards(SHOP_OFFERS, owned)
+	EventBus.shop_rolled.emit()
 
+
+func buy_card(index: int) -> bool:
+	if index < 0 or index >= shop_offers.size():
+		return false
+	var offer: Card = shop_offers[index]
+	if not spend_money(offer.cost):
+		return false
+	shop_offers.remove_at(index)
+	add_card(offer)
+	EventBus.card_bought.emit(offer.run_index)
+	EventBus.shop_rolled.emit()
+	return true
+
+
+func reroll_cost() -> int:
+	var cost: int = REROLL_COST
+	for c: Card in cards:
+		if c is CardRerollRebate:
+			cost -= (c as CardRerollRebate).reroll_discount()
+	return maxi(1, cost)
+
+
+func reroll_shop() -> bool:
+	if not spend_money(reroll_cost()):
+		return false
+	roll_shop()
+	return true
+
+
+# --- round loop -------------------------------------------------------------
+
+func _start_round() -> void:
+	var def: RoundDef = generator.next_round(lap, round_index, ROUNDS_PER_LAP)
+	RoundManager.begin(def, generator.deal_buttons(BUTTONS_PER_ROUND))
+	EventBus.round_started.emit()
+	EventBus.switch_scene.emit(SceneController.Scene.ROUND)
+
+
+func _on_round_scored(passed: bool) -> void:
+	var def: RoundDef = RoundManager.round_def
+	if not passed:
+		EventBus.round_result.emit(false, def.is_boss, 0)
+		return
+	add_money(def.reward)
+	var was_boss: bool = def.is_boss
 	round_index += 1
-	state = State.SHOP
-	EventBus.shop_entered.emit()
-	return state
+	if round_index >= ROUNDS_PER_LAP:
+		round_index = 0
+		lap += 1
+		EventBus.lap_changed.emit(lap)
+	EventBus.round_result.emit(true, was_boss, def.reward)
 
 
-func round_lost() -> int:
-	state = State.GAME_OVER
-	EventBus.run_ended.emit(false)
-	return state
+## Called by the scene controller when the player leaves the result screen.
+func continue_from_result(won: bool) -> void:
+	if won:
+		roll_shop()
+		EventBus.switch_scene.emit(SceneController.Scene.SHOP)
+	else:
+		end_run()
+		EventBus.switch_scene.emit(SceneController.Scene.MAIN_MENU)
 
 
-## Leave the shop and move to the next blind.
-func leave_shop() -> void:
-	state = State.STOPWATCH_SELECT
-	EventBus.shop_left.emit()
-
-
-## End-of-round joker hooks: interest payouts, self-shatter rolls.
-func _resolve_round_end() -> void:
-	var survivors: Array = []
-	for j in jokers:
-		var eff: Dictionary = j.on_round_end(null)
-		if int(eff.get("dollars", 0)) != 0:
-			Economy.add(int(eff["dollars"]))
-		if j is JokerGamblersRuin and (j as JokerGamblersRuin).should_destroy(rng):
-			continue  # shattered — drop it
-		survivors.append(j)
-	jokers = survivors
-
-
-func end_run(won: bool) -> void:
-	state = State.WON if won else State.GAME_OVER
-	EventBus.run_ended.emit(won)
+func _detach_cards() -> void:
+	for c: Card in cards:
+		c.detach()

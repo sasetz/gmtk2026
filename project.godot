@@ -19,8 +19,9 @@ config/icon="res://icon.svg"
 
 EventBus="*res://scripts/autoload/event_bus.gd"
 Settings="*res://scripts/autoload/settings.gd"
-Economy="*res://scripts/autoload/economy.gd"
 Audio="*res://scripts/autoload/audio.gd"
+StopwatchManager="*res://scripts/autoload/stopwatch_manager.gd"
+RoundManager="*res://scripts/autoload/round_manager.gd"
 RunManager="*res://scripts/autoload/run_manager.gd"
 
 [display]
