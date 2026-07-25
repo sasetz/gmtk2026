@@ -54,8 +54,6 @@ func play(ctx: ScoringContext, log: Array) -> void:
 	await get_tree().create_timer(0.6).timeout
 	var score: int = ctx.final_score()
 	Audio.play_sfx(&"multihit")   # the Points × Mult slam
-	_spark(_score_label.global_position + _score_label.size * 0.5,
-		Color(1.0, 0.85, 0.3), 44, 380.0, 0.8)
 	Juice.count(_score_label, 0, score, 0.85, "%d")
 	Juice.punch(_score_label, 1.7, 0.55)
 	Juice.flash(_score_label, Color.WHITE, 0.4)
@@ -72,14 +70,6 @@ func play(ctx: ScoringContext, log: Array) -> void:
 
 	await get_tree().create_timer(0.7).timeout
 	finished.emit(score)
-
-
-## Fire a self-freeing particle burst at a screen position.
-func _spark(pos: Vector2, col: Color, count: int = 24, speed: float = 240.0,
-		life: float = 0.6) -> void:
-	var b: CPUParticles2D = Fx.burst(col, count, speed, life)
-	add_child(b)
-	b.global_position = pos
 
 
 func _roll_points(to_val: int) -> void:

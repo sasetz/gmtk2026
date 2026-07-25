@@ -14,9 +14,9 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color(0.45, 0.6, 0.55, 0.6)
 content_margin_left = 40.0
-content_margin_top = 28.0
+content_margin_top = 26.0
 content_margin_right = 40.0
-content_margin_bottom = 28.0
+content_margin_bottom = 26.0
 
 [node name="Credits" type="Control"]
 layout_mode = 3
@@ -40,16 +40,16 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -360.0
-offset_top = -320.0
+offset_top = -300.0
 offset_right = 360.0
-offset_bottom = 320.0
+offset_bottom = 300.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("sb_credits")
 
 [node name="Box" type="VBoxContainer" parent="Panel"]
 layout_mode = 2
-theme_override_constants/separation = 14
+theme_override_constants/separation = 12
 
 [node name="Title" type="Label" parent="Panel/Box"]
 layout_mode = 2
@@ -71,12 +71,228 @@ size_flags_vertical = 3
 theme_override_constants/separation = 12
 alignment = 1
 
-[node name="Links" type="VBoxContainer" parent="Panel/Box"]
+[node name="Sasetz" type="VBoxContainer" parent="Panel/Box/People"]
 layout_mode = 2
-theme_override_constants/separation = 6
+theme_override_constants/separation = 2
+
+[node name="Head" type="HBoxContainer" parent="Panel/Box/People/Sasetz"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Name" type="Label" parent="Panel/Box/People/Sasetz/Head"]
+layout_mode = 2
+text = "Sasetz"
+theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(0.98, 0.9, 0.7, 1)
+
+[node name="Role" type="Label" parent="Panel/Box/People/Sasetz/Head"]
+layout_mode = 2
+vertical_alignment = 1
+text = "— Team Lead & Coder"
+theme_override_font_sizes/font_size = 17
+theme_override_colors/font_color = Color(0.78, 0.85, 0.88, 1)
+
+[node name="Links" type="HBoxContainer" parent="Panel/Box/People/Sasetz"]
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="GitHub" type="LinkButton" parent="Panel/Box/People/Sasetz/Links"]
+layout_mode = 2
+text = "GitHub"
+uri = "https://github.com/sasetz"
+underline = 1
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(0.55, 0.85, 0.95, 1)
+
+[node name="Itch" type="LinkButton" parent="Panel/Box/People/Sasetz/Links"]
+layout_mode = 2
+text = "itch.io"
+uri = "https://sasetz.itch.io"
+underline = 1
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(0.55, 0.85, 0.95, 1)
+
+[node name="Oleh" type="VBoxContainer" parent="Panel/Box/People"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Head" type="HBoxContainer" parent="Panel/Box/People/Oleh"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Name" type="Label" parent="Panel/Box/People/Oleh/Head"]
+layout_mode = 2
+text = "Semenchuk Oleh"
+theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(0.98, 0.9, 0.7, 1)
+
+[node name="Role" type="Label" parent="Panel/Box/People/Oleh/Head"]
+layout_mode = 2
+vertical_alignment = 1
+text = "— Coder"
+theme_override_font_sizes/font_size = 17
+theme_override_colors/font_color = Color(0.78, 0.85, 0.88, 1)
+
+[node name="Links" type="HBoxContainer" parent="Panel/Box/People/Oleh"]
+layout_mode = 2
+alignment = 1
+
+[node name="LinkedIn" type="LinkButton" parent="Panel/Box/People/Oleh/Links"]
+layout_mode = 2
+text = "LinkedIn"
+uri = "https://www.linkedin.com/in/oleh-semenchuk/"
+underline = 1
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(0.55, 0.85, 0.95, 1)
+
+[node name="BarbaMan" type="VBoxContainer" parent="Panel/Box/People"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Head" type="HBoxContainer" parent="Panel/Box/People/BarbaMan"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Name" type="Label" parent="Panel/Box/People/BarbaMan/Head"]
+layout_mode = 2
+text = "BarbaMan"
+theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(0.98, 0.9, 0.7, 1)
+
+[node name="Role" type="Label" parent="Panel/Box/People/BarbaMan/Head"]
+layout_mode = 2
+vertical_alignment = 1
+text = "— Music Composer"
+theme_override_font_sizes/font_size = 17
+theme_override_colors/font_color = Color(0.78, 0.85, 0.88, 1)
+
+[node name="Links" type="HBoxContainer" parent="Panel/Box/People/BarbaMan"]
+layout_mode = 2
+alignment = 1
+
+[node name="Instagram" type="LinkButton" parent="Panel/Box/People/BarbaMan/Links"]
+layout_mode = 2
+text = "Instagram @barbaman05"
+uri = "https://instagram.com/barbaman05"
+underline = 1
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(0.55, 0.85, 0.95, 1)
+
+[node name="Mason" type="VBoxContainer" parent="Panel/Box/People"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Head" type="HBoxContainer" parent="Panel/Box/People/Mason"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Name" type="Label" parent="Panel/Box/People/Mason/Head"]
+layout_mode = 2
+text = "Mason Chapman (Mo Memo)"
+theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(0.98, 0.9, 0.7, 1)
+
+[node name="Role" type="Label" parent="Panel/Box/People/Mason/Head"]
+layout_mode = 2
+vertical_alignment = 1
+text = "— Sound Designer"
+theme_override_font_sizes/font_size = 17
+theme_override_colors/font_color = Color(0.78, 0.85, 0.88, 1)
+
+[node name="Links" type="HBoxContainer" parent="Panel/Box/People/Mason"]
+layout_mode = 2
+alignment = 1
+
+[node name="Instagram" type="LinkButton" parent="Panel/Box/People/Mason/Links"]
+layout_mode = 2
+text = "Instagram @momemo_music"
+uri = "https://instagram.com/momemo_music"
+underline = 1
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(0.55, 0.85, 0.95, 1)
+
+[node name="UmaAlma" type="VBoxContainer" parent="Panel/Box/People"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Head" type="HBoxContainer" parent="Panel/Box/People/UmaAlma"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Name" type="Label" parent="Panel/Box/People/UmaAlma/Head"]
+layout_mode = 2
+text = "Uma Alma"
+theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(0.98, 0.9, 0.7, 1)
+
+[node name="Role" type="Label" parent="Panel/Box/People/UmaAlma/Head"]
+layout_mode = 2
+vertical_alignment = 1
+text = "— Artist"
+theme_override_font_sizes/font_size = 17
+theme_override_colors/font_color = Color(0.78, 0.85, 0.88, 1)
+
+[node name="Links" type="HBoxContainer" parent="Panel/Box/People/UmaAlma"]
+layout_mode = 2
+alignment = 1
+
+[node name="Discord" type="Label" parent="Panel/Box/People/UmaAlma/Links"]
+layout_mode = 2
+text = "Discord: uma_alma"
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(0.78, 0.85, 0.88, 1)
+
+[node name="Something" type="VBoxContainer" parent="Panel/Box/People"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Head" type="HBoxContainer" parent="Panel/Box/People/Something"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Name" type="Label" parent="Panel/Box/People/Something/Head"]
+layout_mode = 2
+text = "Something"
+theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(0.98, 0.9, 0.7, 1)
+
+[node name="Role" type="Label" parent="Panel/Box/People/Something/Head"]
+layout_mode = 2
+vertical_alignment = 1
+text = "— Artist"
+theme_override_font_sizes/font_size = 17
+theme_override_colors/font_color = Color(0.78, 0.85, 0.88, 1)
+
+[node name="Links" type="HBoxContainer" parent="Panel/Box/People/Something"]
+layout_mode = 2
+alignment = 1
+
+[node name="Discord" type="Label" parent="Panel/Box/People/Something/Links"]
+layout_mode = 2
+text = "Discord: eri_2005"
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(0.78, 0.85, 0.88, 1)
+
+[node name="Source" type="LinkButton" parent="Panel/Box"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Source — github.com/sasetz/gmtk2026"
+uri = "https://github.com/sasetz/gmtk2026"
+underline = 1
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(0.55, 0.85, 0.95, 1)
 
 [node name="Back" type="Button" parent="Panel/Box"]
 custom_minimum_size = Vector2(220, 46)
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Back"
+
+[connection signal="pressed" from="Panel/Box/Back" to="." method="_on_back_pressed"]

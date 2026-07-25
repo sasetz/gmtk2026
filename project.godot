@@ -23,8 +23,6 @@ Economy="*res://scripts/autoload/economy.gd"
 Audio="*res://scripts/autoload/audio.gd"
 RunManager="*res://scripts/autoload/run_manager.gd"
 PauseMenu="*res://scenes/pause_menu.tscn"
-ScreenFX="*res://scenes/screen_fx.tscn"
-UiFx="*res://scripts/ui/ui_fx.gd"
 
 [display]
 

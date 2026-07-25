@@ -75,7 +75,6 @@ func _render_offers() -> void:
 		var can_buy: bool = not sold and Economy.money >= joker.cost and RunManager.jokers.size() < MAX_BOARD
 		var card := _card(joker.display_name, joker.description,
 			"SOLD" if sold else "Buy  $%d" % joker.cost, can_buy)
-		_apply_foil(card, joker)
 		if not sold:
 			(card.get_meta("btn") as Button).pressed.connect(_on_buy.bind(id))
 		_offers.add_child(card)
@@ -87,7 +86,6 @@ func _render_board() -> void:
 	for i in RunManager.jokers.size():
 		var joker = RunManager.jokers[i]
 		var card := _card(joker.display_name, joker.description, "Sell  $%d" % joker.sell_value(), true, true)
-		_apply_foil(card, joker)
 		(card.get_meta("btn") as Button).pressed.connect(_on_sell.bind(i))
 		_board.add_child(card)
 
@@ -112,28 +110,6 @@ func _on_sell(index: int) -> void:
 	RunManager.jokers.remove_at(index)
 	EventBus.card_sold.emit(joker)
 	_refresh()
-
-
-const FoilShader := preload("res://shaders/foil.gdshader")
-
-
-## Rare cards get the animated holographic foil behind their contents, so the
-## sheen is visible at the moment you're deciding whether to buy — not only
-## later in the score reveal.
-func _apply_foil(card: PanelContainer, joker: JokerDef) -> void:
-	if joker.rarity != JokerDef.Rarity.RARE:
-		return
-	var foil := ColorRect.new()
-	var mat := ShaderMaterial.new()
-	mat.shader = FoilShader
-	mat.set_shader_parameter("intensity", 0.45)
-	mat.set_shader_parameter("base_color", Color(0.14, 0.12, 0.24))
-	foil.material = mat
-	foil.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	foil.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	# Behind the label/button (added last would cover them).
-	card.add_child(foil)
-	card.move_child(foil, 0)
 
 
 ## Small card widget with a title, blurb and an action button.

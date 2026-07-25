@@ -222,10 +222,6 @@ func _fill_pip(index: int, scored: bool) -> void:
 	var pip: ColorRect = _pips.get_child(index)
 	pip.color = PIP_HIT if scored else PIP_MISS
 	Juice.punch(pip, 1.5, 0.3)
-	# A little pop of sparks off the pip as it fills.
-	var burst: CPUParticles2D = Fx.burst(PIP_HIT if scored else PIP_MISS, 14, 170.0, 0.5)
-	add_child(burst)
-	burst.global_position = pip.global_position + pip.size * 0.5
 
 
 func _reset_view() -> void:

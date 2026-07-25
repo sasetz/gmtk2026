@@ -10,15 +10,13 @@ const OptionsScene := preload("res://scenes/options_menu.tscn")
 const MAIN_MENU_PATH: String = "res://scenes/main_menu.tscn"
 
 @onready var _root: Control = $Root
+@onready var _resume: Button = $Root/Panel/Box/Resume
 
 var _options: Control = null
 
 
 func _ready() -> void:
 	_root.visible = false
-	$Root/Panel/Box/Resume.pressed.connect(close)
-	$Root/Panel/Box/Options.pressed.connect(_open_options)
-	$Root/Panel/Box/MainMenu.pressed.connect(_to_main_menu)
 
 
 func is_open() -> bool:
@@ -51,8 +49,12 @@ func open() -> void:
 		return
 	_root.visible = true
 	get_tree().paused = true
-	Audio.play_sfx(&"ui_cancel")
-	$Root/Panel/Box/Resume.grab_focus()
+	_resume.grab_focus()
+
+
+## Bound in the scene: Resume button.
+func _on_resume_pressed() -> void:
+	close()
 
 
 func close() -> void:
@@ -61,7 +63,8 @@ func close() -> void:
 	get_tree().paused = false
 
 
-func _open_options() -> void:
+## Bound in the scene: Options button.
+func _on_options_pressed() -> void:
 	if _options != null:
 		return
 	_options = OptionsScene.instantiate()
@@ -75,10 +78,11 @@ func _close_options() -> void:
 	_options.queue_free()
 	_options = null
 	if is_open():
-		$Root/Panel/Box/Resume.grab_focus()
+		_resume.grab_focus()
 
 
-func _to_main_menu() -> void:
+## Bound in the scene: Main Menu button.
+func _on_main_menu_pressed() -> void:
 	_close_options()
 	_root.visible = false
 	get_tree().paused = false

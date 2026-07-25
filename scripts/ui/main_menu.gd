@@ -1,41 +1,39 @@
 extends Control
-## Front door: title, Play, Options, Credits, Quit.
-##
-## Options and Credits open as overlays on top of the menu rather than as scene
-## changes — there's nothing to unload, and "Back" always lands you exactly where
-## you were. Play routes through the tutorial, which can be skipped.
+## Front door: Play, Options, Credits, Quit. Button signals are bound in the
+## scene (see the [connection] entries in main_menu.tscn). Options and Credits
+## open as overlays so "Back" returns exactly here.
 
-const TutorialScene: String = "res://scenes/tutorial.tscn"
+const GameScene: String = "res://scenes/game.tscn"
 const OptionsScene := preload("res://scenes/options_menu.tscn")
 const CreditsScene := preload("res://scenes/credits.tscn")
+
+@onready var _play: Button = $Buttons/Play
+@onready var _quit: Button = $Buttons/Quit
 
 var _overlay: Control = null
 
 
 func _ready() -> void:
-	_add_embers()
-	$Buttons/Play.pressed.connect(_on_play)
-	$Buttons/Options.pressed.connect(_open.bind(OptionsScene))
-	$Buttons/Credits.pressed.connect(_open.bind(CreditsScene))
-	$Buttons/Quit.pressed.connect(func() -> void: get_tree().quit())
 	# There's no meaningful "quit" in a browser tab.
-	$Buttons/Quit.visible = OS.get_name() != "Web"
-	$Buttons/Play.grab_focus()
+	_quit.visible = OS.get_name() != "Web"
+	_play.grab_focus()
 	Audio.play_music(&"menu")
 
 
-## Slow warm embers drifting up the whole screen behind the UI.
-func _add_embers() -> void:
-	var vp: Vector2 = get_viewport_rect().size
-	var embers: CPUParticles2D = Fx.embers(vp.x, vp.y)
-	embers.position = vp * 0.5
-	embers.z_index = -1
-	add_child(embers)
-	move_child(embers, 1)   # above the Felt, below the UI
+func _on_play_pressed() -> void:
+	get_tree().change_scene_to_file(GameScene)
 
 
-func _on_play() -> void:
-	get_tree().change_scene_to_file(TutorialScene)
+func _on_options_pressed() -> void:
+	_open(OptionsScene)
+
+
+func _on_credits_pressed() -> void:
+	_open(CreditsScene)
+
+
+func _on_quit_pressed() -> void:
+	get_tree().quit()
 
 
 func _open(scene: PackedScene) -> void:
@@ -51,4 +49,4 @@ func _close_overlay() -> void:
 		return
 	_overlay.queue_free()
 	_overlay = null
-	$Buttons/Play.grab_focus()
+	_play.grab_focus()

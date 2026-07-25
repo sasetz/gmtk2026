@@ -67,7 +67,6 @@ func _ready() -> void:
 	_load_sfx()
 	_build_voices()
 	_build_music()
-	_hook_buttons()
 	_connect_events()
 
 
@@ -184,33 +183,7 @@ func _fade(player: AudioStreamPlayer, to_db: float, stop_after: bool = false) ->
 		t.tween_callback(player.stop)
 
 
-# --- automatic hooks --------------------------------------------------------
-
-## Every BaseButton in the game plays a click on press — one hook instead of
-## wiring dozens of buttons by hand. New buttons are caught as they enter the
-## tree.
-func _hook_buttons() -> void:
-	get_tree().node_added.connect(_on_node_added)
-	# Catch anything already in the tree at startup.
-	_scan_for_buttons(get_tree().root)
-
-
-func _scan_for_buttons(node: Node) -> void:
-	_on_node_added(node)
-	for c in node.get_children():
-		_scan_for_buttons(c)
-
-
-func _on_node_added(node: Node) -> void:
-	if node is BaseButton:
-		var b := node as BaseButton
-		if not b.pressed.is_connected(_on_any_button):
-			b.pressed.connect(_on_any_button)
-
-
-func _on_any_button() -> void:
-	play_sfx(&"ui_click", 1.0, -3.0)
-
+# --- gameplay event cues ----------------------------------------------------
 
 func _connect_events() -> void:
 	_last_money = Economy.money

@@ -1,9 +1,0 @@
-[gd_resource type="ShaderMaterial" format=3 uid="uid://c7q2hb87g2xd6"]
-
-[ext_resource type="Shader" uid="uid://c7nse47qux72u" path="res://shaders/stripes.gdshader" id="1_stripes"]
-
-[resource]
-shader = ExtResource("1_stripes")
-shader_parameter/rows = 6
-shader_parameter/color_a = Color(0.078, 0.22, 0.16, 1)
-shader_parameter/color_b = Color(0.073, 0.207, 0.151, 1)
