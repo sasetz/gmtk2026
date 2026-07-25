@@ -20,7 +20,9 @@ func _ready() -> void:
 	Economy.enter_shop()
 	EventBus.money_changed.connect(func(_m: int) -> void: _refresh())
 	_reroll.pressed.connect(_on_reroll)
-	$Box/Row/Continue.pressed.connect(func() -> void: continue_pressed.emit())
+	$Box/Row/Continue.pressed.connect(func() -> void:
+		Audio.play_sfx(&"ui_click")
+		continue_pressed.emit())
 	_roll_offers()
 	_refresh()
 
@@ -52,6 +54,7 @@ func _reroll_cost() -> int:
 
 
 func _on_reroll() -> void:
+	Audio.play_sfx(&"ui_click")
 	var discount: int = Economy.reroll_cost() - _reroll_cost()
 	if Economy.do_reroll(discount):
 		_roll_offers()
@@ -136,7 +139,9 @@ func _card(title: String, blurb: String, action: String, enabled: bool, is_board
 	blurb_l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	blurb_l.custom_minimum_size = Vector2(0, 60)
 	blurb_l.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	blurb_l.add_theme_font_size_override("font_size", 12)
+	# 12px was the smallest text in the game and the first thing to fall apart
+	# under the pixelation pass — 15 survives it and reads better regardless.
+	blurb_l.add_theme_font_size_override("font_size", 15)
 	blurb_l.add_theme_color_override("font_color", Color(0.82, 0.85, 0.9))
 	vb.add_child(blurb_l)
 	var btn := Button.new()

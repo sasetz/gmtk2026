@@ -33,6 +33,7 @@ func play(ctx: ScoringContext, log: Array) -> void:
 	_reset(ctx.target)
 	await get_tree().process_frame
 
+	var beat_i: int = 0
 	for step: Dictionary in log:
 		if step["type"] == "beat":
 			var card: Control = _make_beat_card(step["beat"])
@@ -40,6 +41,11 @@ func play(ctx: ScoringContext, log: Array) -> void:
 			await get_tree().process_frame
 			card.pivot_offset = card.size * 0.5
 			Juice.punch(card, 1.2, 0.3)
+			# Each beat lands a chip, pitched up the row so the reveal climbs.
+			Audio.play_sfx(&"chip", 1.0 + 0.05 * beat_i)
+			beat_i += 1
+		else:  # a joker step (no card in this reveal) — Jimbo still pipes up
+			Audio.play_sfx(&"jimbo")
 		_roll_points(int(step["points"]))
 		_roll_mult(step["mult"])
 		await get_tree().create_timer(BEAT_STAGGER).timeout
@@ -47,6 +53,7 @@ func play(ctx: ScoringContext, log: Array) -> void:
 	# --- anticipation, then the slam ---
 	await get_tree().create_timer(0.6).timeout
 	var score: int = ctx.final_score()
+	Audio.play_sfx(&"multihit")   # the Points × Mult slam
 	Juice.count(_score_label, 0, score, 0.85, "%d")
 	Juice.punch(_score_label, 1.7, 0.55)
 	Juice.flash(_score_label, Color.WHITE, 0.4)
@@ -56,7 +63,8 @@ func play(ctx: ScoringContext, log: Array) -> void:
 	_burst.emitting = true
 	await get_tree().create_timer(1.0).timeout
 
-	# --- verdict: a big, unmissable WIN / LOSE that holds on screen ---
+	# --- the payoff flourish (pass/fail is decided at the round level now) ---
+	Audio.play_sfx(&"coin", 1.0, 1.0)
 	Juice.punch(_verdict, 1.4, 0.5)
 	Juice.shake(_shake, 18.0, 0.4)
 
