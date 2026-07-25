@@ -60,8 +60,7 @@ func _select_scene(scene: Scene) -> void:
 			_screen.add_child(round_scene.instantiate())
 			Audio.play_music(&"round")
 		Scene.SHOP:
-			# The shop is a takeover with its own money readout, so hide the HUD.
-			_hud.visible = false
+			_hud.visible = true
 			var shop: Control = shop_scene.instantiate()
 			shop.continue_pressed.connect(func() -> void: EventBus.shop_left.emit())
 			_screen.add_child(shop)
@@ -72,7 +71,7 @@ func _select_scene(scene: Scene) -> void:
 
 func _on_round_result(won: bool, is_boss: bool, reward: int) -> void:
 	_pending_won = won
-	_hud.visible = false
+	_hud.visible = true
 	if won:
 		_result_title.text = "BOSS DEFEATED" if is_boss else "ROUND CLEARED"
 		_result_sub.text = "+$%d banked" % reward

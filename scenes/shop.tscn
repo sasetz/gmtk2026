@@ -1,9 +1,9 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene format=3 uid="uid://dh5ht4e1yrqjw"]
 
-[ext_resource type="Script" path="res://scripts/ui/shop.gd" id="1_shop"]
+[ext_resource type="Script" uid="uid://ntl0pn0idho6" path="res://scripts/ui/shop.gd" id="1_shop"]
 [ext_resource type="PackedScene" path="res://scenes/shop_card.tscn" id="2_shopcard"]
 
-[node name="Shop" type="Control"]
+[node name="Shop" type="Control" unique_id=83787153]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -13,7 +13,7 @@ grow_vertical = 2
 script = ExtResource("1_shop")
 shop_card_scene = ExtResource("2_shopcard")
 
-[node name="Title" type="Label" parent="."]
+[node name="Title" type="Label" parent="." unique_id=543825297]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -23,12 +23,12 @@ offset_top = 24.0
 offset_right = 120.0
 offset_bottom = 68.0
 grow_horizontal = 2
+theme_override_colors/font_color = Color(0.98, 0.86, 0.4, 1)
+theme_override_font_sizes/font_size = 40
 text = "SHOP"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 40
-theme_override_colors/font_color = Color(0.98, 0.86, 0.4, 1)
 
-[node name="Header" type="HBoxContainer" parent="."]
+[node name="Header" type="HBoxContainer" parent="." unique_id=268205900]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -40,13 +40,13 @@ offset_bottom = 108.0
 grow_horizontal = 2
 alignment = 1
 
-[node name="Money" type="Label" parent="Header"]
+[node name="Money" type="Label" parent="Header" unique_id=1189717390]
 layout_mode = 2
-text = "$0"
-theme_override_font_sizes/font_size = 28
 theme_override_colors/font_color = Color(0.85, 0.9, 0.88, 1)
+theme_override_font_sizes/font_size = 28
+text = "$0"
 
-[node name="Offers" type="HBoxContainer" parent="."]
+[node name="Offers" type="HBoxContainer" parent="." unique_id=2028941259]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -62,7 +62,7 @@ grow_vertical = 2
 theme_override_constants/separation = 18
 alignment = 1
 
-[node name="Footer" type="HBoxContainer" parent="."]
+[node name="Footer" type="HBoxContainer" parent="." unique_id=719296006]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -78,12 +78,12 @@ grow_vertical = 0
 theme_override_constants/separation = 24
 alignment = 1
 
-[node name="Reroll" type="Button" parent="Footer"]
+[node name="Reroll" type="Button" parent="Footer" unique_id=1103698184]
 custom_minimum_size = Vector2(180, 48)
 layout_mode = 2
 text = "Reroll  $5"
 
-[node name="Continue" type="Button" parent="Footer"]
+[node name="Continue" type="Button" parent="Footer" unique_id=335899294]
 custom_minimum_size = Vector2(180, 48)
 layout_mode = 2
 text = "Continue"

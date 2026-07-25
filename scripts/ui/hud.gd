@@ -7,7 +7,7 @@ extends Control
 @onready var _money: Label = $Money
 @onready var _lap: Label = $Lap
 @onready var _round: Label = $Round
-@onready var _cards: HBoxContainer = $Cards
+@onready var _cards: BoxContainer = $Cards
 
 
 func _ready() -> void:

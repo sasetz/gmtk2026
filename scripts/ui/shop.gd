@@ -7,7 +7,6 @@ signal continue_pressed
 
 @export var shop_card_scene: PackedScene
 
-@onready var _money: Label = $Header/Money
 @onready var _offers: HBoxContainer = $Offers
 @onready var _reroll: Button = $Footer/Reroll
 @onready var _continue: Button = $Footer/Continue
@@ -28,7 +27,6 @@ func _on_changed(_amount: int) -> void:
 
 
 func _rebuild() -> void:
-	_money.text = "$%d" % RunManager.money
 	for c: Node in _offers.get_children():
 		c.queue_free()
 	for i in RunManager.shop_offers.size():

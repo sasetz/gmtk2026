@@ -51,5 +51,5 @@ func consume_active() -> void:
 
 func _on_stopwatch_ended() -> void:
 	_stopwatches_left -= 1
-	if _stopwatches_left <= 0:
+	if _stopwatches_left <= 0 or total_score >= round_def.target:
 		EventBus.round_scored.emit(total_score >= round_def.target)
