@@ -23,16 +23,9 @@ var config: Dictionary = {}
 @onready var _time_label: Label = $Center/TimerLabel
 @onready var _button: Button = $Center/ActionButton
 @onready var _presses_label: Label = $Center/PressesLabel
-@onready var _pips: HBoxContainer = $Center/Pips
 @onready var _log: Label = $Center/Log
 @onready var _result: Label = $Center/Result
 # TODO: add stopwatch modifiers list
-
-## Press-feedback pips: one square per available lock, filled as you spend them.
-const PIP_SIZE := Vector2(30, 30)
-const PIP_EMPTY := Color(0.26, 0.33, 0.31)
-const PIP_HIT := Color(0.40, 0.90, 0.50)
-const PIP_MISS := Color(0.72, 0.34, 0.34)
 
 var _duration_ms: int
 var _rate: float
@@ -88,19 +81,9 @@ func _ready() -> void:
 	_button.button_up.connect(_on_press_action)
 
 
-var _last_tick_sec: int = -1
-
-
 func _process(_delta: float) -> void:
 	if _started and not _finished:
-		var ms: int = _timer.remaining_ms()
-		_time_label.text = ScoringRules.digits(ms, _tier)["display"]
-		# One soft tick per whole second of countdown — the pressure metronome.
-		var sec: int = ms / 1000
-		if sec != _last_tick_sec:
-			if _last_tick_sec != -1:
-				Audio.play_sfx(&"clock", 1.0, -10.0)
-			_last_tick_sec = sec
+		_time_label.text = ScoringRules.digits(_timer.remaining_ms(), _tier)["display"]
 
 
 func _effective_presses() -> int:
@@ -133,7 +116,6 @@ func _on_press_action() -> void:
 		started.emit()
 		_started = true
 		_button.text = "DOWN"
-		Audio.play_sfx(&"card")
 		_timer.start()
 		return
 	_timer.press()
@@ -144,15 +126,6 @@ func _on_timer_pressed(ms: int, index: int) -> void:
 	var result: Dictionary = ScoringRules.evaluate(ms, _tier)
 	_press_results.append(result)
 	_presses_label.text = "Presses left: %d" % _timer.presses_left()
-	# Immediate, wordless confirmation that the lock registered — a pip fills
-	# green if the time actually scored something, red if it hit nothing.
-	var scored: bool = not result["bad"] and not (result["conditions"] as Array).is_empty()
-	_fill_pip(index, scored)
-	# A rising chip ladder on good locks; a dull crumple on a whiff.
-	if scored:
-		Audio.play_sfx(&"chip", 1.0 + 0.06 * index)
-	else:
-		Audio.play_sfx(&"crumple", 1.0, -4.0)
 	_append_log(index, result)
 	# Slow Reveal: hitting a round number crawls the clock, easing the next press.
 	if not _slow_cards.is_empty() and (result["conditions"] as Array).any(
@@ -204,28 +177,7 @@ func _append_log(index: int, result: Dictionary) -> void:
 	]
 
 
-## One empty pip per lock the player has this round (Extra Beat grows it).
-func _build_pips() -> void:
-	for c: Node in _pips.get_children():
-		c.queue_free()
-	for i: int in _effective_presses():
-		var p := ColorRect.new()
-		p.custom_minimum_size = PIP_SIZE
-		p.color = PIP_EMPTY
-		p.pivot_offset = PIP_SIZE * 0.5
-		_pips.add_child(p)
-
-
-func _fill_pip(index: int, scored: bool) -> void:
-	if index < 0 or index >= _pips.get_child_count():
-		return
-	var pip: ColorRect = _pips.get_child(index)
-	pip.color = PIP_HIT if scored else PIP_MISS
-	Juice.punch(pip, 1.5, 0.3)
-
-
 func _reset_view() -> void:
-	_build_pips()
 	_time_label.text = ScoringRules.digits(_duration_ms, _tier)["display"]
 	var boss_line: String = ""
 	if _boss_id != &"":

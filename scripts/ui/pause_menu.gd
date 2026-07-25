@@ -54,6 +54,7 @@ func open() -> void:
 
 ## Bound in the scene: Resume button.
 func _on_resume_pressed() -> void:
+	Audio.play_sfx(&"ui_click")
 	close()
 
 
@@ -65,6 +66,7 @@ func close() -> void:
 
 ## Bound in the scene: Options button.
 func _on_options_pressed() -> void:
+	Audio.play_sfx(&"ui_click")
 	if _options != null:
 		return
 	_options = OptionsScene.instantiate()
@@ -83,6 +85,7 @@ func _close_options() -> void:
 
 ## Bound in the scene: Main Menu button.
 func _on_main_menu_pressed() -> void:
+	Audio.play_sfx(&"ui_click")
 	_close_options()
 	_root.visible = false
 	get_tree().paused = false

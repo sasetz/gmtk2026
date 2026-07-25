@@ -11,6 +11,7 @@ signal closed
 @onready var _master_val: Label = $Panel/Box/Master/Value
 @onready var _music_val: Label = $Panel/Box/Music/Value
 @onready var _sfx_val: Label = $Panel/Box/Sfx/Value
+@onready var _shake: CheckButton = $Panel/Box/Shake/Toggle
 @onready var _back: Button = $Panel/Box/Back
 
 
@@ -20,6 +21,7 @@ func _ready() -> void:
 	_master.set_value_no_signal(Settings.master_volume)
 	_music.set_value_no_signal(Settings.music_volume)
 	_sfx.set_value_no_signal(Settings.sfx_volume)
+	_shake.set_pressed_no_signal(Settings.screen_shake)
 	_refresh_labels()
 	_master.grab_focus()
 
@@ -39,7 +41,13 @@ func _on_sfx_changed(v: float) -> void:
 	_refresh_labels()
 
 
+func _on_shake_toggled(on: bool) -> void:
+	Settings.set_screen_shake(on)
+	_shake.text = "On" if on else "Off"
+
+
 func _on_back_pressed() -> void:
+	Audio.play_sfx(&"ui_click")
 	closed.emit()
 
 
@@ -47,6 +55,7 @@ func _refresh_labels() -> void:
 	_master_val.text = "%d%%" % roundi(Settings.master_volume * 100.0)
 	_music_val.text = "%d%%" % roundi(Settings.music_volume * 100.0)
 	_sfx_val.text = "%d%%" % roundi(Settings.sfx_volume * 100.0)
+	_shake.text = "On" if Settings.screen_shake else "Off"
 
 
 func _input(event: InputEvent) -> void:

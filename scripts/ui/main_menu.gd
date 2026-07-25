@@ -21,18 +21,22 @@ func _ready() -> void:
 
 
 func _on_play_pressed() -> void:
+	Audio.play_sfx(&"ui_click")
 	get_tree().change_scene_to_file(GameScene)
 
 
 func _on_options_pressed() -> void:
+	Audio.play_sfx(&"ui_click")
 	_open(OptionsScene)
 
 
 func _on_credits_pressed() -> void:
+	Audio.play_sfx(&"ui_click")
 	_open(CreditsScene)
 
 
 func _on_quit_pressed() -> void:
+	Audio.play_sfx(&"ui_click")
 	get_tree().quit()
 
 

@@ -42,8 +42,9 @@ static func count(label: Label, from_val: int, to_val: int, dur: float = 0.5,
 ## Decaying positional shake. `node` is usually a wrapper Control/Node2D so the
 ## whole view jolts. Amplitude scales the punch to the moment (bigger score →
 ## bigger shake).
+## Honours the "screen shake" setting — one check here covers every shake.
 static func shake(node: CanvasItem, amount: float = 14.0, dur: float = 0.35) -> void:
-	if not is_instance_valid(node):
+	if not is_instance_valid(node) or not Settings.screen_shake:
 		return
 	var base: Vector2 = node.position if node is Control else (node as Node2D).position
 	var t: Tween = node.create_tween()

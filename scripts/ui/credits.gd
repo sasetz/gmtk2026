@@ -10,6 +10,7 @@ func _ready() -> void:
 
 
 func _on_back_pressed() -> void:
+	Audio.play_sfx(&"ui_click")
 	closed.emit()
 
 
