@@ -68,6 +68,8 @@ func _on_any_clicked() -> void:
 		_fill_pips(StopwatchManager.clicks.size())
 		_update_score()
 		_refresh()
+		# Pop the clock so the locked time is easy to read during the freeze.
+		Shake.play(_time, 1.4)
 
 
 func _on_any_ended() -> void:

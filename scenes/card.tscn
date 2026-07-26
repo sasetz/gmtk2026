@@ -1,22 +1,46 @@
-[gd_scene format=3 uid="uid://dbfxw11vxefdi"]
+[gd_scene load_steps=5 format=3 uid="uid://dbfxw11vxefdi"]
 
 [ext_resource type="Script" uid="uid://btlp6ktpfuauq" path="res://scripts/ui/card.gd" id="1_6u4wf"]
 [ext_resource type="Texture2D" uid="uid://nc64goluwich" path="res://icon.svg" id="1_d81rb"]
+[ext_resource type="Shader" path="res://shaders/card_shine.gdshader" id="3_shine"]
 
-[node name="Card" type="PanelContainer" unique_id=1948585430]
-offset_right = 100.0
-offset_bottom = 150.0
+[sub_resource type="ShaderMaterial" id="mat_shine"]
+shader = ExtResource("3_shine")
+shader_parameter/tilt = Vector2(0, 0)
+shader_parameter/strength = 0.35
+
+[node name="Card" type="PanelContainer"]
+custom_minimum_size = Vector2(100, 140)
 script = ExtResource("1_6u4wf")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=209560009]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
-alignment = 2
+mouse_filter = 2
+alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer" unique_id=593961331]
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
+mouse_filter = 2
 texture = ExtResource("1_d81rb")
+expand_mode = 1
+stretch_mode = 5
 
-[node name="Label" type="Label" parent="VBoxContainer" unique_id=737768157]
+[node name="Label" type="Label" parent="VBoxContainer"]
 layout_mode = 2
+mouse_filter = 2
 text = "Card Name"
 horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+
+[node name="Sell" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+mouse_filter = 1
+text = "Sell $0"
+theme_override_font_sizes/font_size = 13
+
+[node name="Shine" type="ColorRect" parent="."]
+material = SubResource("mat_shine")
+layout_mode = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 1)
