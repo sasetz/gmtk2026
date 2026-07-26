@@ -19,5 +19,10 @@ func _ready() -> void:
 	_play._label.hide()
 
 
+func _input(event: InputEvent) -> void:
+	if event.is_action("press"):
+		_on_play_pressed()
+
+
 func _on_play_pressed() -> void:
 	play_pressed.emit()

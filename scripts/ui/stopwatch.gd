@@ -38,6 +38,9 @@ const ACTION_FRAMES := {
 
 enum State { IDLE, RUNNING, DONE }
 
+## Ticking runs for the whole round, so it sits under everything else.
+const TICK_DB: float = -8.0
+
 const FILLED := Color(0.98, 0.86, 0.4)
 const EMPTY := Color(0.2, 0.28, 0.26)
 
@@ -49,6 +52,8 @@ var _base_tex: Texture2D
 var _pressed_tex: Texture2D
 ## The tick this face makes - a console beeps, a cassette clicks.
 var _tick: StringName = &"tick_normal"
+## The clock second the last tick was played on, so each one sounds once.
+var _ticked_second: int = -1
 
 
 func setup(d: StopwatchDef) -> void:
@@ -77,6 +82,18 @@ func _process(_delta: float) -> void:
 	if _state == State.RUNNING:
 		_time.text = _format(StopwatchManager.remaining_ms)
 		_update_score()
+		_tick_clock()
+
+
+## A running stopwatch ticks once per second of its own clock, from the moment it
+## starts until it runs out. A lock freezes the clock, so the ticking pauses with
+## it, and a slow rate ticks slower - the sound follows the watch, not real time.
+func _tick_clock() -> void:
+	var second: int = StopwatchManager.remaining_ms / 1000
+	if second == _ticked_second:
+		return
+	_ticked_second = second
+	Audio.play_sfx(_tick, 1.0, TICK_DB)
 
 
 func _on_pressed() -> void:
@@ -86,7 +103,6 @@ func _on_pressed() -> void:
 		_state = State.RUNNING
 		_face.texture = _pressed_tex   # running animation: the _pressed variant
 		_watch_badges(true)
-		Audio.play_sfx(_tick)
 		StopwatchManager.begin(def)
 		_build_pips(StopwatchManager.total_clicks())
 		_update_score()
@@ -104,7 +120,6 @@ func _on_any_clicked() -> void:
 		_fill_pips(StopwatchManager.clicks.size())
 		_update_score()
 		_refresh()
-		Audio.play_sfx(_tick)
 		Shake.play(_time, 1.4)
 
 

@@ -2,14 +2,15 @@ class_name HoverableCard
 extends PanelContainer
 ## Shared hover behaviour for card views (HUD cards and shop offers): on hover the
 ## card pops up a little, tilts toward the mouse cursor, rises above its
-## neighbours, and — if it has a "Shine" overlay with the card_shine shader — its
-## gloss slides with the tilt. Balatro-style. Subclasses override _hover_changed
-## to react (e.g. reveal a sell button).
+## neighbours, and its gloss slides with the tilt. Balatro-style. Subclasses
+## override _hover_changed to react (e.g. reveal a sell button).
 
 const POP: float = 1.12
 const TILT: float = 0.14
 
-@onready var _shine: ColorRect = get_node_or_null("Shine")
+## The gloss sits over the card ART, so the card bounds it rather than whatever
+## container the card control happens to stretch into.
+@onready var _shine: ColorRect = get_node_or_null("VBox/Face/Shine")
 
 var _hovering: bool = false
 
