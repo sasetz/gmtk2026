@@ -17,10 +17,11 @@
 [ext_resource type="Script" uid="uid://dl8vjjfkh6fh7" path="res://scripts/autoload/audio_stream_player.gd" id="13_jkv2x"]
 [ext_resource type="Texture2D" uid="uid://c41nlqhius1tq" path="res://assets/art/Button Cat Press-Normal.png" id="14_catn"]
 [ext_resource type="Texture2D" uid="uid://bsvms0jrf4ikb" path="res://assets/art/Button Cat Press-Hovered.png" id="15_cath"]
+[ext_resource type="Texture2D" uid="uid://dyihfyrju5mvh" path="res://assets/art/bg/bg_full.png" id="15_jscy8"]
 [ext_resource type="Texture2D" uid="uid://l264kc86joqe" path="res://assets/art/Button Cat Press-Pressed.png" id="16_catp"]
 [ext_resource type="Material" uid="uid://bs8uojdeaoxho" path="res://assets/font_outline.tres" id="16_jbj1t"]
 [ext_resource type="Texture2D" uid="uid://wkjtdi03m60q" path="res://assets/art/ui/settings.tres" id="17_2wyq8"]
-[ext_resource type="PackedScene" path="res://scenes/tutorial.tscn" id="18_tut"]
+[ext_resource type="PackedScene" uid="uid://eocwdje2qfra" path="res://scenes/tutorial.tscn" id="18_tut"]
 
 [sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_0dvnm"]
 clip_count = 5
@@ -134,14 +135,14 @@ autoplay = true
 bus = &"Music"
 script = ExtResource("13_jkv2x")
 
-[node name="Felt" type="ColorRect" parent="." unique_id=817648203]
+[node name="Felt" type="TextureRect" parent="." unique_id=2146017933]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.078, 0.22, 0.16, 1)
+texture = ExtResource("15_jscy8")
 
 [node name="Screen" type="Control" parent="." unique_id=815400404]
 layout_mode = 1

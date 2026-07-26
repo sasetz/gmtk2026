@@ -16,7 +16,7 @@ const FRAME_TIME: float = 0.22
 const HOLD_TO_SKIP: float = 1.2
 
 @onready var _dim: ColorRect = $Dim
-@onready var _creature: TextureRect = $Creature
+@onready var _creature: AnimatedSprite2D = $Creature
 @onready var _bubble: PanelContainer = $Bubble
 @onready var _text: Label = $Bubble/Box/Text
 @onready var _hint: Label = $Bubble/Box/Hint
@@ -39,6 +39,7 @@ func _ready() -> void:
 	_skip.button_down.connect(_press_skip)
 	_skip.button_up.connect(_release_skip)
 	_say(Tutorial.pre_lines())
+	_creature.play("default")
 
 
 func _process(delta: float) -> void:
@@ -53,16 +54,13 @@ func _process(delta: float) -> void:
 ## Idle: cycle the frames and bob gently.
 func _animate(delta: float) -> void:
 	_frame += delta
-	if _frame >= FRAME_TIME:
-		_frame -= FRAME_TIME
-		var next: int = (IDLE_FRAMES.find(_creature.texture) + 1) % IDLE_FRAMES.size()
-		_creature.texture = IDLE_FRAMES[next]
 	_bob += delta * 2.0
 	_creature.position.y = _creature_home() + sin(_bob) * 3.0
+	_creature.position.x = 50
 
 
 func _creature_home() -> float:
-	return size.y * 0.5 - 44.0
+	return size.y * 0.5
 
 
 func _say(lines: Array) -> void:

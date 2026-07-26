@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://djpiw7bk5kt6r"]
+[gd_scene format=3 uid="uid://djpiw7bk5kt6r"]
 
 [ext_resource type="Script" uid="uid://ku5v8enri36p" path="res://scripts/ui/options_menu.gd" id="1_opts"]
 [ext_resource type="Texture2D" uid="uid://cdngk27fn2ow2" path="res://assets/art/ui/options_bg.tres" id="2_bg"]
@@ -10,7 +10,7 @@ content_margin_right = 16.0
 content_margin_bottom = 12.0
 texture = ExtResource("2_bg")
 
-[node name="OptionsMenu" type="Control"]
+[node name="OptionsMenu" type="Control" unique_id=1379415267]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -19,7 +19,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_opts")
 
-[node name="Dim" type="ColorRect" parent="."]
+[node name="Dim" type="ColorRect" parent="." unique_id=1899993701]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -28,7 +28,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.02, 0.05, 0.04, 0.72)
 
-[node name="Panel" type="PanelContainer" parent="."]
+[node name="Panel" type="PanelContainer" parent="." unique_id=1952879820]
 custom_minimum_size = Vector2(208, 191)
 layout_mode = 1
 anchors_preset = 8
@@ -44,15 +44,16 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("sb_opt")
 
-[node name="Box" type="VBoxContainer" parent="Panel"]
+[node name="Box" type="VBoxContainer" parent="Panel" unique_id=135989506]
 layout_mode = 2
 theme_override_constants/separation = 6
+alignment = 1
 
-[node name="Master" type="HBoxContainer" parent="Panel/Box"]
+[node name="Master" type="HBoxContainer" parent="Panel/Box" unique_id=66843518]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="Name" type="Label" parent="Panel/Box/Master"]
+[node name="Name" type="Label" parent="Panel/Box/Master" unique_id=877038078]
 custom_minimum_size = Vector2(46, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.98, 0.92, 0.82, 1)
@@ -60,7 +61,7 @@ theme_override_font_sizes/font_size = 10
 text = "Master"
 vertical_alignment = 1
 
-[node name="Slider" type="HSlider" parent="Panel/Box/Master"]
+[node name="Slider" type="HSlider" parent="Panel/Box/Master" unique_id=1603327189]
 custom_minimum_size = Vector2(80, 12)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -69,7 +70,7 @@ max_value = 1.0
 step = 0.01
 value = 1.0
 
-[node name="Value" type="Label" parent="Panel/Box/Master"]
+[node name="Value" type="Label" parent="Panel/Box/Master" unique_id=1019263539]
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.85, 0.9, 0.88, 1)
@@ -78,11 +79,11 @@ text = "100%"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Music" type="HBoxContainer" parent="Panel/Box"]
+[node name="Music" type="HBoxContainer" parent="Panel/Box" unique_id=1089612949]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="Name" type="Label" parent="Panel/Box/Music"]
+[node name="Name" type="Label" parent="Panel/Box/Music" unique_id=1802889822]
 custom_minimum_size = Vector2(46, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.98, 0.92, 0.82, 1)
@@ -90,7 +91,7 @@ theme_override_font_sizes/font_size = 10
 text = "Music"
 vertical_alignment = 1
 
-[node name="Slider" type="HSlider" parent="Panel/Box/Music"]
+[node name="Slider" type="HSlider" parent="Panel/Box/Music" unique_id=1994787191]
 custom_minimum_size = Vector2(80, 12)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -99,7 +100,7 @@ max_value = 1.0
 step = 0.01
 value = 1.0
 
-[node name="Value" type="Label" parent="Panel/Box/Music"]
+[node name="Value" type="Label" parent="Panel/Box/Music" unique_id=94937623]
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.85, 0.9, 0.88, 1)
@@ -108,11 +109,11 @@ text = "100%"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Sfx" type="HBoxContainer" parent="Panel/Box"]
+[node name="Sfx" type="HBoxContainer" parent="Panel/Box" unique_id=1287862040]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="Name" type="Label" parent="Panel/Box/Sfx"]
+[node name="Name" type="Label" parent="Panel/Box/Sfx" unique_id=1243342120]
 custom_minimum_size = Vector2(46, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.98, 0.92, 0.82, 1)
@@ -120,7 +121,7 @@ theme_override_font_sizes/font_size = 10
 text = "SFX"
 vertical_alignment = 1
 
-[node name="Slider" type="HSlider" parent="Panel/Box/Sfx"]
+[node name="Slider" type="HSlider" parent="Panel/Box/Sfx" unique_id=835292758]
 custom_minimum_size = Vector2(80, 12)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -129,7 +130,7 @@ max_value = 1.0
 step = 0.01
 value = 1.0
 
-[node name="Value" type="Label" parent="Panel/Box/Sfx"]
+[node name="Value" type="Label" parent="Panel/Box/Sfx" unique_id=644226921]
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.85, 0.9, 0.88, 1)
@@ -138,34 +139,36 @@ text = "100%"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Shake" type="HBoxContainer" parent="Panel/Box"]
+[node name="Shake" type="HBoxContainer" parent="Panel/Box" unique_id=75087007]
 layout_mode = 2
 theme_override_constants/separation = 4
+alignment = 1
 
-[node name="Name" type="Label" parent="Panel/Box/Shake"]
+[node name="Name" type="Label" parent="Panel/Box/Shake" unique_id=1033886920]
 custom_minimum_size = Vector2(90, 0)
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.98, 0.92, 0.82, 1)
 theme_override_font_sizes/font_size = 10
 text = "Screen shake"
 vertical_alignment = 1
 
-[node name="Toggle" type="CheckButton" parent="Panel/Box/Shake"]
+[node name="Toggle" type="CheckButton" parent="Panel/Box/Shake" unique_id=1356995131]
 layout_mode = 2
 size_flags_horizontal = 8
 button_pressed = true
 
-[node name="Buttons" type="HBoxContainer" parent="Panel/Box"]
+[node name="Buttons" type="HBoxContainer" parent="Panel/Box" unique_id=1346787894]
 layout_mode = 2
 theme_override_constants/separation = 8
 alignment = 1
 
-[node name="Back" type="Button" parent="Panel/Box/Buttons"]
+[node name="Back" type="Button" parent="Panel/Box/Buttons" unique_id=1934975611]
 custom_minimum_size = Vector2(72, 20)
 layout_mode = 2
 text = "Back"
 
-[node name="Credits" type="Button" parent="Panel/Box/Buttons"]
+[node name="Credits" type="Button" parent="Panel/Box/Buttons" unique_id=1304768933]
 custom_minimum_size = Vector2(72, 20)
 layout_mode = 2
 text = "Credits"
