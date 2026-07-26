@@ -23,6 +23,34 @@ func _ready() -> void:
 	_update_progress()
 
 
+## Space (the "press" action) works the stopwatches too, so the game can be
+## played without aiming the mouse at a button.
+##
+## This runs as UNHANDLED input: a button that already took the press - a mouse
+## click on it, or Space while it holds focus - marks the event handled, so a
+## press can never land twice.
+func _unhandled_input(event: InputEvent) -> void:
+	if not event.is_action_pressed(&"press"):
+		return
+	var target: Node = _press_target()
+	if target == null:
+		return
+	get_viewport().set_input_as_handled()
+	target.press_from_key()
+
+
+## The stopwatch a keypress belongs to: the one already running, otherwise the
+## first that has not been played yet.
+func _press_target() -> Node:
+	for child: Node in _stopwatches.get_children():
+		if child.is_live():
+			return child
+	for child: Node in _stopwatches.get_children():
+		if child.can_press():
+			return child
+	return null
+
+
 ## The tutorial points at one kind of element at a time; lift it over the dim.
 func _on_highlight(role: StringName) -> void:
 	_lift(_stopwatches, role == &"stopwatch")

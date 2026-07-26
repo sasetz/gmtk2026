@@ -111,6 +111,21 @@ func _on_pressed() -> void:
 		StopwatchManager.click()
 
 
+## Space (the "press" action) drives the stopwatch as well as the mouse.
+func press_from_key() -> void:
+	_action.press_from_key()
+
+
+## Is this the one currently counting down?
+func is_live() -> bool:
+	return _state == State.RUNNING
+
+
+## Would a press do anything right now?
+func can_press() -> bool:
+	return not _action.is_disabled()
+
+
 func _on_any_started() -> void:
 	_refresh()
 

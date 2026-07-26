@@ -126,9 +126,13 @@ func _fourth() -> RoundDef:
 	r.target = 100
 	r.reward = 5
 	# "Random combos from the generator", but re-rolled until they overlap on some
-	# decimal. Otherwise the set can be so scattered that the 500 the script asks
-	# for is out of reach and the player is stuck retrying the last step.
-	var second := _stopwatch(3000, 5, 1.0, _anchored_combos())
+	# decimal. A scattered set puts the target out of reach and leaves the player
+	# stuck retrying the last step.
+	#
+	# It runs a little quicker than the ones before it, but only a little. Asking
+	# for five locks in three seconds at full rate - after three rounds of three
+	# locks in ten - was a wall rather than a step, and the tutorial died on it.
+	var second := _stopwatch(5000, 3, 0.7, _anchored_combos())
 	r.stopwatches = [
 		_stopwatch(5000, 3, 0.5, [_combo(ComboCatalog.Kind.EVEN)]),
 		second,
