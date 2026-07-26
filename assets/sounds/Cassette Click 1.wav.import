@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://d0vf271lv4qih"
+path="res://.godot/imported/Cassette Click 1.wav-677c5726de7a947faa1e235089f7d077.sample"
+
+[deps]
+
+source_file="res://assets/sounds/Cassette Click 1.wav"
+dest_files=["res://.godot/imported/Cassette Click 1.wav-677c5726de7a947faa1e235089f7d077.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

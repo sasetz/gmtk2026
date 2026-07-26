@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dkqh1u77oyf0m"
+path="res://.godot/imported/Keyboard Button Press 3.wav-13d3ea594c5f7971dd411c352ae1ee25.sample"
+
+[deps]
+
+source_file="res://assets/sounds/Keyboard Button Press 3.wav"
+dest_files=["res://.godot/imported/Keyboard Button Press 3.wav-13d3ea594c5f7971dd411c352ae1ee25.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

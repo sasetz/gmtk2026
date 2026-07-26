@@ -30,7 +30,45 @@ const SFX := {
 		"Jimbo Speak 04.wav", "Jimbo Speak 05.wav"],
 	&"speech": ["speech bubble 1.wav", "speech bubble 2.wav", "speech bubble 3.wav",
 		"speech bubble 4.wav"],
+
+	# One press sound per button LOOK, so a keycap, a gumball machine and the cat
+	# each sound like themselves.
+	&"btn_normal": ["button press 1.wav", "Button Press 2.wav"],
+	&"btn_keyboard": ["Keyboard Button Press 1.wav", "Keyboard Button Press 2.wav",
+		"Keyboard Button Press 3.wav"],
+	&"btn_gumball": ["Gumball Button Press.wav", "Gumball Button Press 2.wav",
+		"Gumball Button Press 3.wav"],
+	&"btn_cat": ["Jaimie Cat Button Press.wav", "Jaimie Cat Button Press 2.wav",
+		"Jaimie Cat Button Press 3.wav"],
+
+	# And one tick per stopwatch face.
+	&"tick_normal": ["clock tick 1.wav", "Clock tick 2.wav"],
+	&"tick_cassette": ["Cassette Click 1.wav", "Cassette Click 2.wav"],
+	&"tick_robot": ["Robot Tick.wav", "Robot Tick 2.wav"],
+	&"tick_console": ["Console Tick 1.wav", "Console Tick 2.wav"],
 }
+
+## Stopwatch face → its tick. The art drives the choice: the purple one is a
+## handheld console, the pink one a cassette deck, the digital one a robot.
+const FACE_TICKS := {
+	&"default": &"tick_normal",
+	&"grey": &"tick_normal",
+	&"purple": &"tick_console",
+	&"pink": &"tick_cassette",
+	&"digital": &"tick_robot",
+}
+
+## Consumable button id → its press sound, picked to match its keycap art.
+const BUTTON_SOUNDS := {
+	&"consecutive": &"btn_keyboard",
+	&"remaining_seconds": &"btn_keyboard",
+	&"gap": &"btn_keyboard",
+	&"high_decimal": &"btn_gumball",
+	&"remaining_clicks": &"btn_normal",
+}
+
+## From which lap the music switches to the intense track.
+const INTENSE_FROM_LAP: int = 3
 
 const SFX_VOICES: int = 10
 const MUSIC_DB: float = -6.0          # headroom so music sits under the SFX
@@ -135,6 +173,28 @@ func stop_music() -> void:
 	MusicPlayer.stop()
 
 
+## Which track a round should play: it turns intense once the run is deep enough.
+## Kept separate from playing it so the rule can be reasoned about on its own.
+func round_track() -> StringName:
+	return &"Intense" if RunManager.lap >= INTENSE_FROM_LAP else &"Normal"
+
+
+func play_round_music() -> void:
+	play_music(round_track())
+
+
+# --- per-type cues ----------------------------------------------------------
+
+## The tick belonging to a stopwatch face.
+func tick_for_face(face: StringName) -> StringName:
+	return FACE_TICKS.get(face, &"tick_normal")
+
+
+## The press sound belonging to a consumable button.
+func sound_for_button(id: StringName) -> StringName:
+	return BUTTON_SOUNDS.get(id, &"btn_normal")
+
+
 # --- gameplay event cues ----------------------------------------------------
 
 func _connect_events() -> void:
@@ -143,10 +203,18 @@ func _connect_events() -> void:
 	EventBus.money_changed.connect(_on_money_changed)
 	EventBus.card_bought.connect(func(_j) -> void: play_sfx(&"card_slide"))
 	EventBus.card_sold.connect(func(_j) -> void: play_sfx(&"crumple"))
-	EventBus.round_result.connect(func(won: bool, is_boss: bool, reward: int) -> void:
-		if not won:
-			play_music(&"Loser")
-		)
+	EventBus.round_started.connect(func() -> void: play_sfx(&"chip"))
+	EventBus.shop_entered.connect(func() -> void: play_sfx(&"coin"))
+	EventBus.round_result.connect(_on_round_result)
+
+
+## Round over: a payoff sting when it went well, a flat cancel when it did not.
+func _on_round_result(won: bool, is_boss: bool, _reward: int) -> void:
+	if won:
+		play_sfx(&"multihit" if is_boss else &"point")
+	else:
+		play_sfx(&"ui_cancel")
+		play_music(&"Loser")
 
 
 ## Coin jingle only when money goes UP — resets and purchases (which lower it)

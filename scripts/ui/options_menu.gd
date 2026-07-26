@@ -25,6 +25,7 @@ func _ready() -> void:
 	_sfx.set_value_no_signal(Settings.sfx_volume)
 	_shake.set_pressed_no_signal(Settings.screen_shake)
 	_refresh_labels()
+	UiSound.attach(self)
 	_back.grab_focus()
 
 
@@ -48,12 +49,10 @@ func _on_shake_toggled(on: bool) -> void:
 
 
 func _on_back_pressed() -> void:
-	Audio.play_sfx(&"ui_click")
 	closed.emit()
 
 
 func _on_credits_pressed() -> void:
-	Audio.play_sfx(&"ui_click")
 	credits_requested.emit()
 
 

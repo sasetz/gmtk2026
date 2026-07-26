@@ -36,6 +36,9 @@ func _ready() -> void:
 	EventBus.round_result.connect(_on_round_result)
 	EventBus.toggle_pause.connect(_toggle_pause)
 	EventBus.tutorial_finished.connect(_close_tutorial)
+	# The result button is the cat, so it purrs; the corner cog is a plain click.
+	UiSound.play_on(_result_continue, &"btn_cat")
+	UiSound.play_on($OptionsCorner, &"ui_click")
 	_select_scene(Scene.MAIN_MENU)
 
 
@@ -84,7 +87,7 @@ func _select_scene(scene: Scene) -> void:
 		Scene.ROUND:
 			_hud.visible = true
 			_screen.add_child(round_scene.instantiate())
-			Audio.play_music(&"Normal")
+			Audio.play_round_music()
 			_sync_tutorial()
 		Scene.SHOP:
 			_hud.visible = true
@@ -112,7 +115,6 @@ func _on_round_result(won: bool, is_boss: bool, reward: int) -> void:
 
 
 func _on_continue_pressed() -> void:
-	Audio.play_sfx(&"ui_click")
 	RunManager.continue_from_result(_pending_won)
 
 
@@ -120,7 +122,6 @@ func _on_continue_pressed() -> void:
 
 ## The always-visible corner button opens options (unless something is already up).
 func _on_options_corner_pressed() -> void:
-	Audio.play_sfx(&"ui_click")
 	if _overlay == null and _pause == null:
 		_open_options()
 

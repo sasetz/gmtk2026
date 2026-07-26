@@ -6,11 +6,11 @@ signal closed
 
 
 func _ready() -> void:
+	UiSound.attach(self)
 	$Panel/Box/People/Back.grab_focus()
 
 
 func _on_back_pressed() -> void:
-	Audio.play_sfx(&"ui_click")
 	closed.emit()
 
 

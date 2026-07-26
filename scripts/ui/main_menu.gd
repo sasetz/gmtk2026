@@ -15,14 +15,14 @@ signal quit_pressed
 func _ready() -> void:
 	# There's no meaningful "quit" in a browser tab.
 	_quit.visible = OS.get_name() != "Web"
+	UiSound.attach(self, &"ui_click", ["Play"])
+	UiSound.play_on(_play, &"btn_cat")
 	_play.grab_focus()
 
 
 func _on_play_pressed() -> void:
-	Audio.play_sfx(&"ui_click")
 	play_pressed.emit()
 
 
 func _on_quit_pressed() -> void:
-	Audio.play_sfx(&"ui_click")
 	quit_pressed.emit()

@@ -18,6 +18,8 @@ func _ready() -> void:
 	EventBus.shop_rolled.connect(_rebuild)
 	_reroll.pressed.connect(_on_reroll)
 	_continue.pressed.connect(_on_continue)
+	UiSound.attach(self, &"ui_click", ["Reroll"])
+	UiSound.play_on(_reroll, &"chip")
 	_rebuild()
 	_continue.grab_focus()
 
@@ -38,10 +40,8 @@ func _rebuild() -> void:
 
 
 func _on_reroll() -> void:
-	Audio.play_sfx(&"ui_click")
 	RunManager.reroll_shop()
 
 
 func _on_continue() -> void:
-	Audio.play_sfx(&"ui_click")
 	continue_pressed.emit()

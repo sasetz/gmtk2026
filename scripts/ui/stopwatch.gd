@@ -38,6 +38,8 @@ var _pip_nodes: Array[ColorRect] = []
 var _chips: Array[Node] = []
 var _base_tex: Texture2D
 var _pressed_tex: Texture2D
+## The tick this face makes - a console beeps, a cassette clicks.
+var _tick: StringName = &"tick_normal"
 
 
 func setup(d: StopwatchDef) -> void:
@@ -48,6 +50,7 @@ func _ready() -> void:
 	var pair: Array = FACES.get(def.face, FACES[&"default"])
 	_base_tex = pair[0]
 	_pressed_tex = pair[1]
+	_tick = Audio.tick_for_face(def.face)
 	_face.texture = _base_tex
 	_build_badges()
 	_build_pips(def.clicks)
@@ -73,6 +76,7 @@ func _on_pressed() -> void:
 		_state = State.RUNNING
 		_face.texture = _pressed_tex   # running animation: the _pressed variant
 		_watch_badges(true)
+		Audio.play_sfx(_tick)
 		StopwatchManager.begin(def)
 		_build_pips(StopwatchManager.total_clicks())
 		_update_score()
@@ -90,6 +94,7 @@ func _on_any_clicked() -> void:
 		_fill_pips(StopwatchManager.clicks.size())
 		_update_score()
 		_refresh()
+		Audio.play_sfx(_tick)
 		Shake.play(_time, 1.4)
 
 

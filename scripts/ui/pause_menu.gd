@@ -12,21 +12,19 @@ signal menu_pressed
 
 
 func _ready() -> void:
+	UiSound.attach(self)
 	_resume.grab_focus()
 
 
 func _on_resume_pressed() -> void:
-	Audio.play_sfx(&"ui_click")
 	resume_pressed.emit()
 
 
 func _on_options_pressed() -> void:
-	Audio.play_sfx(&"ui_click")
 	options_pressed.emit()
 
 
 func _on_main_menu_pressed() -> void:
-	Audio.play_sfx(&"ui_click")
 	menu_pressed.emit()
 
 

@@ -30,6 +30,7 @@ func _ready() -> void:
 func _on_toggled(on: bool) -> void:
 	RoundManager.set_button_active(def, on)
 	if on:
+		Audio.play_sfx(Audio.sound_for_button(def.id))
 		Shake.play(_face)   # activation animation
 
 

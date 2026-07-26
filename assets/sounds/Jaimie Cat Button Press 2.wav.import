@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cole2dsohi7wm"
+path="res://.godot/imported/Jaimie Cat Button Press 2.wav-7da4c6e87f048866b0712d20a4eae602.sample"
+
+[deps]
+
+source_file="res://assets/sounds/Jaimie Cat Button Press 2.wav"
+dest_files=["res://.godot/imported/Jaimie Cat Button Press 2.wav-7da4c6e87f048866b0712d20a4eae602.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
