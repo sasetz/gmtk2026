@@ -1,12 +1,15 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://bkc7n2kydmqc4"]
 
-[ext_resource type="Script" path="res://scripts/ui/animated_button.gd" id="1_anim"]
+[ext_resource type="Script" uid="uid://bjscg2je3ksfm" path="res://scripts/ui/animated_button.gd" id="1_anim"]
+[ext_resource type="Theme" uid="uid://drrr81vql4x7e" path="res://default_theme.tres" id="2_yud13"]
 
-[node name="AnimatedButton" type="Control"]
+[node name="AnimatedButton" type="Control" unique_id=1768785844]
 custom_minimum_size = Vector2(128, 112)
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_anim")
 
-[node name="Art" type="TextureRect" parent="."]
+[node name="Art" type="TextureRect" parent="." unique_id=683764831]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -17,7 +20,7 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Hit" type="TextureButton" parent="."]
+[node name="Hit" type="TextureButton" parent="." unique_id=218926184]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -25,7 +28,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=965181963]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -37,8 +40,7 @@ offset_top = -16.0
 offset_right = 60.0
 grow_horizontal = 2
 grow_vertical = 0
-mouse_filter = 2
+theme = ExtResource("2_yud13")
 theme_override_colors/font_color = Color(0.95, 0.96, 0.94, 1)
 theme_override_font_sizes/font_size = 11
-text = ""
 horizontal_alignment = 1
