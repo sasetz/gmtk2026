@@ -9,6 +9,7 @@ const STARTING_MONEY: int = 4
 const BUTTONS_PER_ROUND: int = 4
 const SHOP_OFFERS: int = 3
 const REROLL_COST: int = 5
+const MAX_CARDS: int = 3
 
 var money: int = 0
 var cards: Array[Card] = []
@@ -64,6 +65,10 @@ func spend_money(amount: int) -> bool:
 
 # --- cards ------------------------------------------------------------------
 
+func can_buy_more() -> bool:
+	return cards.size() < MAX_CARDS
+
+
 func add_card(card: Card) -> void:
 	card.run_index = cards.size()
 	cards.append(card)
@@ -80,6 +85,16 @@ func remove_card(card: Card) -> void:
 		cards[i].run_index = i
 
 
+## Sell a card for half its cost (rounded down). Available at any time.
+func sell_card(card: Card) -> void:
+	var idx: int = cards.find(card)
+	if idx < 0:
+		return
+	add_money(card.cost / 2)
+	remove_card(card)
+	EventBus.card_sold.emit(idx)
+
+
 # --- shop -------------------------------------------------------------------
 
 func roll_shop() -> void:
@@ -92,6 +107,8 @@ func roll_shop() -> void:
 
 func buy_card(index: int) -> bool:
 	if index < 0 or index >= shop_offers.size():
+		return false
+	if not can_buy_more():
 		return false
 	var offer: Card = shop_offers[index]
 	if not spend_money(offer.cost):

@@ -15,6 +15,9 @@ func _ready() -> void:
 	EventBus.lap_changed.connect(_on_lap_changed)
 	EventBus.round_started.connect(_on_round_started)
 	EventBus.card_activated.connect(_on_card_activated)
+	# Keep the card row in sync when the deck changes (buying / selling).
+	EventBus.card_bought.connect(func(_i: int) -> void: _populate())
+	EventBus.card_sold.connect(func(_i: int) -> void: _populate())
 
 
 func _on_money_changed(amount: int) -> void:

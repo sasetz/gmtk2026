@@ -6,6 +6,9 @@ extends Node
 ## combos and buttons resolve when it scores (points x mult x xmult). The result
 ## goes to RoundManager.
 
+## Seconds the clock freezes after a lock, so the player can read what they hit.
+const FREEZE_TIME: float = 0.15
+
 var current: StopwatchDef
 var clicks: Array[int] = []          # remaining time at each lock, milliseconds
 var combos: Array[ComboDef] = []
@@ -21,18 +24,32 @@ var _button_fired: Array[bool] = []
 var _extra_clicks: int = 0
 var _slow_time: float = 0.0
 var _slow_factor: float = 1.0
+# You can't lock twice on the same decimal second. A press made on an
+# already-locked decimal is buffered and fires the moment the decimal ticks over
+# (a small coyote window so an eager press is never wasted).
+var _last_lock_ds: int = -1          # decisecond of the last lock (remaining_ms / 100)
+var _buffered: bool = false
+var _freeze_time: float = 0.0        # clock is paused while this counts down
 
 
 func _process(delta: float) -> void:
 	if not running:
+		return
+	if _freeze_time > 0.0:
+		_freeze_time -= delta
 		return
 	var rate: float = current.rate
 	if _slow_time > 0.0:
 		_slow_time -= delta
 		rate *= _slow_factor
 	remaining_ms -= int(delta * 1000.0 * rate)
-	if remaining_ms <= 0:
+	if remaining_ms < 0:
 		remaining_ms = 0
+	# A buffered press fires as soon as the decimal advances past the last lock.
+	if _buffered and remaining_ms / 100 != _last_lock_ds:
+		_lock(remaining_ms)
+		return
+	if remaining_ms <= 0:
 		_finish()
 
 
@@ -48,6 +65,9 @@ func begin(def: StopwatchDef) -> void:
 	_extra_clicks = 0
 	_slow_time = 0.0
 	_slow_factor = 1.0
+	_last_lock_ds = -1
+	_buffered = false
+	_freeze_time = 0.0
 	running = true
 	_active_buttons = RoundManager.active_buttons().duplicate()
 	RoundManager.consume_active()
@@ -59,14 +79,15 @@ func begin(def: StopwatchDef) -> void:
 		_button_fired.append(b.on_begin())
 
 
+## A press from the player: lock now, or buffer it if the current decimal is
+## already taken (it fires on the next decimal).
 func click() -> void:
 	if not running:
 		return
-	clicks.append(remaining_ms)
-	points += _lock_points(remaining_ms)
-	EventBus.stopwatch_clicked.emit()
-	if clicks.size() >= total_clicks():
-		_finish()
+	if remaining_ms / 100 == _last_lock_ds:
+		_buffered = true
+		return
+	_lock(remaining_ms)
 
 
 func total_clicks() -> int:
@@ -111,6 +132,20 @@ func reset() -> void:
 	_active_buttons = []
 	_button_fired = []
 	_extra_clicks = 0
+	_last_lock_ds = -1
+	_buffered = false
+	_freeze_time = 0.0
+
+
+func _lock(ms: int) -> void:
+	clicks.append(ms)
+	_last_lock_ds = ms / 100
+	_buffered = false
+	points += _lock_points(ms)
+	_freeze_time = FREEZE_TIME
+	EventBus.stopwatch_clicked.emit()
+	if clicks.size() >= total_clicks():
+		_finish()
 
 
 ## Baseline: reward locking near a whole second (tenth-of-a-second precision).
