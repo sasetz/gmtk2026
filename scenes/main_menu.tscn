@@ -1,105 +1,96 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://dwyo3jvvqvf0h"]
 
-[ext_resource type="Script" path="res://scripts/ui/main_menu.gd" id="1_menu"]
+[ext_resource type="Script" uid="uid://824o04ua85i6" path="res://scripts/ui/main_menu.gd" id="1_menu"]
 
-[node name="MainMenu" type="Control"]
+[node name="MainMenu" type="Control" unique_id=797681224]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_menu")
 
-[node name="Felt" type="ColorRect" parent="."]
+[node name="Felt" type="ColorRect" parent="." unique_id=2061314835]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0.078, 0.22, 0.16, 1)
 
-[node name="Title" type="Label" parent="."]
+[node name="Title" type="Label" parent="." unique_id=2127642088]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -520.0
-offset_top = 96.0
-offset_right = 520.0
-offset_bottom = 176.0
+offset_left = -119.0
+offset_top = 9.0
+offset_right = 124.0
+offset_bottom = 78.0
 grow_horizontal = 2
-mouse_filter = 2
+theme_override_colors/font_color = Color(0.98, 0.86, 0.4, 1)
+theme_override_font_sizes/font_size = 24
 text = "BALATRO COUNT-DOWN"
 horizontal_alignment = 1
 vertical_alignment = 1
-theme_override_font_sizes/font_size = 68
-theme_override_colors/font_color = Color(0.98, 0.86, 0.4, 1)
 
-[node name="Tagline" type="Label" parent="."]
+[node name="Buttons" type="VBoxContainer" parent="." unique_id=2128376612]
 layout_mode = 1
-anchors_preset = 5
+anchors_preset = 7
 anchor_left = 0.5
+anchor_top = 1.0
 anchor_right = 0.5
-offset_left = -500.0
-offset_top = 182.0
-offset_right = 500.0
-offset_bottom = 214.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -117.5
+offset_right = 40.0
+offset_bottom = -9.5
 grow_horizontal = 2
-text = "Stop the countdown. Land the perfect time."
-horizontal_alignment = 1
-theme_override_font_sizes/font_size = 24
-theme_override_colors/font_color = Color(0.75, 0.88, 0.84, 1)
+grow_vertical = 0
 
-[node name="Buttons" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -160.0
-offset_top = -30.0
-offset_right = 160.0
-offset_bottom = 210.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 14
-
-[node name="Play" type="Button" parent="Buttons"]
-custom_minimum_size = Vector2(320, 56)
+[node name="Play" type="Button" parent="Buttons" unique_id=2060062246]
+custom_minimum_size = Vector2(80, 24)
+custom_maximum_size = Vector2(80, 24)
 layout_mode = 2
 text = "Play"
 
-[node name="Options" type="Button" parent="Buttons"]
-custom_minimum_size = Vector2(320, 50)
+[node name="Options" type="Button" parent="Buttons" unique_id=664024363]
+custom_minimum_size = Vector2(80, 24)
+custom_maximum_size = Vector2(80, 24)
 layout_mode = 2
 text = "Options"
 
-[node name="Credits" type="Button" parent="Buttons"]
-custom_minimum_size = Vector2(320, 50)
+[node name="Credits" type="Button" parent="Buttons" unique_id=1912443305]
+custom_minimum_size = Vector2(80, 24)
+custom_maximum_size = Vector2(80, 24)
 layout_mode = 2
 text = "Credits"
 
-[node name="Quit" type="Button" parent="Buttons"]
-custom_minimum_size = Vector2(320, 50)
+[node name="Quit" type="Button" parent="Buttons" unique_id=1814651047]
+custom_minimum_size = Vector2(80, 24)
+custom_maximum_size = Vector2(80, 24)
 layout_mode = 2
 text = "Quit"
 
-[node name="Version" type="Label" parent="."]
+[node name="Version" type="Label" parent="." unique_id=2073332022]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -260.0
-offset_top = -40.0
-offset_right = -20.0
-offset_bottom = -14.0
+offset_left = -246.0
+offset_top = -17.0
+offset_right = -6.0
+offset_bottom = -3.0
 grow_horizontal = 0
 grow_vertical = 0
+theme_override_colors/font_color = Color(0.55, 0.68, 0.64, 1)
+theme_override_font_sizes/font_size = 12
 text = "GMTK 2026"
 horizontal_alignment = 2
-theme_override_font_sizes/font_size = 16
-theme_override_colors/font_color = Color(0.55, 0.68, 0.64, 1)
 
 [connection signal="pressed" from="Buttons/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="Buttons/Options" to="." method="_on_options_pressed"]

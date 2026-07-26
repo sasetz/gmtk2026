@@ -1,76 +1,70 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene format=3 uid="uid://djpiw7bk5kt6r"]
 
-[ext_resource type="Script" path="res://scripts/ui/options_menu.gd" id="1_opts"]
+[ext_resource type="Script" uid="uid://ku5v8enri36p" path="res://scripts/ui/options_menu.gd" id="1_opts"]
+[ext_resource type="Texture2D" uid="uid://cdngk27fn2ow2" path="res://assets/art/ui/options_bg.tres" id="2_ijpji"]
 
-[sub_resource type="StyleBoxFlat" id="sb_panel"]
-bg_color = Color(0.06, 0.13, 0.11, 0.98)
-corner_radius_top_left = 14
-corner_radius_top_right = 14
-corner_radius_bottom_right = 14
-corner_radius_bottom_left = 14
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.45, 0.6, 0.55, 0.6)
-content_margin_left = 34.0
-content_margin_top = 26.0
-content_margin_right = 34.0
-content_margin_bottom = 26.0
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_l6cm7"]
+texture = ExtResource("2_ijpji")
 
-[node name="OptionsMenu" type="Control"]
+[node name="OptionsMenu" type="Control" unique_id=416671694]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_opts")
 
-[node name="Dim" type="ColorRect" parent="."]
+[node name="Dim" type="ColorRect" parent="." unique_id=2061689745]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0.02, 0.05, 0.04, 0.72)
 
-[node name="Panel" type="PanelContainer" parent="."]
+[node name="Panel" type="PanelContainer" parent="." unique_id=734949171]
+custom_minimum_size = Vector2(208, 191)
+custom_maximum_size = Vector2(208, 191)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -260.0
-offset_top = -190.0
-offset_right = 260.0
-offset_bottom = 190.0
+offset_left = -104.0
+offset_top = -95.5
+offset_right = 104.0
+offset_bottom = 95.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("sb_panel")
+theme_override_styles/panel = SubResource("StyleBoxTexture_l6cm7")
 
-[node name="Box" type="VBoxContainer" parent="Panel"]
+[node name="Box" type="VBoxContainer" parent="Panel" unique_id=271198800]
 layout_mode = 2
 theme_override_constants/separation = 18
 
-[node name="Title" type="Label" parent="Panel/Box"]
+[node name="Title" type="Label" parent="Panel/Box" unique_id=1439701373]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.86, 0.4, 1)
+theme_override_font_sizes/font_size = 24
 text = "OPTIONS"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 40
-theme_override_colors/font_color = Color(0.98, 0.86, 0.4, 1)
 
-[node name="Master" type="HBoxContainer" parent="Panel/Box"]
+[node name="Master" type="HBoxContainer" parent="Panel/Box" unique_id=845045198]
 layout_mode = 2
 theme_override_constants/separation = 14
 
-[node name="Name" type="Label" parent="Panel/Box/Master"]
+[node name="Name" type="Label" parent="Panel/Box/Master" unique_id=801137071]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.92, 0.9, 1)
+theme_override_font_sizes/font_size = 22
 text = "Master"
 vertical_alignment = 1
-theme_override_font_sizes/font_size = 22
-theme_override_colors/font_color = Color(0.88, 0.92, 0.9, 1)
 
-[node name="Slider" type="HSlider" parent="Panel/Box/Master"]
+[node name="Slider" type="HSlider" parent="Panel/Box/Master" unique_id=669605]
 custom_minimum_size = Vector2(230, 28)
 layout_mode = 2
 size_flags_vertical = 4
@@ -78,28 +72,28 @@ max_value = 1.0
 step = 0.01
 value = 1.0
 
-[node name="Value" type="Label" parent="Panel/Box/Master"]
+[node name="Value" type="Label" parent="Panel/Box/Master" unique_id=649746102]
 custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.85, 0.8, 1)
+theme_override_font_sizes/font_size = 20
 text = "100%"
 horizontal_alignment = 2
 vertical_alignment = 1
-theme_override_font_sizes/font_size = 20
-theme_override_colors/font_color = Color(0.7, 0.85, 0.8, 1)
 
-[node name="Music" type="HBoxContainer" parent="Panel/Box"]
+[node name="Music" type="HBoxContainer" parent="Panel/Box" unique_id=1042344792]
 layout_mode = 2
 theme_override_constants/separation = 14
 
-[node name="Name" type="Label" parent="Panel/Box/Music"]
+[node name="Name" type="Label" parent="Panel/Box/Music" unique_id=586852466]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.92, 0.9, 1)
+theme_override_font_sizes/font_size = 22
 text = "Music"
 vertical_alignment = 1
-theme_override_font_sizes/font_size = 22
-theme_override_colors/font_color = Color(0.88, 0.92, 0.9, 1)
 
-[node name="Slider" type="HSlider" parent="Panel/Box/Music"]
+[node name="Slider" type="HSlider" parent="Panel/Box/Music" unique_id=438698645]
 custom_minimum_size = Vector2(230, 28)
 layout_mode = 2
 size_flags_vertical = 4
@@ -107,28 +101,28 @@ max_value = 1.0
 step = 0.01
 value = 1.0
 
-[node name="Value" type="Label" parent="Panel/Box/Music"]
+[node name="Value" type="Label" parent="Panel/Box/Music" unique_id=1547610229]
 custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.85, 0.8, 1)
+theme_override_font_sizes/font_size = 20
 text = "100%"
 horizontal_alignment = 2
 vertical_alignment = 1
-theme_override_font_sizes/font_size = 20
-theme_override_colors/font_color = Color(0.7, 0.85, 0.8, 1)
 
-[node name="Sfx" type="HBoxContainer" parent="Panel/Box"]
+[node name="Sfx" type="HBoxContainer" parent="Panel/Box" unique_id=1381491479]
 layout_mode = 2
 theme_override_constants/separation = 14
 
-[node name="Name" type="Label" parent="Panel/Box/Sfx"]
+[node name="Name" type="Label" parent="Panel/Box/Sfx" unique_id=842545912]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.92, 0.9, 1)
+theme_override_font_sizes/font_size = 22
 text = "Sound FX"
 vertical_alignment = 1
-theme_override_font_sizes/font_size = 22
-theme_override_colors/font_color = Color(0.88, 0.92, 0.9, 1)
 
-[node name="Slider" type="HSlider" parent="Panel/Box/Sfx"]
+[node name="Slider" type="HSlider" parent="Panel/Box/Sfx" unique_id=1053662741]
 custom_minimum_size = Vector2(230, 28)
 layout_mode = 2
 size_flags_vertical = 4
@@ -136,33 +130,33 @@ max_value = 1.0
 step = 0.01
 value = 1.0
 
-[node name="Value" type="Label" parent="Panel/Box/Sfx"]
+[node name="Value" type="Label" parent="Panel/Box/Sfx" unique_id=1228660062]
 custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.85, 0.8, 1)
+theme_override_font_sizes/font_size = 20
 text = "100%"
 horizontal_alignment = 2
 vertical_alignment = 1
-theme_override_font_sizes/font_size = 20
-theme_override_colors/font_color = Color(0.7, 0.85, 0.8, 1)
 
-[node name="Shake" type="HBoxContainer" parent="Panel/Box"]
+[node name="Shake" type="HBoxContainer" parent="Panel/Box" unique_id=1306284266]
 layout_mode = 2
 theme_override_constants/separation = 14
 
-[node name="Name" type="Label" parent="Panel/Box/Shake"]
+[node name="Name" type="Label" parent="Panel/Box/Shake" unique_id=427102472]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.92, 0.9, 1)
+theme_override_font_sizes/font_size = 22
 text = "Screen shake"
 vertical_alignment = 1
-theme_override_font_sizes/font_size = 22
-theme_override_colors/font_color = Color(0.88, 0.92, 0.9, 1)
 
-[node name="Toggle" type="CheckButton" parent="Panel/Box/Shake"]
+[node name="Toggle" type="CheckButton" parent="Panel/Box/Shake" unique_id=1757942527]
 layout_mode = 2
 button_pressed = true
 text = "On"
 
-[node name="Back" type="Button" parent="Panel/Box"]
+[node name="Back" type="Button" parent="Panel/Box" unique_id=5880219]
 custom_minimum_size = Vector2(200, 44)
 layout_mode = 2
 size_flags_horizontal = 4
