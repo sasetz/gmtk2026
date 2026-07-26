@@ -79,12 +79,12 @@ content_margin_left = 10.0
 content_margin_top = 8.0
 content_margin_right = 10.0
 content_margin_bottom = 8.0
-bg_color = Color(0.06, 0.13, 0.11, 0.96)
+bg_color = Color(0.8901961, 0.54509807, 0.28235295, 0.9607843)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.98, 0.86, 0.4, 0.8)
+border_color = Color(0.023529412, 0.02745098, 0.03137255, 1)
 corner_radius_top_left = 6
 corner_radius_top_right = 6
 corner_radius_bottom_right = 6
@@ -135,7 +135,7 @@ theme_override_constants/separation = 4
 
 [node name="Text" type="Label" parent="Bubble/Box" unique_id=1613447516]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.95, 0.96, 0.94, 1)
+theme_override_colors/font_color = Color(0.8745098, 0.8745098, 0.8745098, 1)
 theme_override_font_sizes/font_size = 12
 text = "..."
 horizontal_alignment = 1
@@ -143,7 +143,7 @@ autowrap_mode = 3
 
 [node name="Hint" type="Label" parent="Bubble/Box" unique_id=1148945287]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.7, 0.8, 0.76, 1)
+theme_override_colors/font_color = Color(0.89, 0.712, 0.62299997, 1)
 theme_override_font_sizes/font_size = 9
 text = "Click to continue"
 horizontal_alignment = 1
