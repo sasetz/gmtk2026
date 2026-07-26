@@ -15,6 +15,7 @@
 [ext_resource type="AudioStream" uid="uid://0efyninby5yf" path="res://assets/music/Watch this sick play.mp3" id="11_muem4"]
 [ext_resource type="AudioStream" uid="uid://f334c6bocgan" path="res://assets/music/Losers lullaby.mp3" id="12_dp3eg"]
 [ext_resource type="Script" uid="uid://dl8vjjfkh6fh7" path="res://scripts/autoload/audio_stream_player.gd" id="13_jkv2x"]
+[ext_resource type="Material" uid="uid://bs8uojdeaoxho" path="res://assets/font_outline.tres" id="16_jbj1t"]
 
 [sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_0dvnm"]
 clip_count = 5
@@ -146,18 +147,21 @@ grow_vertical = 2
 
 [node name="HUD" type="Control" parent="." unique_id=1624209618]
 layout_mode = 1
-anchors_preset = 10
+anchors_preset = 15
 anchor_right = 1.0
-offset_left = 24.0
+anchor_bottom = 1.0
+offset_left = 16.0
 offset_top = 16.0
-offset_right = -24.0
-offset_bottom = 686.0
+offset_right = -16.0
+offset_bottom = -16.0
 grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("2_hud")
 card_scene = ExtResource("9_card")
 
 [node name="Money" type="Label" parent="HUD" unique_id=869760463]
+material = ExtResource("16_jbj1t")
 layout_mode = 1
 offset_right = 120.0
 offset_bottom = 32.0

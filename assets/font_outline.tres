@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://bs8uojdeaoxho"]
+
+[ext_resource type="Shader" uid="uid://bv6ju2j6y2ima" path="res://assets/font_outline.gdshader" id="1_mfa1u"]
+
+[resource]
+shader = ExtResource("1_mfa1u")
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/corner_pixel = false
