@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://0efyninby5yf"
+path="res://.godot/imported/Watch this sick play.mp3-af52a53d5052e0971efc9d8b3b85aeec.mp3str"
+
+[deps]
+
+source_file="res://assets/music/Watch this sick play.mp3"
+dest_files=["res://.godot/imported/Watch this sick play.mp3-af52a53d5052e0971efc9d8b3b85aeec.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0.0
+bpm=95.0
+beat_count=0
+bar_beats=4

@@ -54,17 +54,17 @@ func _select_scene(scene: Scene) -> void:
 			menu.credits_pressed.connect(_open_credits)
 			menu.quit_pressed.connect(func() -> void: get_tree().quit())
 			_screen.add_child(menu)
-			Audio.play_music(&"menu")
+			Audio.play_music(&"Normal")
 		Scene.ROUND:
 			_hud.visible = true
 			_screen.add_child(round_scene.instantiate())
-			Audio.play_music(&"round")
+			Audio.play_music(&"Normal")
 		Scene.SHOP:
 			_hud.visible = true
 			var shop: Control = shop_scene.instantiate()
 			shop.continue_pressed.connect(func() -> void: EventBus.shop_left.emit())
 			_screen.add_child(shop)
-			Audio.play_music(&"shop")
+			Audio.play_music(&"Shop")
 
 
 # --- round result (gated behind Continue) -----------------------------------

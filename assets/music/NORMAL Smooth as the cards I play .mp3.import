@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cr4ajwr5v7gtl"
+path="res://.godot/imported/NORMAL Smooth as the cards I play .mp3-66a9adf7961616c949a191d9084a1ad7.mp3str"
+
+[deps]
+
+source_file="res://assets/music/NORMAL Smooth as the cards I play .mp3"
+dest_files=["res://.godot/imported/NORMAL Smooth as the cards I play .mp3-66a9adf7961616c949a191d9084a1ad7.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0.0
+bpm=93.0
+beat_count=0
+bar_beats=4

@@ -32,12 +32,6 @@ const SFX := {
 		"speech bubble 4.wav"],
 }
 
-const MUSIC := {
-	&"menu": "Smooth as the cards I play(test).mp3",
-	&"round": "Card Game Final.mp3",
-	&"shop": "Card Game SHOP MODE.mp3",
-}
-
 const SFX_VOICES: int = 10
 const MUSIC_DB: float = -6.0          # headroom so music sits under the SFX
 const FADE_TIME: float = 0.6
@@ -52,21 +46,18 @@ var _next_voice: int = 0
 const PITCH_SPREAD: float = 0.11
 
 # Two music players so a change crossfades instead of hard-cutting.
-var _music_a: AudioStreamPlayer
-var _music_b: AudioStreamPlayer
-var _music_streams: Dictionary = {}   # name → AudioStream (loop = true)
 var _current_track: StringName = &""
 
 var _last_money: int = -1
 var _rng := RandomNumberGenerator.new()
 
+var MusicPlayer: AudioStreamPlayer
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_rng.randomize()
 	_load_sfx()
 	_build_voices()
-	_build_music()
 	_connect_events()
 
 
@@ -124,63 +115,24 @@ func _pick_variant(name: StringName, count: int) -> int:
 
 # --- music ------------------------------------------------------------------
 
-func _build_music() -> void:
-	_music_a = _make_music_player()
-	_music_b = _make_music_player()
-	for name: StringName in MUSIC:
-		var s: AudioStream = load(DIR + MUSIC[name])
-		if s == null:
-			push_warning("Audio: missing music file %s" % MUSIC[name])
-			continue
-		if s is AudioStreamMP3:
-			(s as AudioStreamMP3).loop = true
-		_music_streams[name] = s
-
-
-func _make_music_player() -> AudioStreamPlayer:
-	var p := AudioStreamPlayer.new()
-	p.bus = "Music"
-	p.process_mode = Node.PROCESS_MODE_ALWAYS
-	p.volume_db = SILENT_DB
-	add_child(p)
-	return p
-
-
 ## Crossfade to a named track (menu / round / shop). A no-op if it's already
 ## the current one, so scenes can call it freely on every _ready.
 func play_music(track: StringName) -> void:
+	if not MusicPlayer:
+		return
 	if track == _current_track:
 		return
-	if not _music_streams.has(track):
-		return
 	_current_track = track
-
-	# _music_a is always the live player; swap so the new track fades in on the
-	# fresh one while the old fades out.
-	var incoming: AudioStreamPlayer = _music_b
-	var outgoing: AudioStreamPlayer = _music_a
-	_music_a = incoming
-	_music_b = outgoing
-
-	incoming.stream = _music_streams[track]
-	incoming.volume_db = SILENT_DB
-	incoming.play()
-	_fade(incoming, MUSIC_DB)
-	if outgoing.playing:
-		_fade(outgoing, SILENT_DB, true)
+	if not MusicPlayer.playing:
+		MusicPlayer.play()
+	MusicPlayer.get_stream_playback().switch_to_clip_by_name(track)
 
 
 func stop_music() -> void:
+	if not MusicPlayer:
+		return
 	_current_track = &""
-	_fade(_music_a, SILENT_DB, true)
-	_fade(_music_b, SILENT_DB, true)
-
-
-func _fade(player: AudioStreamPlayer, to_db: float, stop_after: bool = false) -> void:
-	var t: Tween = create_tween()
-	t.tween_property(player, "volume_db", to_db, FADE_TIME)
-	if stop_after:
-		t.tween_callback(player.stop)
+	MusicPlayer.stop()
 
 
 # --- gameplay event cues ----------------------------------------------------

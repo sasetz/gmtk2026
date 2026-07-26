@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dpffjkhgym3uj"
+path="res://.godot/imported/Intense, like my play style!.mp3-417ad182371c6c51d73cc95cbefdd471.mp3str"
+
+[deps]
+
+source_file="res://assets/music/Intense, like my play style!.mp3"
+dest_files=["res://.godot/imported/Intense, like my play style!.mp3-417ad182371c6c51d73cc95cbefdd471.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0.0
+bpm=95.0
+beat_count=0
+bar_beats=4
