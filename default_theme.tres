@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://dqikob4mado5m" path="res://assets/art/ui/button.tres" id="1_50bnw"]
 [ext_resource type="FontFile" uid="uid://dtifpwjfcfe1c" path="res://assets/fonts/Jersey25-Regular.ttf" id="1_e7bfs"]
+[ext_resource type="FontFile" uid="uid://dqextvo5t2g2k" path="res://assets/fonts/ThaleahFat.ttf" id="1_u7cj8"]
 [ext_resource type="Texture2D" uid="uid://c431l8w1gltet" path="res://assets/art/ui/button_pressed.tres" id="2_cefca"]
 [ext_resource type="Texture2D" uid="uid://ckc87k36dtbwy" path="res://assets/art/ui/toggle_on.tres" id="3_cefca"]
 [ext_resource type="Texture2D" uid="uid://5le5ix4654qg" path="res://assets/art/ui/toggle_off.tres" id="3_ed8xq"]
@@ -34,6 +35,7 @@ bg_color = Color(0.36078432, 0.15294118, 0.07058824, 1)
 [resource]
 default_font = ExtResource("1_e7bfs")
 default_font_size = 12
+Button/fonts/font = ExtResource("1_u7cj8")
 Button/styles/hover = SubResource("StyleBoxTexture_7j863")
 Button/styles/normal = SubResource("StyleBoxTexture_50bnw")
 Button/styles/pressed = SubResource("StyleBoxTexture_3taad")
