@@ -1,9 +1,11 @@
 extends Control
-## The audio options overlay: master / music / SFX volume. Signals are bound in
-## the scene (see the [connection] entries in options_menu.tscn). Emits `closed`
-## so the main menu and pause menu can both use it as an overlay.
+## The audio options overlay: master / music / SFX volume, screen shake, and a
+## way into the credits. Signals are bound in the scene. Emits `closed` so the
+## menu and pause menu can use it as an overlay, and `credits_requested` so the
+## controller can swap in the credits.
 
 signal closed
+signal credits_requested
 
 @onready var _master: HSlider = $Panel/Box/Master/Slider
 @onready var _music: HSlider = $Panel/Box/Music/Slider
@@ -12,7 +14,7 @@ signal closed
 @onready var _music_val: Label = $Panel/Box/Music/Value
 @onready var _sfx_val: Label = $Panel/Box/Sfx/Value
 @onready var _shake: CheckButton = $Panel/Box/Shake/Toggle
-@onready var _back: Button = $Panel/Box/Back
+@onready var _back: Button = $Panel/Box/Buttons/Back
 
 
 func _ready() -> void:
@@ -23,7 +25,7 @@ func _ready() -> void:
 	_sfx.set_value_no_signal(Settings.sfx_volume)
 	_shake.set_pressed_no_signal(Settings.screen_shake)
 	_refresh_labels()
-	_master.grab_focus()
+	_back.grab_focus()
 
 
 func _on_master_changed(v: float) -> void:
@@ -43,7 +45,6 @@ func _on_sfx_changed(v: float) -> void:
 
 func _on_shake_toggled(on: bool) -> void:
 	Settings.set_screen_shake(on)
-	_shake.text = "On" if on else "Off"
 
 
 func _on_back_pressed() -> void:
@@ -51,11 +52,15 @@ func _on_back_pressed() -> void:
 	closed.emit()
 
 
+func _on_credits_pressed() -> void:
+	Audio.play_sfx(&"ui_click")
+	credits_requested.emit()
+
+
 func _refresh_labels() -> void:
 	_master_val.text = "%d%%" % roundi(Settings.master_volume * 100.0)
 	_music_val.text = "%d%%" % roundi(Settings.music_volume * 100.0)
 	_sfx_val.text = "%d%%" % roundi(Settings.sfx_volume * 100.0)
-	_shake.text = "On" if Settings.screen_shake else "Off"
 
 
 func _input(event: InputEvent) -> void:

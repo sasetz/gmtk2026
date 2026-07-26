@@ -1,7 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://dbfxw11vxefdi"]
+[gd_scene load_steps=6 format=3 uid="uid://dbfxw11vxefdi"]
 
 [ext_resource type="Script" uid="uid://btlp6ktpfuauq" path="res://scripts/ui/card.gd" id="1_6u4wf"]
-[ext_resource type="Texture2D" uid="uid://nc64goluwich" path="res://icon.svg" id="1_d81rb"]
+[ext_resource type="Texture2D" uid="uid://bnvdj8lvmj1h0" path="res://assets/art/cards/card_back_1.tres" id="2_face"]
 [ext_resource type="Shader" path="res://shaders/card_shine.gdshader" id="3_shine"]
 
 [sub_resource type="ShaderMaterial" id="mat_shine"]
@@ -9,35 +9,34 @@ shader = ExtResource("3_shine")
 shader_parameter/tilt = Vector2(0, 0)
 shader_parameter/strength = 0.35
 
+[sub_resource type="StyleBoxEmpty" id="sb_empty"]
+
 [node name="Card" type="PanelContainer"]
-custom_minimum_size = Vector2(100, 140)
+custom_minimum_size = Vector2(76, 112)
+theme_override_styles/panel = SubResource("sb_empty")
 script = ExtResource("1_6u4wf")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBox" type="VBoxContainer" parent="."]
 layout_mode = 2
 mouse_filter = 2
+theme_override_constants/separation = 2
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer"]
-custom_minimum_size = Vector2(0, 72)
+[node name="Face" type="TextureRect" parent="VBox"]
+custom_minimum_size = Vector2(72, 88)
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 mouse_filter = 2
-texture = ExtResource("1_d81rb")
-expand_mode = 1
-stretch_mode = 5
+texture = ExtResource("2_face")
+stretch_mode = 3
 
-[node name="Label" type="Label" parent="VBoxContainer"]
+[node name="Action" type="Button" parent="VBox"]
+custom_minimum_size = Vector2(72, 20)
 layout_mode = 2
-mouse_filter = 2
-text = "Card Name"
-horizontal_alignment = 1
-theme_override_font_sizes/font_size = 14
-
-[node name="Sell" type="Button" parent="VBoxContainer"]
-layout_mode = 2
+size_flags_horizontal = 4
 mouse_filter = 1
-text = "Sell $0"
-theme_override_font_sizes/font_size = 13
+text = "Buy $0"
 
 [node name="Shine" type="ColorRect" parent="."]
 material = SubResource("mat_shine")

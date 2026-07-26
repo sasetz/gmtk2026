@@ -6,7 +6,7 @@ signal closed
 
 
 func _ready() -> void:
-	$Panel/Box/Back.grab_focus()
+	$Panel/Box/People/Back.grab_focus()
 
 
 func _on_back_pressed() -> void:

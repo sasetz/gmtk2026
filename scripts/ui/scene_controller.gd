@@ -91,12 +91,27 @@ func _on_continue_pressed() -> void:
 
 # --- overlays (options / credits) -------------------------------------------
 
+## The always-visible corner button opens options (unless something is already up).
+func _on_options_corner_pressed() -> void:
+	Audio.play_sfx(&"ui_click")
+	if _overlay == null and _pause == null:
+		_open_options()
+
+
 func _open_options() -> void:
 	_push_overlay(options_scene)
+	if _overlay != null and _overlay.has_signal("credits_requested"):
+		_overlay.credits_requested.connect(_options_to_credits)
 
 
 func _open_credits() -> void:
 	_push_overlay(credits_scene)
+
+
+## Options -> Credits: swap one overlay for the other.
+func _options_to_credits() -> void:
+	_close_overlay()
+	_open_credits()
 
 
 func _push_overlay(scene: PackedScene) -> void:

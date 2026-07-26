@@ -31,7 +31,7 @@ func _rebuild() -> void:
 		c.queue_free()
 	for i in RunManager.shop_offers.size():
 		var view := shop_card_scene.instantiate()
-		view.setup(RunManager.shop_offers[i], i)
+		view.setup_shop(RunManager.shop_offers[i], i)
 		_offers.add_child(view)
 	_reroll.text = "Reroll  $%d" % RunManager.reroll_cost()
 	_reroll.disabled = RunManager.money < RunManager.reroll_cost()
