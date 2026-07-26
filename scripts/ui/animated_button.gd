@@ -9,6 +9,8 @@ extends Control
 ## sizes like every other one.
 
 signal pressed
+## Fires when a press animation has played all the way through.
+signal click_finished
 
 const IDLE: StringName = &"idle"
 const CLICK: StringName = &"click"
@@ -18,6 +20,14 @@ const CLICK: StringName = &"click"
 @export var text: String = "": set = set_text
 ## Played on press. The button sounds itself, so UiSound leaves it alone.
 @export var sound: StringName = &"btn_cat"
+## Frames per second for the press. The sheets are authored at 5 fps, which is a
+## whole second to press a button - far too slow to read as one. This is a real
+## duration, so running the game faster does not change it.
+@export var click_fps: float = 20.0
+## A menu frees its screen the moment the press is handled, which cut the
+## animation off before it was ever seen. Waiting lets it play first. Gameplay
+## buttons must NOT wait: on a stopwatch the press is the timing.
+@export var wait_for_animation: bool = true
 
 @onready var _art: TextureRect = $Art
 @onready var _button: TextureButton = $Hit
@@ -68,19 +78,23 @@ func _apply_frames() -> void:
 func _process(delta: float) -> void:
 	if not _playing or frames == null:
 		return
-	var speed: float = maxf(0.01, frames.get_animation_speed(_anim))
+	var step: float = 1.0 / maxf(1.0, click_fps)
 	_time += delta
-	if _time < 1.0 / speed:
-		return
-	_time = 0.0
-	_frame += 1
-	if _frame >= frames.get_frame_count(_anim):
-		# Hold on the last frame: the click plays through and stops.
-		_frame = maxi(0, frames.get_frame_count(_anim) - 1)
-		_playing = false
-		_rest()
-		return
-	_show_frame()
+	# A slow frame can owe several steps, so catch up rather than drop them.
+	while _playing and _time >= step:
+		_time -= step
+		_frame += 1
+		if _frame >= frames.get_frame_count(_anim):
+			_end_click()
+			return
+		_show_frame()
+
+
+## The press has played out: back to rest, and let anyone waiting go ahead.
+func _end_click() -> void:
+	_playing = false
+	_rest()
+	click_finished.emit()
 
 
 ## Back to the resting pose once a click has played out.
@@ -91,8 +105,15 @@ func _rest() -> void:
 
 
 func _on_pressed() -> void:
+	if _playing:
+		return          # already mid-press, ignore the extra click
 	Audio.play_sfx(sound)
 	play_click()
+	if wait_for_animation and _playing:
+		await click_finished
+		# Something else may have torn the screen down while we waited.
+		if not is_inside_tree():
+			return
 	pressed.emit()
 
 
