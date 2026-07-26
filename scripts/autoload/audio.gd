@@ -143,6 +143,10 @@ func _connect_events() -> void:
 	EventBus.money_changed.connect(_on_money_changed)
 	EventBus.card_bought.connect(func(_j) -> void: play_sfx(&"card_slide"))
 	EventBus.card_sold.connect(func(_j) -> void: play_sfx(&"crumple"))
+	EventBus.round_result.connect(func(won: bool, is_boss: bool, reward: int) -> void:
+		if not won:
+			play_music(&"Loser")
+		)
 
 
 ## Coin jingle only when money goes UP — resets and purchases (which lower it)
