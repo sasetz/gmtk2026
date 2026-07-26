@@ -23,6 +23,20 @@ func hits(_clicks: Array[int]) -> int:
 	return 0
 
 
+## Roughly how many times a decent player lands this over `clicks` locks. Used
+## only to size targets, and it has to be honest per combo: "even" covers five
+## decimals out of ten, a named digit covers one, and a straight can only ever
+## fire once no matter how many locks there are.
+func expected_hits(clicks: int) -> float:
+	return float(clicks) * 0.5
+
+
+## The most this combo can ever fire over `clicks` locks - perfect play. Targets
+## are capped against it, so a round can never ask for more than it can pay.
+func max_hits(clicks: int) -> int:
+	return clicks
+
+
 ## Would locking right now, at `candidate` ms, advance this combo? Drives the
 ## live indicator on the badge so the player can see what is scoring.
 func would_hit(clicks: Array[int], candidate: int) -> bool:
