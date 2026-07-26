@@ -1,35 +1,105 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene format=3 uid="uid://eocwdje2qfra"]
 
-[ext_resource type="Script" path="res://scripts/ui/tutorial_overlay.gd" id="1_tut"]
-[ext_resource type="Texture2D" path="res://assets/art/cards/card_back_1.tres" id="2_blob"]
+[ext_resource type="Script" uid="uid://ste4y6i6gxu6" path="res://scripts/ui/tutorial_overlay.gd" id="1_tut"]
+[ext_resource type="Texture2D" uid="uid://x3ujbja27a3x" path="res://assets/art/Bob THE BEHOLDER-Idle.png" id="2_8ho6b"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ph3nu"]
+atlas = ExtResource("2_8ho6b")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4kmhl"]
+atlas = ExtResource("2_8ho6b")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cq4me"]
+atlas = ExtResource("2_8ho6b")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6yjpi"]
+atlas = ExtResource("2_8ho6b")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gbqnl"]
+atlas = ExtResource("2_8ho6b")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ckvwl"]
+atlas = ExtResource("2_8ho6b")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nlqja"]
+atlas = ExtResource("2_8ho6b")
+region = Rect2(384, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0epgs"]
+atlas = ExtResource("2_8ho6b")
+region = Rect2(448, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g2equ"]
+atlas = ExtResource("2_8ho6b")
+region = Rect2(512, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0dvnm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ph3nu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4kmhl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cq4me")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6yjpi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gbqnl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ckvwl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nlqja")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0epgs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g2equ")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
 
 [sub_resource type="StyleBoxFlat" id="sb_bubble"]
-bg_color = Color(0.06, 0.13, 0.11, 0.96)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.98, 0.86, 0.4, 0.8)
 content_margin_left = 10.0
 content_margin_top = 8.0
 content_margin_right = 10.0
 content_margin_bottom = 8.0
+bg_color = Color(0.8901961, 0.54509807, 0.28235295, 0.9607843)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.023529412, 0.02745098, 0.03137255, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
 
-[node name="Tutorial" type="Control"]
+[node name="Tutorial" type="Control" unique_id=844815520]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 0
 script = ExtResource("1_tut")
 
-[node name="Dim" type="ColorRect" parent="."]
+[node name="Dim" type="ColorRect" parent="." unique_id=984426037]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -39,23 +109,13 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0.02, 0.05, 0.04, 0.72)
 
-[node name="Creature" type="TextureRect" parent="."]
-custom_minimum_size = Vector2(48, 58)
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 24.0
-offset_top = -44.0
-offset_right = 72.0
-offset_bottom = 14.0
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("2_blob")
-expand_mode = 1
-stretch_mode = 5
+[node name="Creature" type="AnimatedSprite2D" parent="." unique_id=1876175761]
+position = Vector2(0, -1)
+sprite_frames = SubResource("SpriteFrames_0dvnm")
+autoplay = "default"
+offset = Vector2(0, 1)
 
-[node name="Bubble" type="PanelContainer" parent="."]
+[node name="Bubble" type="PanelContainer" parent="." unique_id=703261491]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -68,29 +128,27 @@ grow_horizontal = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("sb_bubble")
 
-[node name="Box" type="VBoxContainer" parent="Bubble"]
+[node name="Box" type="VBoxContainer" parent="Bubble" unique_id=1299958254]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 4
 
-[node name="Text" type="Label" parent="Bubble/Box"]
+[node name="Text" type="Label" parent="Bubble/Box" unique_id=1613447516]
 layout_mode = 2
-mouse_filter = 2
-theme_override_colors/font_color = Color(0.95, 0.96, 0.94, 1)
+theme_override_colors/font_color = Color(0.8745098, 0.8745098, 0.8745098, 1)
 theme_override_font_sizes/font_size = 12
 text = "..."
-autowrap_mode = 3
 horizontal_alignment = 1
+autowrap_mode = 3
 
-[node name="Hint" type="Label" parent="Bubble/Box"]
+[node name="Hint" type="Label" parent="Bubble/Box" unique_id=1148945287]
 layout_mode = 2
-mouse_filter = 2
-theme_override_colors/font_color = Color(0.7, 0.8, 0.76, 1)
+theme_override_colors/font_color = Color(0.89, 0.712, 0.62299997, 1)
 theme_override_font_sizes/font_size = 9
 text = "Click to continue"
 horizontal_alignment = 1
 
-[node name="Skip" type="Button" parent="."]
+[node name="Skip" type="Button" parent="." unique_id=805412042]
 custom_minimum_size = Vector2(84, 18)
 layout_mode = 1
 anchors_preset = 3
@@ -107,7 +165,7 @@ grow_vertical = 0
 theme_override_font_sizes/font_size = 9
 text = "Hold to skip"
 
-[node name="Fill" type="ColorRect" parent="Skip"]
+[node name="Fill" type="ColorRect" parent="Skip" unique_id=1772459152]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -116,6 +174,6 @@ offset_top = -9.0
 offset_right = 84.0
 offset_bottom = 9.0
 grow_vertical = 2
+scale = Vector2(1e-05, 1)
 mouse_filter = 2
-scale = Vector2(0, 1)
 color = Color(0.98, 0.86, 0.4, 0.35)

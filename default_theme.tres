@@ -5,8 +5,6 @@
 [ext_resource type="Texture2D" uid="uid://c431l8w1gltet" path="res://assets/art/ui/button_pressed.tres" id="2_cefca"]
 [ext_resource type="Texture2D" uid="uid://ckc87k36dtbwy" path="res://assets/art/ui/toggle_on.tres" id="3_cefca"]
 [ext_resource type="Texture2D" uid="uid://5le5ix4654qg" path="res://assets/art/ui/toggle_off.tres" id="3_ed8xq"]
-[ext_resource type="Texture2D" uid="uid://csswrcso856jq" path="res://assets/art/ui/slider_bg.tres" id="4_sbg"]
-[ext_resource type="Texture2D" uid="uid://skak3f0t28p" path="res://assets/art/ui/slider_fg.tres" id="5_sfg"]
 [ext_resource type="Texture2D" uid="uid://cntkomh3nrt6r" path="res://assets/art/ui/slider_pin.tres" id="6_spin"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7j863"]
@@ -24,11 +22,14 @@ texture = ExtResource("2_cefca")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_50bnw"]
 
-[sub_resource type="StyleBoxTexture" id="sb_slider_fill"]
-texture = ExtResource("5_sfg")
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nh3dc"]
+bg_color = Color(0.47058824, 0.20392157, 0.08627451, 1)
 
-[sub_resource type="StyleBoxTexture" id="sb_slider_track"]
-texture = ExtResource("4_sbg")
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uwdo0"]
+bg_color = Color(0.80784315, 0.43137255, 0.19215687, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ed8xq"]
+bg_color = Color(0.36078432, 0.15294118, 0.07058824, 1)
 
 [resource]
 default_font = ExtResource("1_e7bfs")
@@ -50,6 +51,6 @@ CheckButton/styles/pressed = SubResource("StyleBoxEmpty_50bnw")
 HSlider/icons/grabber = ExtResource("6_spin")
 HSlider/icons/grabber_disabled = ExtResource("6_spin")
 HSlider/icons/grabber_highlight = ExtResource("6_spin")
-HSlider/styles/grabber_area = SubResource("sb_slider_fill")
-HSlider/styles/grabber_area_highlight = SubResource("sb_slider_fill")
-HSlider/styles/slider = SubResource("sb_slider_track")
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_nh3dc")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_uwdo0")
+HSlider/styles/slider = SubResource("StyleBoxFlat_ed8xq")
