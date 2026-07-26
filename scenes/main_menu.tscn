@@ -1,11 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://dwyo3jvvqvf0h"]
+[gd_scene format=3 uid="uid://dwyo3jvvqvf0h"]
 
 [ext_resource type="Script" uid="uid://824o04ua85i6" path="res://scripts/ui/main_menu.gd" id="1_menu"]
-[ext_resource type="Texture2D" path="res://assets/art/Button Cat Press-Normal.png" id="2_catn"]
-[ext_resource type="Texture2D" path="res://assets/art/Button Cat Press-Hovered.png" id="3_cath"]
-[ext_resource type="Texture2D" path="res://assets/art/Button Cat Press-Pressed.png" id="4_catp"]
+[ext_resource type="Texture2D" uid="uid://c41nlqhius1tq" path="res://assets/art/Button Cat Press-Normal.png" id="2_catn"]
+[ext_resource type="Texture2D" uid="uid://bsvms0jrf4ikb" path="res://assets/art/Button Cat Press-Hovered.png" id="3_cath"]
+[ext_resource type="Texture2D" uid="uid://l264kc86joqe" path="res://assets/art/Button Cat Press-Pressed.png" id="4_catp"]
 
-[node name="MainMenu" type="Control"]
+[node name="MainMenu" type="Control" unique_id=494783944]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,7 +14,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_menu")
 
-[node name="Felt" type="ColorRect" parent="."]
+[node name="Felt" type="ColorRect" parent="." unique_id=418204487]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -23,7 +23,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.078, 0.22, 0.16, 1)
 
-[node name="Title" type="Label" parent="."]
+[node name="Title" type="Label" parent="." unique_id=717404966]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -39,7 +39,7 @@ text = "BALATRO COUNT-DOWN"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Play" type="TextureButton" parent="."]
+[node name="Play" type="TextureButton" parent="." unique_id=801672250]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -58,7 +58,7 @@ texture_hover = ExtResource("3_cath")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="PlayLabel" type="Label" parent="Play"]
+[node name="PlayLabel" type="Label" parent="Play" unique_id=1706478415]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -71,13 +71,12 @@ offset_right = 50.0
 offset_bottom = 18.0
 grow_horizontal = 2
 grow_vertical = 0
-mouse_filter = 2
 theme_override_colors/font_color = Color(0.88, 0.92, 0.9, 1)
 theme_override_font_sizes/font_size = 12
 text = "PLAY"
 horizontal_alignment = 1
 
-[node name="Quit" type="Button" parent="."]
+[node name="Quit" type="Button" parent="." unique_id=236597773]
 custom_minimum_size = Vector2(80, 24)
 layout_mode = 1
 anchors_preset = 7
@@ -93,7 +92,7 @@ grow_horizontal = 2
 grow_vertical = 0
 text = "Quit"
 
-[node name="Version" type="Label" parent="."]
+[node name="Version" type="Label" parent="." unique_id=383458571]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0

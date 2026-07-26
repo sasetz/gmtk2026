@@ -24,21 +24,15 @@ texture = ExtResource("2_cefca")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_50bnw"]
 
-[sub_resource type="StyleBoxTexture" id="sb_slider_track"]
-texture = ExtResource("4_sbg")
-
 [sub_resource type="StyleBoxTexture" id="sb_slider_fill"]
 texture = ExtResource("5_sfg")
+
+[sub_resource type="StyleBoxTexture" id="sb_slider_track"]
+texture = ExtResource("4_sbg")
 
 [resource]
 default_font = ExtResource("1_e7bfs")
 default_font_size = 12
-HSlider/icons/grabber = ExtResource("6_spin")
-HSlider/icons/grabber_disabled = ExtResource("6_spin")
-HSlider/icons/grabber_highlight = ExtResource("6_spin")
-HSlider/styles/grabber_area = SubResource("sb_slider_fill")
-HSlider/styles/grabber_area_highlight = SubResource("sb_slider_fill")
-HSlider/styles/slider = SubResource("sb_slider_track")
 Button/styles/hover = SubResource("StyleBoxTexture_7j863")
 Button/styles/normal = SubResource("StyleBoxTexture_50bnw")
 Button/styles/pressed = SubResource("StyleBoxTexture_3taad")
@@ -53,3 +47,9 @@ CheckButton/icons/unchecked_mirrored = ExtResource("3_ed8xq")
 CheckButton/styles/hover = SubResource("StyleBoxEmpty_7j863")
 CheckButton/styles/normal = SubResource("StyleBoxEmpty_cefca")
 CheckButton/styles/pressed = SubResource("StyleBoxEmpty_50bnw")
+HSlider/icons/grabber = ExtResource("6_spin")
+HSlider/icons/grabber_disabled = ExtResource("6_spin")
+HSlider/icons/grabber_highlight = ExtResource("6_spin")
+HSlider/styles/grabber_area = SubResource("sb_slider_fill")
+HSlider/styles/grabber_area_highlight = SubResource("sb_slider_fill")
+HSlider/styles/slider = SubResource("sb_slider_track")

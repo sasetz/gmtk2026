@@ -1,28 +1,28 @@
-[gd_scene load_steps=6 format=3 uid="uid://dbfxw11vxefdi"]
+[gd_scene format=3 uid="uid://dbfxw11vxefdi"]
 
 [ext_resource type="Script" uid="uid://btlp6ktpfuauq" path="res://scripts/ui/card.gd" id="1_6u4wf"]
-[ext_resource type="Texture2D" uid="uid://bnvdj8lvmj1h0" path="res://assets/art/cards/card_back_1.tres" id="2_face"]
-[ext_resource type="Shader" path="res://shaders/card_shine.gdshader" id="3_shine"]
+[ext_resource type="Texture2D" uid="uid://bnvdj8lvmj1h0" path="res://assets/art/ui/credits_bg.tres" id="2_face"]
+[ext_resource type="Shader" uid="uid://cmosmn1ut2q44" path="res://shaders/card_shine.gdshader" id="3_shine"]
+
+[sub_resource type="StyleBoxEmpty" id="sb_empty"]
 
 [sub_resource type="ShaderMaterial" id="mat_shine"]
 shader = ExtResource("3_shine")
 shader_parameter/tilt = Vector2(0, 0)
 shader_parameter/strength = 0.35
 
-[sub_resource type="StyleBoxEmpty" id="sb_empty"]
-
-[node name="Card" type="PanelContainer"]
+[node name="Card" type="PanelContainer" unique_id=261818939]
 custom_minimum_size = Vector2(76, 112)
 theme_override_styles/panel = SubResource("sb_empty")
 script = ExtResource("1_6u4wf")
 
-[node name="VBox" type="VBoxContainer" parent="."]
+[node name="VBox" type="VBoxContainer" parent="." unique_id=1084171165]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 2
 alignment = 1
 
-[node name="Face" type="TextureRect" parent="VBox"]
+[node name="Face" type="TextureRect" parent="VBox" unique_id=1997178342]
 custom_minimum_size = Vector2(72, 88)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -31,15 +31,14 @@ mouse_filter = 2
 texture = ExtResource("2_face")
 stretch_mode = 3
 
-[node name="Action" type="Button" parent="VBox"]
+[node name="Action" type="Button" parent="VBox" unique_id=1965323643]
 custom_minimum_size = Vector2(72, 20)
 layout_mode = 2
 size_flags_horizontal = 4
 mouse_filter = 1
 text = "Buy $0"
 
-[node name="Shine" type="ColorRect" parent="."]
+[node name="Shine" type="ColorRect" parent="." unique_id=1556452089]
 material = SubResource("mat_shine")
 layout_mode = 2
 mouse_filter = 2
-color = Color(1, 1, 1, 1)
