@@ -14,6 +14,9 @@ extends Control
 
 signal pressed
 
+## How long the key is held down for when it is pressed by keyboard.
+const KEY_FLASH: float = 0.08
+
 const IDLE: StringName = &"idle"
 const CLICK: StringName = &"click"
 
@@ -29,12 +32,19 @@ const CLICK: StringName = &"click"
 @onready var _label: Label = $Label
 
 var _down: bool = false
+## Counts keyboard flashes, so an older one cannot lift a newer press.
+var _flash: int = 0
 
 
 func _ready() -> void:
 	_button.button_down.connect(_on_down)
 	_button.button_up.connect(_on_up)
 	_button.pressed.connect(_on_pressed)
+	# A bare Control cannot hold focus, so callers asking this wrapper to take it
+	# got nothing but a warning. Accept it here and hand it straight to the hit
+	# area, which is the button that actually answers the keyboard.
+	focus_mode = Control.FOCUS_ALL
+	focus_entered.connect(func() -> void: _button.grab_focus())
 	_apply_frames()
 	_apply_text()
 
@@ -85,6 +95,29 @@ func _on_up() -> void:
 
 func _on_pressed() -> void:
 	pressed.emit()
+
+
+## Trigger from the keyboard. The action fires at once - on a stopwatch the press
+## IS the timing - and the key is shown going down and springing back so it reads
+## like a click.
+##
+## The action is never gated on the visual: presses come in quick succession when
+## locking a stopwatch, and waiting for the key to come back up swallowed them.
+func press_from_key() -> void:
+	Audio.play_sfx(press_sound())
+	_down = true
+	_show(true)
+	pressed.emit()
+	_release_after_flash()
+
+
+## Let the key back up, unless another press has come in behind this one.
+func _release_after_flash() -> void:
+	_flash += 1
+	var mine: int = _flash
+	await get_tree().create_timer(KEY_FLASH).timeout
+	if is_inside_tree() and _flash == mine:
+		_on_up()
 
 
 ## What this button sounds like: whatever it was given, or the sheet's own.

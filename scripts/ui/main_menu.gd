@@ -19,8 +19,13 @@ func _ready() -> void:
 	_play._label.hide()
 
 
-func _input(event: InputEvent) -> void:
-	if event.is_action("press"):
+## Space (or a click anywhere) starts the run. Unhandled input only, and on the
+## way DOWN: is_action() is true for the release as well, so this fired twice and
+## started the run twice over, and a click on the Play button counted again on
+## top of the button's own press.
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed(&"press"):
+		get_viewport().set_input_as_handled()
 		_on_play_pressed()
 
 
