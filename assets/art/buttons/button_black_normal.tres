@@ -1,6 +1,6 @@
-[gd_resource type="SpriteFrames" format=3]
+[gd_resource type="SpriteFrames" format=3 uid="uid://b71ote4tttfxk"]
 
-[ext_resource type="Texture2D" path="res://assets/art/buttons/Buttons Sheets-Normal Black.png" id="1_e7pd5"]
+[ext_resource type="Texture2D" uid="uid://dhh7k4aenbqxu" path="res://assets/art/buttons/Buttons Sheets-Normal Black.png" id="1_e7pd5"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2f3dj"]
 atlas = ExtResource("1_e7pd5")
@@ -46,7 +46,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"click",
-"speed": 5.0
+"speed": 25.0
 }, {
 "frames": [{
 "duration": 1.0,
