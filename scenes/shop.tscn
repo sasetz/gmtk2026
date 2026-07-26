@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dh5ht4e1yrqjw"]
 
 [ext_resource type="Script" uid="uid://ntl0pn0idho6" path="res://scripts/ui/shop.gd" id="1_shop"]
-[ext_resource type="PackedScene" path="res://scenes/shop_card.tscn" id="2_shopcard"]
+[ext_resource type="PackedScene" uid="uid://dbfxw11vxefdi" path="res://scenes/card.tscn" id="2_shopcard"]
 
 [node name="Shop" type="Control" unique_id=83787153]
 layout_mode = 3

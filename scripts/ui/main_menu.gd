@@ -1,15 +1,15 @@
 extends Control
-## The main menu screen. It doesn't navigate itself — it just reports which
-## button was pressed; the SceneController decides what happens next. Button
-## signals are bound in main_menu.tscn.
+## The main menu screen. The cat button starts a run; options live in the
+## always-visible corner button (handled by the SceneController), and credits are
+## reached from inside the options menu. It just reports which button was pressed.
 
 signal play_pressed
 signal options_pressed
 signal credits_pressed
 signal quit_pressed
 
-@onready var _play: Button = $Buttons/Play
-@onready var _quit: Button = $Buttons/Quit
+@onready var _play: TextureButton = $Play
+@onready var _quit: Button = $Quit
 
 
 func _ready() -> void:
@@ -21,16 +21,6 @@ func _ready() -> void:
 func _on_play_pressed() -> void:
 	Audio.play_sfx(&"ui_click")
 	play_pressed.emit()
-
-
-func _on_options_pressed() -> void:
-	Audio.play_sfx(&"ui_click")
-	options_pressed.emit()
-
-
-func _on_credits_pressed() -> void:
-	Audio.play_sfx(&"ui_click")
-	credits_pressed.emit()
 
 
 func _on_quit_pressed() -> void:

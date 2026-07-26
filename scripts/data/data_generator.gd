@@ -6,6 +6,8 @@ extends RefCounted
 ## layer negative combos on top. RunManager owns one of these. The numbers are a
 ## baseline to tune later.
 
+const FACE_POOL: Array[StringName] = [&"default", &"grey", &"purple", &"pink", &"digital"]
+
 var rng: RandomNumberGenerator
 var rounds_made: int = 0
 
@@ -54,6 +56,7 @@ func _boss_round(lap: int, difficulty: int) -> RoundDef:
 		sw.rate = 1.4
 		sw.clicks = 3
 		sw.duration_ms = 6000
+		sw.face = FACE_POOL[(seed + i) % FACE_POOL.size()]
 		# Bosses carry more combos than a normal stopwatch: two positives and a
 		# negative to work around.
 		sw.combos = [
@@ -71,6 +74,7 @@ func _make_stopwatch(difficulty: int, pos: Array[ComboDef], neg: Array[ComboDef]
 	s.rate = 1.0 + 0.12 * difficulty
 	s.clicks = 3
 	s.duration_ms = 6000
+	s.face = FACE_POOL[rng.randi_range(0, FACE_POOL.size() - 1)]
 	s.combos = [_pick_random(pos)]
 	if difficulty >= 2 and not pos.is_empty():
 		s.combos.append(_pick_random(pos))

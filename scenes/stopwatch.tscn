@@ -3,60 +3,58 @@
 [ext_resource type="Script" path="res://scripts/ui/stopwatch.gd" id="1_sw"]
 [ext_resource type="PackedScene" path="res://scenes/combo_chip.tscn" id="2_chip"]
 [ext_resource type="PackedScene" path="res://scenes/pip.tscn" id="3_pip"]
+[ext_resource type="Texture2D" uid="uid://drslxpd5d7jyw" path="res://assets/art/stopwatches/stopwatch_default.tres" id="4_face"]
 
-[sub_resource type="StyleBoxFlat" id="sb_sw"]
-bg_color = Color(0.06, 0.13, 0.11, 0.95)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.45, 0.6, 0.55, 0.6)
-content_margin_left = 16.0
-content_margin_top = 16.0
-content_margin_right = 16.0
-content_margin_bottom = 16.0
-
-[node name="Stopwatch" type="PanelContainer"]
-custom_minimum_size = Vector2(210, 240)
-theme_override_styles/panel = SubResource("sb_sw")
+[node name="Stopwatch" type="VBoxContainer"]
+theme_override_constants/separation = 3
+alignment = 1
 script = ExtResource("1_sw")
 combo_chip_scene = ExtResource("2_chip")
 pip_scene = ExtResource("3_pip")
 
-[node name="Box" type="VBoxContainer" parent="."]
+[node name="Badges" type="HBoxContainer" parent="."]
 layout_mode = 2
-theme_override_constants/separation = 12
+size_flags_horizontal = 4
+theme_override_constants/separation = 2
 alignment = 1
 
-[node name="Combos" type="HBoxContainer" parent="Box"]
+[node name="Face" type="TextureRect" parent="."]
 layout_mode = 2
-theme_override_constants/separation = 6
-alignment = 1
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("4_face")
 
-[node name="Time" type="Label" parent="Box"]
-layout_mode = 2
+[node name="Time" type="Label" parent="Face"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.98, 0.9, 0.7, 1)
+theme_override_colors/font_outline_color = Color(0.08, 0.06, 0.04, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 20
 text = "6.0"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 44
-theme_override_colors/font_color = Color(0.98, 0.9, 0.7, 1)
+vertical_alignment = 1
 
-[node name="Pips" type="HBoxContainer" parent="Box"]
+[node name="Pips" type="HBoxContainer" parent="."]
 layout_mode = 2
-theme_override_constants/separation = 6
+size_flags_horizontal = 4
+theme_override_constants/separation = 3
 alignment = 1
 
-[node name="Score" type="Label" parent="Box"]
+[node name="Score" type="Label" parent="."]
 layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.85, 0.9, 0.88, 1)
+theme_override_font_sizes/font_size = 10
 text = ""
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 20
-theme_override_colors/font_color = Color(0.7, 0.85, 0.8, 1)
 
-[node name="Action" type="Button" parent="Box"]
-custom_minimum_size = Vector2(0, 44)
+[node name="Action" type="Button" parent="."]
+custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
+size_flags_horizontal = 4
 text = "Start"

@@ -3,7 +3,22 @@ extends RefCounted
 ## The pool of cards, converted from the old jokers. The DataGenerator draws
 ## from here for the run's starting deck and the shop offers. Each call returns
 ## fresh instances so per-run state (Compound Interest's counter, Gambler's Ruin)
-## never leaks between runs.
+## never leaks between runs. Each card carries a face texture chosen for its type.
+
+const FACES := {
+	&"decimal_dollars": preload("res://assets/art/cards/card_money.tres"),
+	&"multi_plus": preload("res://assets/art/cards/card_multi.tres"),
+	&"round_robin": preload("res://assets/art/cards/card_round_up.tres"),
+	&"deuce": preload("res://assets/art/cards/card_two.tres"),
+	&"odd_ally": preload("res://assets/art/cards/card_orange.tres"),
+	&"microscope": preload("res://assets/art/cards/card_glitch.tres"),
+	&"all_in": preload("res://assets/art/cards/card_red.tres"),
+	&"gamblers_ruin": preload("res://assets/art/cards/card_luck.tres"),
+	&"slow_reveal": preload("res://assets/art/cards/card_slow.tres"),
+	&"extra_beat": preload("res://assets/art/cards/card_blue.tres"),
+	&"compound_interest": preload("res://assets/art/cards/card_greed.tres"),
+	&"reroll_rebate": preload("res://assets/art/cards/card_chips.tres"),
+}
 
 
 static func pool() -> Array[Card]:
@@ -40,4 +55,5 @@ static func _make(c: Card, id: String, name: String, desc: String, cost: int) ->
 	c.display_name = name
 	c.description = desc
 	c.cost = cost
+	c.texture = FACES.get(c.id, null)
 	return c

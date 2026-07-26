@@ -198,6 +198,19 @@ theme_override_font_sizes/font_size = 24
 text = "Round 1"
 horizontal_alignment = 2
 
+[node name="OptionsCorner" type="Button" parent="."]
+custom_minimum_size = Vector2(72, 20)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = -26.0
+offset_right = 78.0
+offset_bottom = -6.0
+grow_vertical = 0
+text = "Options"
+
 [node name="Overlays" type="Control" parent="." unique_id=119692354]
 layout_mode = 1
 anchors_preset = 15
@@ -253,3 +266,4 @@ size_flags_horizontal = 4
 text = "Continue"
 
 [connection signal="pressed" from="Result/Box/Continue" to="." method="_on_continue_pressed"]
+[connection signal="pressed" from="OptionsCorner" to="." method="_on_options_corner_pressed"]

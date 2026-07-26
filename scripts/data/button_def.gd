@@ -11,6 +11,7 @@ extends Resource
 @export var description: String = ""
 @export var bonus_points: int = 0
 @export var bonus_mult: int = 0
+@export var face: Texture2D   ## the keycap sprite, chosen for what the button does
 
 var spent: bool = false
 
