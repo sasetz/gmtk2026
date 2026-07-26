@@ -5,7 +5,8 @@
 [ext_resource type="PackedScene" path="res://scenes/animated_button.tscn" id="2_anim"]
 [ext_resource type="SpriteFrames" uid="uid://cmymrrw6f8vs7" path="res://assets/art/buttons/button_white_cat.tres" id="3_cat"]
 [ext_resource type="Texture2D" uid="uid://b58swf011x4ie" path="res://assets/art/ui/logo.png" id="5_8ln24"]
-[ext_resource type="Texture2D" uid="uid://hgdid0e2wtry" path="res://assets/art/ui/start.png" id="6_rtw2f"]
+[ext_resource type="Texture2D" uid="uid://n7wpetkoty46" path="res://assets/art/ui/Press Space to Stop BG-export.png" id="6_oa1go"]
+[ext_resource type="Texture2D" uid="uid://c5717n6rt133o" path="res://assets/art/ui/Corner For UI.png" id="7_tbmy8"]
 
 [node name="MainMenu" type="Control" unique_id=466699047]
 layout_mode = 3
@@ -48,18 +49,15 @@ text = "PLAY"
 
 [node name="Version" type="Label" parent="." unique_id=56618026]
 layout_mode = 1
-anchors_preset = 3
+anchors_preset = 1
 anchor_left = 1.0
-anchor_top = 1.0
 anchor_right = 1.0
-anchor_bottom = 1.0
 offset_left = -120.0
-offset_top = -16.0
+offset_top = 6.0
 offset_right = -6.0
-offset_bottom = -3.0
+offset_bottom = 19.0
 grow_horizontal = 0
-grow_vertical = 0
-theme_override_colors/font_color = Color(0.55, 0.68, 0.64, 1)
+theme_override_colors/font_color = Color(0.86, 0.82904, 0.79120004, 1)
 theme_override_font_sizes/font_size = 10
 text = "GMTK 2026"
 horizontal_alignment = 2
@@ -70,8 +68,9 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -304.0
+offset_top = 21.0
 offset_right = 304.0
-offset_bottom = 208.0
+offset_bottom = 229.0
 grow_horizontal = 2
 texture = ExtResource("5_8ln24")
 
@@ -87,9 +86,10 @@ offset_top = -104.0
 offset_right = 144.0
 grow_horizontal = 2
 grow_vertical = 0
-texture = ExtResource("6_rtw2f")
+texture = ExtResource("6_oa1go")
 
 [node name="Label" type="Label" parent="." unique_id=970796064]
+visible = false
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -104,5 +104,21 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_font_sizes/font_size = 36
 text = "Press To Play"
+
+[node name="TextureRect3" type="TextureRect" parent="." unique_id=57230265]
+layout_mode = 0
+offset_top = 289.0
+offset_right = 80.0
+offset_bottom = 361.0
+texture = ExtResource("7_tbmy8")
+
+[node name="TextureRect4" type="TextureRect" parent="." unique_id=1299746911]
+layout_mode = 0
+offset_left = 560.0
+offset_top = 289.0
+offset_right = 640.0
+offset_bottom = 361.0
+texture = ExtResource("7_tbmy8")
+flip_h = true
 
 [connection signal="pressed" from="Buttons/Play" to="." method="_on_play_pressed"]
