@@ -12,11 +12,23 @@ extends Resource
 @export var bonus_points: int = 0
 @export var bonus_mult: int = 0
 @export var negative: bool = false
+## The decimal digits this combo keys on, so the generator can tell which combos
+## contradict each other. Empty means it is not digit based (Straight), which
+## counts as "could need any digit".
+@export var digits: Array[int] = []
 
 
 ## How many locks satisfy this combo. Override per combo.
 func hits(_clicks: Array[int]) -> int:
 	return 0
+
+
+## Would locking right now, at `candidate` ms, advance this combo? Drives the
+## live indicator on the badge so the player can see what is scoring.
+func would_hit(clicks: Array[int], candidate: int) -> bool:
+	var after: Array[int] = clicks.duplicate()
+	after.append(candidate)
+	return hits(after) > hits(clicks)
 
 
 ## The tenths-of-a-second digit of a millisecond time (the "decimal").

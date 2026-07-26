@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" path="res://scenes/credits.tscn" id="7_credits"]
 [ext_resource type="AudioStream" uid="uid://cr4ajwr5v7gtl" path="res://assets/music/NORMAL Smooth as the cards I play .mp3" id="8_a8y0u"]
 [ext_resource type="PackedScene" path="res://scenes/pause_menu.tscn" id="8_pause"]
+[ext_resource type="PackedScene" path="res://scenes/tutorial.tscn" id="17_tut"]
 [ext_resource type="PackedScene" uid="uid://dbfxw11vxefdi" path="res://scenes/card.tscn" id="9_card"]
 [ext_resource type="AudioStream" uid="uid://clqptim7xkd7l" path="res://assets/music/SHOP Smooth as the cards I play .mp3" id="9_jkv2x"]
 [ext_resource type="AudioStream" uid="uid://dpffjkhgym3uj" path="res://assets/music/Intense, like my play style!.mp3" id="10_jbj1t"]
@@ -16,6 +17,9 @@
 [ext_resource type="AudioStream" uid="uid://f334c6bocgan" path="res://assets/music/Losers lullaby.mp3" id="12_dp3eg"]
 [ext_resource type="Script" uid="uid://dl8vjjfkh6fh7" path="res://scripts/autoload/audio_stream_player.gd" id="13_jkv2x"]
 [ext_resource type="Material" uid="uid://bs8uojdeaoxho" path="res://assets/font_outline.tres" id="16_jbj1t"]
+[ext_resource type="Texture2D" path="res://assets/art/Button Cat Press-Normal.png" id="14_catn"]
+[ext_resource type="Texture2D" path="res://assets/art/Button Cat Press-Hovered.png" id="15_cath"]
+[ext_resource type="Texture2D" path="res://assets/art/Button Cat Press-Pressed.png" id="16_catp"]
 
 [sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_0dvnm"]
 clip_count = 5
@@ -120,6 +124,7 @@ shop_scene = ExtResource("5_shop")
 options_scene = ExtResource("6_options")
 credits_scene = ExtResource("7_credits")
 pause_scene = ExtResource("8_pause")
+tutorial_scene = ExtResource("17_tut")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=515179662]
 process_mode = 3
@@ -237,33 +242,66 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -220.0
-offset_top = -130.0
-offset_right = 220.0
-offset_bottom = 130.0
+offset_left = -140.0
+offset_top = -90.0
+offset_right = 140.0
+offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 18
+theme_override_constants/separation = 4
 alignment = 1
 
 [node name="Title" type="Label" parent="Result/Box" unique_id=1923873468]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.98, 0.86, 0.4, 1)
-theme_override_font_sizes/font_size = 44
+theme_override_font_sizes/font_size = 24
 text = "ROUND CLEARED"
 horizontal_alignment = 1
 
 [node name="Sub" type="Label" parent="Result/Box" unique_id=1189351156]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.88, 0.9, 0.92, 1)
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 12
 horizontal_alignment = 1
 
-[node name="Continue" type="Button" parent="Result/Box" unique_id=58529263]
-custom_minimum_size = Vector2(280, 48)
-layout_mode = 2
-size_flags_horizontal = 4
-text = "Continue"
+[node name="Continue" type="TextureButton" parent="Result" unique_id=58529263]
+custom_minimum_size = Vector2(96, 84)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -120.0
+offset_top = -42.0
+offset_right = -24.0
+offset_bottom = 42.0
+grow_horizontal = 0
+grow_vertical = 2
+texture_normal = ExtResource("14_catn")
+texture_pressed = ExtResource("16_catp")
+texture_hover = ExtResource("15_cath")
+ignore_texture_size = true
+stretch_mode = 5
 
-[connection signal="pressed" from="Result/Box/Continue" to="." method="_on_continue_pressed"]
+[node name="ContinueLabel" type="Label" parent="Result/Continue" unique_id=58529264]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -60.0
+offset_top = 0.0
+offset_right = 60.0
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.88, 0.92, 0.9, 1)
+theme_override_font_sizes/font_size = 11
+text = "Continue"
+horizontal_alignment = 1
+
+[connection signal="pressed" from="Result/Continue" to="." method="_on_continue_pressed"]
 [connection signal="pressed" from="OptionsCorner" to="." method="_on_options_corner_pressed"]

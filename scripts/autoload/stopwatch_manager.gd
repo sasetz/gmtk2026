@@ -114,6 +114,15 @@ func add_click_capacity(amount: int) -> void:
 	_extra_clicks += amount
 
 
+## Nudge the lock just made to a different time (the rounding cards). Safe to
+## call from a stopwatch_clicked handler - combos are scored afterwards.
+func adjust_last_click(ms: int) -> void:
+	if clicks.is_empty():
+		return
+	clicks[-1] = ms
+	_last_lock_ds = ms / 100
+
+
 func slow(factor: float, seconds: float) -> void:
 	_slow_factor = factor
 	_slow_time = seconds
@@ -148,28 +157,33 @@ func _lock(ms: int) -> void:
 		_finish()
 
 
-## Baseline: reward locking near a whole second (tenth-of-a-second precision).
-func _lock_points(ms: int) -> int:
-	var frac: int = ms % 1000
-	if frac > 500:
-		frac = 1000 - frac
-	return maxi(0, 100 - frac / 5)
+## A lock is worth nothing on its own: points only come from combos, buttons and
+## cards. Miss every bonus and the stopwatch scores zero.
+func _lock_points(_ms: int) -> int:
+	return 0
 
 
 func _finish() -> void:
 	running = false
+	# A negative combo that lands voids the whole stopwatch, however well the
+	# rest of it went.
+	var voided: bool = false
 	for combo: ComboDef in combos:
 		var n: int = combo.hits(clicks)
-		if n > 0:
+		if n <= 0:
+			continue
+		EventBus.combo_triggered.emit(combo)
+		if combo.negative:
+			voided = true
+		else:
 			points += combo.bonus_points * n
 			mult += combo.bonus_mult * n
-			EventBus.combo_triggered.emit(combo)
 	for i in _active_buttons.size():
 		if _active_buttons[i].on_finish():
 			_button_fired[i] = true
 		if _button_fired[i]:
 			EventBus.button_fired.emit(_active_buttons[i])
 	mult = maxi(0, mult)
-	score = int(points * mult * xmult)
+	score = 0 if voided else int(points * mult * xmult)
 	RoundManager.add_score(score)
 	EventBus.stopwatch_ended.emit()
