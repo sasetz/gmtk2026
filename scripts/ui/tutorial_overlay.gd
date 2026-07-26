@@ -36,7 +36,7 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	EventBus.round_started.connect(_on_round_started)
 	EventBus.round_result.connect(_on_round_result)
-	_skip.button_down.connect(func() -> void: _held = 0.001)
+	_skip.button_down.connect(_press_skip)
 	_skip.button_up.connect(_release_skip)
 	_say(Tutorial.pre_lines())
 
@@ -72,7 +72,9 @@ func _say(lines: Array) -> void:
 		_finish_talking()
 		return
 	_talking = true
-	_dim.mouse_filter = Control.MOUSE_FILTER_STOP
+	# The dim is only paint - this node does the blocking, so its own _gui_input
+	# still sees the click that moves to the next line.
+	mouse_filter = Control.MOUSE_FILTER_STOP
 	_dim.color.a = 0.72
 	_bubble.visible = true
 	EventBus.tutorial_highlight.emit(&"none")
@@ -106,7 +108,8 @@ func _advance() -> void:
 func _finish_talking() -> void:
 	_talking = false
 	_lines = []
-	_dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	# Hand the round back: clicks now fall through to the stopwatch underneath.
+	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_dim.color.a = 0.0
 	_bubble.visible = false
 	EventBus.tutorial_highlight.emit(Tutorial.highlight())
@@ -126,6 +129,10 @@ func _on_round_result(won: bool, _is_boss: bool, _reward: int) -> void:
 		_say(Tutorial.post_lines())
 	else:
 		_say([Tutorial.FAIL_LINE])
+
+
+func _press_skip() -> void:
+	_held = 0.001
 
 
 func _release_skip() -> void:

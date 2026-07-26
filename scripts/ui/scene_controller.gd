@@ -53,6 +53,9 @@ func _sync_tutorial() -> void:
 
 func _close_tutorial() -> void:
 	if _tutorial != null:
+		# Out of the tree at once: a queued-but-still-parented overlay would
+		# double up on the event bus with the one replacing it.
+		_overlays.remove_child(_tutorial)
 		_tutorial.queue_free()
 		_tutorial = null
 
