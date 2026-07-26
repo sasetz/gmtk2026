@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://dax7pqkv87jdt"]
+
+[ext_resource type="Texture2D" uid="uid://775us8j11iu4" path="res://assets/art/Button Cat Press-Sheet.png" id="1_nwfhg"]
+
+[resource]
+atlas = ExtResource("1_nwfhg")
+region = Rect2(151, 16, 84, 90)

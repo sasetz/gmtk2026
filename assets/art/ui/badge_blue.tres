@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://833rs31suuct"]
+
+[ext_resource type="Texture2D" uid="uid://bydymwuvcl5na" path="res://assets/art/GMTK 2026 Stopwatch UI Atlas ( W.I.P ).png" id="1_o8hng"]
+
+[resource]
+atlas = ExtResource("1_o8hng")
+region = Rect2(1184, 512, 64, 16)
