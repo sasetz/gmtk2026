@@ -58,6 +58,17 @@ const FACE_TICKS := {
 	&"digital": &"tick_robot",
 }
 
+## Button sheet → the press it makes, matched to the artist's own naming so the
+## sound cannot drift away from the art: a cat button meows, a bumblegum machine
+## rattles, a plain keycap clacks.
+const SHEET_SOUNDS := {
+	&"button_white_cat": &"btn_cat",
+	&"button_black_cat": &"btn_cat",
+	&"button_bumblegum": &"btn_gumball",
+	&"button_white_normal": &"btn_normal",
+	&"button_black_normal": &"btn_normal",
+}
+
 ## Consumable button id → its press sound, picked to match its keycap art.
 const BUTTON_SOUNDS := {
 	&"consecutive": &"btn_keyboard",
@@ -193,6 +204,14 @@ func tick_for_face(face: StringName) -> StringName:
 ## The press sound belonging to a consumable button.
 func sound_for_button(id: StringName) -> StringName:
 	return BUTTON_SOUNDS.get(id, &"btn_normal")
+
+
+## The press sound for an animated button, taken from the sheet it wears.
+func sound_for_sheet(frames: SpriteFrames) -> StringName:
+	if frames == null:
+		return &"btn_normal"
+	var sheet: StringName = StringName(frames.resource_path.get_file().get_basename())
+	return SHEET_SOUNDS.get(sheet, &"btn_normal")
 
 
 # --- gameplay event cues ----------------------------------------------------
