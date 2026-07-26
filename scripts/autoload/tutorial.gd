@@ -17,7 +17,7 @@ const HIGHLIGHTS: Array[StringName] = [&"stopwatch", &"stopwatch", &"button", &"
 ## Lines shown before the round is handed over to the player.
 const PRE_LINES: Array = [
 	[
-		"Greetings! Welcome to Balatro Count-Down! Here, you'll have to stop stopwatches on the right time!",
+		"Greetings! Welcome to Stop the Clock! Here, you'll have to stop stopwatches on the right time!",
 		"This is a stopwatch. Click to start it, then click again to stop it.",
 	],
 	["Here, try to click this one when the last digit is zero!"],
