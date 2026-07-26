@@ -280,15 +280,6 @@ text = "Discord: eri_2005"
 theme_override_font_sizes/font_size = 15
 theme_override_colors/font_color = Color(0.78, 0.85, 0.88, 1)
 
-[node name="Source" type="LinkButton" parent="Panel/Box"]
-layout_mode = 2
-size_flags_horizontal = 4
-text = "Source — github.com/sasetz/gmtk2026"
-uri = "https://github.com/sasetz/gmtk2026"
-underline = 1
-theme_override_font_sizes/font_size = 15
-theme_override_colors/font_color = Color(0.55, 0.85, 0.95, 1)
-
 [node name="Back" type="Button" parent="Panel/Box"]
 custom_minimum_size = Vector2(220, 46)
 layout_mode = 2
