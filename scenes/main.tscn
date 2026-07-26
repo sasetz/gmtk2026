@@ -2,24 +2,24 @@
 
 [ext_resource type="Script" uid="uid://b114wi2dd053m" path="res://scripts/ui/scene_controller.gd" id="1_ctrl"]
 [ext_resource type="Script" uid="uid://b7bl7i4yl0llv" path="res://scripts/ui/hud.gd" id="2_hud"]
-[ext_resource type="PackedScene" path="res://scenes/main_menu.tscn" id="3_menu"]
+[ext_resource type="PackedScene" uid="uid://dwyo3jvvqvf0h" path="res://scenes/main_menu.tscn" id="3_menu"]
 [ext_resource type="PackedScene" uid="uid://70ho33ifg5km" path="res://scenes/round.tscn" id="4_round"]
 [ext_resource type="PackedScene" uid="uid://dh5ht4e1yrqjw" path="res://scenes/shop.tscn" id="5_shop"]
-[ext_resource type="PackedScene" path="res://scenes/options_menu.tscn" id="6_options"]
-[ext_resource type="PackedScene" path="res://scenes/credits.tscn" id="7_credits"]
+[ext_resource type="PackedScene" uid="uid://djpiw7bk5kt6r" path="res://scenes/options_menu.tscn" id="6_options"]
+[ext_resource type="PackedScene" uid="uid://b35xs8nwklbpp" path="res://scenes/credits.tscn" id="7_credits"]
 [ext_resource type="AudioStream" uid="uid://cr4ajwr5v7gtl" path="res://assets/music/NORMAL Smooth as the cards I play .mp3" id="8_a8y0u"]
 [ext_resource type="PackedScene" path="res://scenes/pause_menu.tscn" id="8_pause"]
-[ext_resource type="PackedScene" path="res://scenes/tutorial.tscn" id="17_tut"]
 [ext_resource type="PackedScene" uid="uid://dbfxw11vxefdi" path="res://scenes/card.tscn" id="9_card"]
 [ext_resource type="AudioStream" uid="uid://clqptim7xkd7l" path="res://assets/music/SHOP Smooth as the cards I play .mp3" id="9_jkv2x"]
 [ext_resource type="AudioStream" uid="uid://dpffjkhgym3uj" path="res://assets/music/Intense, like my play style!.mp3" id="10_jbj1t"]
 [ext_resource type="AudioStream" uid="uid://0efyninby5yf" path="res://assets/music/Watch this sick play.mp3" id="11_muem4"]
 [ext_resource type="AudioStream" uid="uid://f334c6bocgan" path="res://assets/music/Losers lullaby.mp3" id="12_dp3eg"]
 [ext_resource type="Script" uid="uid://dl8vjjfkh6fh7" path="res://scripts/autoload/audio_stream_player.gd" id="13_jkv2x"]
+[ext_resource type="Texture2D" uid="uid://c41nlqhius1tq" path="res://assets/art/Button Cat Press-Normal.png" id="14_catn"]
+[ext_resource type="Texture2D" uid="uid://bsvms0jrf4ikb" path="res://assets/art/Button Cat Press-Hovered.png" id="15_cath"]
+[ext_resource type="Texture2D" uid="uid://l264kc86joqe" path="res://assets/art/Button Cat Press-Pressed.png" id="16_catp"]
 [ext_resource type="Material" uid="uid://bs8uojdeaoxho" path="res://assets/font_outline.tres" id="16_jbj1t"]
-[ext_resource type="Texture2D" path="res://assets/art/Button Cat Press-Normal.png" id="14_catn"]
-[ext_resource type="Texture2D" path="res://assets/art/Button Cat Press-Hovered.png" id="15_cath"]
-[ext_resource type="Texture2D" path="res://assets/art/Button Cat Press-Pressed.png" id="16_catp"]
+[ext_resource type="PackedScene" path="res://scenes/tutorial.tscn" id="17_tut"]
 
 [sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_0dvnm"]
 clip_count = 5
@@ -203,7 +203,7 @@ theme_override_font_sizes/font_size = 24
 text = "Round 1"
 horizontal_alignment = 2
 
-[node name="OptionsCorner" type="Button" parent="."]
+[node name="OptionsCorner" type="Button" parent="." unique_id=58280295]
 custom_minimum_size = Vector2(72, 20)
 layout_mode = 1
 anchors_preset = 2
@@ -292,16 +292,14 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -60.0
-offset_top = 0.0
 offset_right = 60.0
 offset_bottom = 14.0
 grow_horizontal = 2
 grow_vertical = 0
-mouse_filter = 2
 theme_override_colors/font_color = Color(0.88, 0.92, 0.9, 1)
 theme_override_font_sizes/font_size = 11
 text = "Continue"
 horizontal_alignment = 1
 
-[connection signal="pressed" from="Result/Continue" to="." method="_on_continue_pressed"]
 [connection signal="pressed" from="OptionsCorner" to="." method="_on_options_corner_pressed"]
+[connection signal="pressed" from="Result/Continue" to="." method="_on_continue_pressed"]

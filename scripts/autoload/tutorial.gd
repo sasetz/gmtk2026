@@ -25,7 +25,7 @@ const PRE_LINES: Array = [
 		"Now, let's mix things up a bit! Here's a button.",
 		"It is activated when you hit multiple clicks one after the other. You can click multiple times on a single stopwatch!",
 	],
-	["Now, try to score at least 500 with these two stopwatches! Here, have this card, it'll help you on round numbers!"],
+	["Now, try to score at least 100 with these two stopwatches! Here, have this card, it'll help you on round numbers!"],
 ]
 
 ## Lines shown once the round is over, before moving on.
@@ -112,7 +112,7 @@ func _second() -> RoundDef:
 func _third() -> RoundDef:
 	var r := RoundDef.new()
 	r.display_name = "Tutorial"
-	r.target = 30
+	r.target = 15
 	r.reward = 4
 	r.stopwatches = [_stopwatch(5000, 3, 0.5, [_combo(ComboCatalog.Kind.EVEN)])] as Array[StopwatchDef]
 	return r
@@ -123,7 +123,7 @@ func _third() -> RoundDef:
 func _fourth() -> RoundDef:
 	var r := RoundDef.new()
 	r.display_name = "Tutorial"
-	r.target = 500
+	r.target = 100
 	r.reward = 5
 	# "Random combos from the generator", but re-rolled until they overlap on some
 	# decimal. Otherwise the set can be so scattered that the 500 the script asks
