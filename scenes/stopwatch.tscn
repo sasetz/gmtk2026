@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/stopwatch.gd" id="1_sw"]
 [ext_resource type="PackedScene" path="res://scenes/combo_chip.tscn" id="2_chip"]
 [ext_resource type="PackedScene" path="res://scenes/pip.tscn" id="3_pip"]
 [ext_resource type="Texture2D" uid="uid://drslxpd5d7jyw" path="res://assets/art/stopwatches/stopwatch_default.tres" id="4_face"]
+[ext_resource type="PackedScene" path="res://scenes/animated_button.tscn" id="5_action"]
 
 [node name="Stopwatch" type="VBoxContainer"]
 theme_override_constants/separation = 3
@@ -53,8 +54,6 @@ theme_override_font_sizes/font_size = 10
 text = ""
 horizontal_alignment = 1
 
-[node name="Action" type="Button" parent="."]
-custom_minimum_size = Vector2(120, 0)
+[node name="Action" parent="." instance=ExtResource("5_action")]
 layout_mode = 2
 size_flags_horizontal = 4
-text = "Start"

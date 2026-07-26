@@ -17,6 +17,15 @@ const FACES := {
 		preload("res://assets/art/stopwatches/stopwatch_digital.tres")],
 }
 
+## The button a face is operated with, so a console watch has a console button.
+const ACTION_FRAMES := {
+	&"default": preload("res://assets/art/buttons/button_white_normal.tres"),
+	&"grey": preload("res://assets/art/buttons/button_black_normal.tres"),
+	&"purple": preload("res://assets/art/buttons/button_black_cat.tres"),
+	&"pink": preload("res://assets/art/buttons/button_bumblegum.tres"),
+	&"digital": preload("res://assets/art/buttons/button_black_normal.tres"),
+}
+
 @export var combo_chip_scene: PackedScene
 @export var pip_scene: PackedScene
 
@@ -25,7 +34,7 @@ const FACES := {
 @onready var _time: Label = $Face/Time
 @onready var _pips: HBoxContainer = $Pips
 @onready var _score: Label = $Score
-@onready var _action: Button = $Action
+@onready var _action: AnimatedButton = $Action
 
 enum State { IDLE, RUNNING, DONE }
 
@@ -52,6 +61,7 @@ func _ready() -> void:
 	_pressed_tex = pair[1]
 	_tick = Audio.tick_for_face(def.face)
 	_face.texture = _base_tex
+	_action.frames = ACTION_FRAMES.get(def.face, ACTION_FRAMES[&"default"])
 	_build_badges()
 	_build_pips(def.clicks)
 	_time.text = _format(def.duration_ms)
@@ -151,13 +161,13 @@ func _refresh() -> void:
 	match _state:
 		State.IDLE:
 			_action.text = "Start"
-			_action.disabled = StopwatchManager.running
+			_action.set_disabled(StopwatchManager.running)
 		State.RUNNING:
 			_action.text = "Lock (%d)" % StopwatchManager.remaining_clicks()
-			_action.disabled = false
+			_action.set_disabled(false)
 		State.DONE:
 			_action.text = "Done"
-			_action.disabled = true
+			_action.set_disabled(true)
 
 
 func _format(ms: int) -> String:

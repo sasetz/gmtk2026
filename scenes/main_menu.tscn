@@ -1,11 +1,10 @@
-[gd_scene format=3 uid="uid://dwyo3jvvqvf0h"]
+[gd_scene load_steps=4 format=3 uid="uid://dwyo3jvvqvf0h"]
 
 [ext_resource type="Script" uid="uid://824o04ua85i6" path="res://scripts/ui/main_menu.gd" id="1_menu"]
-[ext_resource type="Texture2D" uid="uid://c41nlqhius1tq" path="res://assets/art/Button Cat Press-Normal.png" id="2_catn"]
-[ext_resource type="Texture2D" uid="uid://bsvms0jrf4ikb" path="res://assets/art/Button Cat Press-Hovered.png" id="3_cath"]
-[ext_resource type="Texture2D" uid="uid://l264kc86joqe" path="res://assets/art/Button Cat Press-Pressed.png" id="4_catp"]
+[ext_resource type="PackedScene" path="res://scenes/animated_button.tscn" id="2_anim"]
+[ext_resource type="SpriteFrames" path="res://assets/art/buttons/button_white_cat.tres" id="3_cat"]
 
-[node name="MainMenu" type="Control" unique_id=494783944]
+[node name="MainMenu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,7 +13,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_menu")
 
-[node name="Felt" type="ColorRect" parent="." unique_id=418204487]
+[node name="Felt" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -23,15 +22,15 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.078, 0.22, 0.16, 1)
 
-[node name="Title" type="Label" parent="." unique_id=717404966]
+[node name="Title" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -140.0
-offset_top = 40.0
+offset_top = 20.0
 offset_right = 140.0
-offset_bottom = 70.0
+offset_bottom = 50.0
 grow_horizontal = 2
 theme_override_colors/font_color = Color(0.98, 0.86, 0.4, 1)
 theme_override_font_sizes/font_size = 24
@@ -39,60 +38,33 @@ text = "BALATRO COUNT-DOWN"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Play" type="TextureButton" parent="." unique_id=801672250]
+[node name="Buttons" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -64.0
+offset_left = -140.0
 offset_top = -40.0
-offset_right = 64.0
+offset_right = 140.0
 offset_bottom = 72.0
 grow_horizontal = 2
 grow_vertical = 2
-texture_normal = ExtResource("2_catn")
-texture_pressed = ExtResource("4_catp")
-texture_hover = ExtResource("3_cath")
-ignore_texture_size = true
-stretch_mode = 5
+theme_override_constants/separation = 12
+alignment = 1
 
-[node name="PlayLabel" type="Label" parent="Play" unique_id=1706478415]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -50.0
-offset_top = 2.0
-offset_right = 50.0
-offset_bottom = 18.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_colors/font_color = Color(0.88, 0.92, 0.9, 1)
-theme_override_font_sizes/font_size = 12
+[node name="Play" parent="Buttons" instance=ExtResource("2_anim")]
+layout_mode = 2
+frames = ExtResource("3_cat")
 text = "PLAY"
-horizontal_alignment = 1
 
-[node name="Quit" type="Button" parent="." unique_id=236597773]
-custom_minimum_size = Vector2(80, 24)
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -40.0
-offset_top = -40.0
-offset_right = 40.0
-offset_bottom = -16.0
-grow_horizontal = 2
-grow_vertical = 0
-text = "Quit"
+[node name="Quit" parent="Buttons" instance=ExtResource("2_anim")]
+layout_mode = 2
+frames = ExtResource("3_cat")
+text = "QUIT"
 
-[node name="Version" type="Label" parent="." unique_id=383458571]
+[node name="Version" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -110,5 +82,5 @@ theme_override_font_sizes/font_size = 10
 text = "GMTK 2026"
 horizontal_alignment = 2
 
-[connection signal="pressed" from="Play" to="." method="_on_play_pressed"]
-[connection signal="pressed" from="Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="Buttons/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="Buttons/Quit" to="." method="_on_quit_pressed"]

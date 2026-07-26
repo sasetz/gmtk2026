@@ -1,6 +1,8 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/pause_menu.gd" id="1_pause"]
+[ext_resource type="PackedScene" path="res://scenes/animated_button.tscn" id="2_anim"]
+[ext_resource type="SpriteFrames" path="res://assets/art/buttons/button_white_cat.tres" id="3_cat"]
 
 [sub_resource type="StyleBoxFlat" id="sb_pause"]
 bg_color = Color(0.06, 0.13, 0.11, 0.98)
@@ -13,10 +15,10 @@ border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
 border_color = Color(0.45, 0.6, 0.55, 0.6)
-content_margin_left = 40.0
-content_margin_top = 30.0
-content_margin_right = 40.0
-content_margin_bottom = 30.0
+content_margin_left = 20.0
+content_margin_top = 14.0
+content_margin_right = 20.0
+content_margin_bottom = 14.0
 
 [node name="PauseMenu" type="Control"]
 layout_mode = 3
@@ -39,47 +41,52 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -190.0
-offset_top = -175.0
-offset_right = 190.0
-offset_bottom = 175.0
+offset_left = -230.0
+offset_top = -95.0
+offset_right = 230.0
+offset_bottom = 95.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("sb_pause")
 
 [node name="Box" type="VBoxContainer" parent="Panel"]
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 6
 
 [node name="Title" type="Label" parent="Panel/Box"]
 layout_mode = 2
 text = "PAUSED"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 44
+theme_override_font_sizes/font_size = 24
 theme_override_colors/font_color = Color(0.98, 0.86, 0.4, 1)
 
-[node name="Resume" type="Button" parent="Panel/Box"]
-custom_minimum_size = Vector2(280, 50)
+[node name="Buttons" type="HBoxContainer" parent="Panel/Box"]
 layout_mode = 2
-text = "Resume"
+theme_override_constants/separation = 8
+alignment = 1
 
-[node name="Options" type="Button" parent="Panel/Box"]
-custom_minimum_size = Vector2(280, 50)
+[node name="Resume" parent="Panel/Box/Buttons" instance=ExtResource("2_anim")]
 layout_mode = 2
-text = "Options"
+frames = ExtResource("3_cat")
+text = "RESUME"
 
-[node name="MainMenu" type="Button" parent="Panel/Box"]
-custom_minimum_size = Vector2(280, 50)
+[node name="Options" parent="Panel/Box/Buttons" instance=ExtResource("2_anim")]
 layout_mode = 2
-text = "Main Menu"
+frames = ExtResource("3_cat")
+text = "OPTIONS"
+
+[node name="MainMenu" parent="Panel/Box/Buttons" instance=ExtResource("2_anim")]
+layout_mode = 2
+frames = ExtResource("3_cat")
+text = "MENU"
 
 [node name="Hint" type="Label" parent="Panel/Box"]
 layout_mode = 2
 text = "Esc to resume"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 16
-theme_override_colors/font_color = Color(0.65, 0.75, 0.72, 1)
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0.7, 0.8, 0.76, 1)
 
-[connection signal="pressed" from="Panel/Box/Resume" to="." method="_on_resume_pressed"]
-[connection signal="pressed" from="Panel/Box/Options" to="." method="_on_options_pressed"]
-[connection signal="pressed" from="Panel/Box/MainMenu" to="." method="_on_main_menu_pressed"]
+[connection signal="pressed" from="Panel/Box/Buttons/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="Panel/Box/Buttons/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="Panel/Box/Buttons/MainMenu" to="." method="_on_main_menu_pressed"]

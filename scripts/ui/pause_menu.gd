@@ -8,7 +8,7 @@ signal resume_pressed
 signal options_pressed
 signal menu_pressed
 
-@onready var _resume: Button = $Panel/Box/Resume
+@onready var _resume: AnimatedButton = $Panel/Box/Buttons/Resume
 
 
 func _ready() -> void:

@@ -7,6 +7,11 @@ extends Control
 
 enum Scene { MAIN_MENU, ROUND, SHOP }
 
+## Pause and the menus always sit above the board. The round lifts whatever the
+## tutorial is pointing at (see Round.HIGHLIGHT_Z), and without this the pause
+## menu came up behind the stopwatches.
+const OVERLAY_Z: int = 500
+
 @export var menu_scene: PackedScene
 @export var round_scene: PackedScene
 @export var shop_scene: PackedScene
@@ -21,8 +26,7 @@ enum Scene { MAIN_MENU, ROUND, SHOP }
 @onready var _result: Panel = $Result
 @onready var _result_title: Label = $Result/Box/Title
 @onready var _result_sub: Label = $Result/Box/Sub
-@onready var _result_continue: TextureButton = $Result/Continue
-@onready var _result_continue_label: Label = $Result/Continue/ContinueLabel
+@onready var _result_continue: AnimatedButton = $Result/Continue
 
 var _current: Scene = Scene.MAIN_MENU
 var _overlay: Control = null   # options / credits
@@ -36,8 +40,7 @@ func _ready() -> void:
 	EventBus.round_result.connect(_on_round_result)
 	EventBus.toggle_pause.connect(_toggle_pause)
 	EventBus.tutorial_finished.connect(_close_tutorial)
-	# The result button is the cat, so it purrs; the corner cog is a plain click.
-	UiSound.play_on(_result_continue, &"btn_cat")
+	# The cat button sounds itself; the corner cog is a plain click.
 	UiSound.play_on($OptionsCorner, &"ui_click")
 	_select_scene(Scene.MAIN_MENU)
 
@@ -105,11 +108,11 @@ func _on_round_result(won: bool, is_boss: bool, reward: int) -> void:
 	if won:
 		_result_title.text = "BOSS DEFEATED" if is_boss else "ROUND CLEARED"
 		_result_sub.text = "+$%d banked" % reward
-		_result_continue_label.text = "Continue"
+		_result_continue.text = "Continue"
 	else:
 		_result_title.text = "GAME OVER"
 		_result_sub.text = "You ran out of score."
-		_result_continue_label.text = "Menu"
+		_result_continue.text = "Menu"
 	_result.visible = true
 	_result_continue.grab_focus()
 
@@ -147,6 +150,7 @@ func _push_overlay(scene: PackedScene) -> void:
 		return
 	_overlay = scene.instantiate()
 	_overlay.process_mode = Node.PROCESS_MODE_ALWAYS
+	_overlay.z_index = OVERLAY_Z
 	_overlay.closed.connect(_close_overlay)
 	_overlays.add_child(_overlay)
 
@@ -184,6 +188,7 @@ func _open_pause() -> void:
 	_set_paused(true)
 	_pause = pause_scene.instantiate()
 	_pause.process_mode = Node.PROCESS_MODE_ALWAYS
+	_pause.z_index = OVERLAY_Z
 	_pause.resume_pressed.connect(_close_pause)
 	_pause.options_pressed.connect(_open_options)
 	_pause.menu_pressed.connect(_pause_to_menu)

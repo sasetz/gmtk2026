@@ -12,7 +12,8 @@ extends Object
 ## are left alone - those play something of their own.
 static func attach(root: Node, cue: StringName = &"ui_click", skip: Array = []) -> void:
 	for button: BaseButton in _buttons(root):
-		if skip.has(button.name):
+		# An AnimatedButton's hit area belongs to a button that sounds itself.
+		if button.name == "Hit" or skip.has(button.name):
 			continue
 		play_on(button, cue)
 
