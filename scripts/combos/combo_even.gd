@@ -3,6 +3,11 @@ extends ComboDef
 ## Fires for every lock landing on an even decimal (0, 2, 4, 6, 8).
 
 
+## Five decimals in ten, so most locks can be aimed at one.
+func expected_hits(clicks: int) -> float:
+	return float(clicks) * 0.55
+
+
 func hits(clicks: Array[int]) -> int:
 	var n: int = 0
 	for ms: int in clicks:

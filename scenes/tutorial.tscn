@@ -1,0 +1,121 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/tutorial_overlay.gd" id="1_tut"]
+[ext_resource type="Texture2D" path="res://assets/art/cards/card_back_1.tres" id="2_blob"]
+
+[sub_resource type="StyleBoxFlat" id="sb_bubble"]
+bg_color = Color(0.06, 0.13, 0.11, 0.96)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.98, 0.86, 0.4, 0.8)
+content_margin_left = 10.0
+content_margin_top = 8.0
+content_margin_right = 10.0
+content_margin_bottom = 8.0
+
+[node name="Tutorial" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+script = ExtResource("1_tut")
+
+[node name="Dim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.02, 0.05, 0.04, 0.72)
+
+[node name="Creature" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(48, 58)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 24.0
+offset_top = -44.0
+offset_right = 72.0
+offset_bottom = 14.0
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_blob")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Bubble" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -180.0
+offset_top = 40.0
+offset_right = 180.0
+offset_bottom = 100.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("sb_bubble")
+
+[node name="Box" type="VBoxContainer" parent="Bubble"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Text" type="Label" parent="Bubble/Box"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.95, 0.96, 0.94, 1)
+theme_override_font_sizes/font_size = 12
+text = "..."
+autowrap_mode = 3
+horizontal_alignment = 1
+
+[node name="Hint" type="Label" parent="Bubble/Box"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.7, 0.8, 0.76, 1)
+theme_override_font_sizes/font_size = 9
+text = "Click to continue"
+horizontal_alignment = 1
+
+[node name="Skip" type="Button" parent="."]
+custom_minimum_size = Vector2(84, 18)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -92.0
+offset_top = -26.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 9
+text = "Hold to skip"
+
+[node name="Fill" type="ColorRect" parent="Skip"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -9.0
+offset_right = 84.0
+offset_bottom = 9.0
+grow_vertical = 2
+mouse_filter = 2
+scale = Vector2(0, 1)
+color = Color(0.98, 0.86, 0.4, 0.35)

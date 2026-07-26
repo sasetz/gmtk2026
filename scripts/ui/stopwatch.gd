@@ -35,6 +35,7 @@ const EMPTY := Color(0.2, 0.28, 0.26)
 var def: StopwatchDef
 var _state: State = State.IDLE
 var _pip_nodes: Array[ColorRect] = []
+var _chips: Array[Node] = []
 var _base_tex: Texture2D
 var _pressed_tex: Texture2D
 
@@ -71,6 +72,7 @@ func _on_pressed() -> void:
 			return
 		_state = State.RUNNING
 		_face.texture = _pressed_tex   # running animation: the _pressed variant
+		_watch_badges(true)
 		StopwatchManager.begin(def)
 		_build_pips(StopwatchManager.total_clicks())
 		_update_score()
@@ -95,6 +97,7 @@ func _on_any_ended() -> void:
 	if _state == State.RUNNING:
 		_state = State.DONE
 		_face.texture = _base_tex
+		_watch_badges(false)
 		_fill_pips(StopwatchManager.clicks.size())
 		if StopwatchManager.remaining_ms == 0:
 			_time.text = _format(0)
@@ -105,10 +108,18 @@ func _on_any_ended() -> void:
 func _build_badges() -> void:
 	for c: Node in _badges.get_children():
 		c.queue_free()
+	_chips.clear()
 	for combo: ComboDef in def.combos:
 		var chip := combo_chip_scene.instantiate()
 		chip.setup(combo)
 		_badges.add_child(chip)
+		_chips.append(chip)
+
+
+## Only the running stopwatch lights its badges up as combos become scorable.
+func _watch_badges(on: bool) -> void:
+	for chip: Node in _chips:
+		chip.set_watching(on)
 
 
 func _build_pips(count: int) -> void:

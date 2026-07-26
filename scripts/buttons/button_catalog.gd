@@ -6,7 +6,6 @@ extends RefCounted
 
 ## Keycap face per button, chosen for what it does.
 const FACES := {
-	&"plus_mult": preload("res://assets/art/buttons/button_grey_smiley.tres"),
 	&"consecutive": preload("res://assets/art/buttons/button_white_enter.tres"),
 	&"gap": preload("res://assets/art/buttons/button_white_smiley.tres"),
 	&"remaining_clicks": preload("res://assets/art/buttons/button_red.tres"),
@@ -17,7 +16,6 @@ const FACES := {
 
 static func pool() -> Array[ButtonDef]:
 	var buttons: Array[ButtonDef] = []
-	buttons.append(_flat("plus_mult", "+2 Mult", "Adds 2 mult to this stopwatch.", 0, 2))
 	buttons.append(_named(ButtonConsecutive.new(), "consecutive", "Straight",
 		"x2 mult for three locks on consecutive decimals."))
 	buttons.append(_named(ButtonGap.new(), "gap", "Patience",
@@ -29,13 +27,6 @@ static func pool() -> Array[ButtonDef]:
 	buttons.append(_named(ButtonHighDecimal.new(), "high_decimal", "High Roller",
 		"+5 mult for each lock on decimals 5-9."))
 	return buttons
-
-
-static func _flat(id: String, name: String, desc: String, points: int, mult: int) -> ButtonDef:
-	var b := ButtonDef.new()
-	b.bonus_points = points
-	b.bonus_mult = mult
-	return _named(b, id, name, desc)
 
 
 static func _named(b: ButtonDef, id: String, name: String, desc: String) -> ButtonDef:

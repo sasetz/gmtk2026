@@ -18,6 +18,13 @@ func _ready() -> void:
 	# Keep the card row in sync when the deck changes (buying / selling).
 	EventBus.card_bought.connect(func(_i: int) -> void: _populate())
 	EventBus.card_sold.connect(func(_i: int) -> void: _populate())
+	EventBus.tutorial_highlight.connect(_on_highlight)
+
+
+## Lift the deck over the tutorial's dim when it is pointing at the cards.
+func _on_highlight(role: StringName) -> void:
+	for child: Node in _cards.get_children():
+		(child as CanvasItem).z_index = 100 if role == &"card" else 0
 
 
 func _on_money_changed(amount: int) -> void:

@@ -11,11 +11,27 @@ extends Control
 @onready var _progress: Label = $Progress
 
 
+## Drawn above the tutorial's dim, so a highlighted element stands out.
+const HIGHLIGHT_Z: int = 100
+
+
 func _ready() -> void:
 	EventBus.stopwatch_ended.connect(_update_progress)
+	EventBus.tutorial_highlight.connect(_on_highlight)
 	_build_stopwatches()
 	_build_buttons()
 	_update_progress()
+
+
+## The tutorial points at one kind of element at a time; lift it over the dim.
+func _on_highlight(role: StringName) -> void:
+	_lift(_stopwatches, role == &"stopwatch")
+	_lift(_buttons, role == &"button")
+
+
+func _lift(box: Container, on: bool) -> void:
+	for child: Node in box.get_children():
+		(child as CanvasItem).z_index = HIGHLIGHT_Z if on else 0
 
 
 func _build_stopwatches() -> void:

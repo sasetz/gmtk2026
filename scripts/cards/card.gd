@@ -25,6 +25,12 @@ func detach() -> void:
 	pass
 
 
+## Extra consumable-button slots this card grants for a round. Override to raise
+## the hand cap above the default.
+func extra_button_slots() -> int:
+	return 0
+
+
 func activate() -> void:
 	EventBus.card_activated.emit(run_index)
 

@@ -15,6 +15,6 @@ func detach() -> void:
 func _on_click() -> void:
 	var clicks: Array[int] = StopwatchManager.clicks
 	if not clicks.is_empty() and tenths(clicks[-1]) == 2:
-		StopwatchManager.add_points(24)
-		StopwatchManager.add_mult(6)
+		StopwatchManager.add_points(4)
+		StopwatchManager.add_mult(2)
 		activate()

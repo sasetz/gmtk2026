@@ -13,6 +13,7 @@ enum Scene { MAIN_MENU, ROUND, SHOP }
 @export var options_scene: PackedScene
 @export var credits_scene: PackedScene
 @export var pause_scene: PackedScene
+@export var tutorial_scene: PackedScene
 
 @onready var _screen: Control = $Screen
 @onready var _hud: Control = $HUD
@@ -20,11 +21,13 @@ enum Scene { MAIN_MENU, ROUND, SHOP }
 @onready var _result: Panel = $Result
 @onready var _result_title: Label = $Result/Box/Title
 @onready var _result_sub: Label = $Result/Box/Sub
-@onready var _result_continue: Button = $Result/Box/Continue
+@onready var _result_continue: TextureButton = $Result/Continue
+@onready var _result_continue_label: Label = $Result/Continue/ContinueLabel
 
 var _current: Scene = Scene.MAIN_MENU
 var _overlay: Control = null   # options / credits
 var _pause: Control = null
+var _tutorial: Control = null
 var _pending_won: bool = false
 
 
@@ -32,7 +35,29 @@ func _ready() -> void:
 	EventBus.switch_scene.connect(_select_scene)
 	EventBus.round_result.connect(_on_round_result)
 	EventBus.toggle_pause.connect(_toggle_pause)
+	EventBus.tutorial_finished.connect(_close_tutorial)
 	_select_scene(Scene.MAIN_MENU)
+
+
+# --- tutorial ---------------------------------------------------------------
+
+## The tutorial overlay rides along with the round screen for the scripted lap.
+func _sync_tutorial() -> void:
+	var wanted: bool = Tutorial.active and _current == Scene.ROUND
+	if wanted and _tutorial == null and tutorial_scene != null:
+		_tutorial = tutorial_scene.instantiate()
+		_overlays.add_child(_tutorial)
+	elif not wanted:
+		_close_tutorial()
+
+
+func _close_tutorial() -> void:
+	if _tutorial != null:
+		# Out of the tree at once: a queued-but-still-parented overlay would
+		# double up on the event bus with the one replacing it.
+		_overlays.remove_child(_tutorial)
+		_tutorial.queue_free()
+		_tutorial = null
 
 
 # --- scenes -----------------------------------------------------------------
@@ -41,6 +66,7 @@ func _select_scene(scene: Scene) -> void:
 	_set_paused(false)
 	_close_overlay()
 	_close_pause()
+	_close_tutorial()
 	_result.visible = false
 	_current = scene
 	for c: Node in _screen.get_children():
@@ -59,6 +85,7 @@ func _select_scene(scene: Scene) -> void:
 			_hud.visible = true
 			_screen.add_child(round_scene.instantiate())
 			Audio.play_music(&"Normal")
+			_sync_tutorial()
 		Scene.SHOP:
 			_hud.visible = true
 			var shop: Control = shop_scene.instantiate()
@@ -75,11 +102,11 @@ func _on_round_result(won: bool, is_boss: bool, reward: int) -> void:
 	if won:
 		_result_title.text = "BOSS DEFEATED" if is_boss else "ROUND CLEARED"
 		_result_sub.text = "+$%d banked" % reward
-		_result_continue.text = "Continue"
+		_result_continue_label.text = "Continue"
 	else:
 		_result_title.text = "GAME OVER"
 		_result_sub.text = "You ran out of score."
-		_result_continue.text = "Back to Menu"
+		_result_continue_label.text = "Menu"
 	_result.visible = true
 	_result_continue.grab_focus()
 

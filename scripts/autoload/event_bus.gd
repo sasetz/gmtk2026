@@ -29,6 +29,12 @@ signal card_activated(card_index: int)
 signal combo_triggered(combo: ComboDef)
 signal button_fired(button: ButtonDef)
 
+## Tutorial
+## Point the player at something on the round screen: "stopwatch", "button",
+## "card", or "none" to clear it.
+signal tutorial_highlight(role: StringName)
+signal tutorial_finished
+
 ## Shop
 signal shop_entered
 signal shop_left

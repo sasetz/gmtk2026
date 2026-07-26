@@ -22,6 +22,7 @@ Settings="*res://scripts/autoload/settings.gd"
 Audio="*res://scripts/autoload/audio.gd"
 StopwatchManager="*res://scripts/autoload/stopwatch_manager.gd"
 RoundManager="*res://scripts/autoload/round_manager.gd"
+Tutorial="*res://scripts/autoload/tutorial.gd"
 RunManager="*res://scripts/autoload/run_manager.gd"
 
 [display]
