@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="PushButtonCatalog" format=3 uid="uid://n3lrder7njh1"]
+
+[ext_resource type="Script" uid="uid://u6yg1ji1dhrv" path="res://scripts/data/push_button/push_button_catalog.gd" id="1_xmnnp"]
+
+[resource]
+script = ExtResource("1_xmnnp")
+sprites = null
+metadata/_custom_type_script = "uid://u6yg1ji1dhrv"

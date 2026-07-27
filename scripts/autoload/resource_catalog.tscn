@@ -1,0 +1,87 @@
+[gd_scene format=3 uid="uid://dm64ilcrovsc3"]
+
+[ext_resource type="Script" uid="uid://bp4f8yh6hd6yx" path="res://scripts/autoload/resource_catalog.gd" id="1_r4tcc"]
+[ext_resource type="Script" uid="uid://bcjc8yrpwolmd" path="res://scripts/data/push_button/push_button_definition.gd" id="2_oi5p7"]
+[ext_resource type="AudioStream" uid="uid://dsmiokai8iqeg" path="res://assets/sounds/Jaimie Cat Button Press.wav" id="3_rg2g3"]
+[ext_resource type="SpriteFrames" uid="uid://cnd317rld3yv3" path="res://data/buttons/white_cat_frames.tres" id="4_0i2t7"]
+[ext_resource type="AudioStream" uid="uid://pnoy5lfxf6fa" path="res://assets/sounds/Keyboard Button Press 1.wav" id="5_0i2t7"]
+[ext_resource type="Texture2D" uid="uid://dh6qqsir68fn5" path="res://assets/art/buttons/Buttons Sheets-Normal White.png" id="6_rchkx"]
+
+[sub_resource type="Resource" id="Resource_3em2a"]
+script = ExtResource("2_oi5p7")
+sprite = ExtResource("4_0i2t7")
+sounds = Array[AudioStream]([ExtResource("3_rg2g3")])
+metadata/_custom_type_script = "uid://bcjc8yrpwolmd"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4imfc"]
+atlas = ExtResource("6_rchkx")
+region = Rect2(256, 0, 128, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ms0jc"]
+atlas = ExtResource("6_rchkx")
+region = Rect2(0, 0, 128, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jfax3"]
+atlas = ExtResource("6_rchkx")
+region = Rect2(128, 0, 128, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wk3qj"]
+atlas = ExtResource("6_rchkx")
+region = Rect2(256, 0, 128, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8w2ry"]
+atlas = ExtResource("6_rchkx")
+region = Rect2(384, 0, 128, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5okpf"]
+atlas = ExtResource("6_rchkx")
+region = Rect2(512, 0, 128, 112)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3em2a"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4imfc")
+}],
+"loop": 0,
+"name": &"hover",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ms0jc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jfax3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wk3qj")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8w2ry")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5okpf")
+}],
+"loop": 1,
+"name": &"push",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_r4tcc"]
+script = ExtResource("2_oi5p7")
+sprite = SubResource("SpriteFrames_3em2a")
+sounds = Array[AudioStream]([ExtResource("5_0i2t7")])
+metadata/_custom_type_script = "uid://bcjc8yrpwolmd"
+
+[node name="ResourceCatalog" type="Node" unique_id=2034690082]
+script = ExtResource("1_r4tcc")
+push_button_catalog = Dictionary[int, ExtResource("2_oi5p7")]({
+0: SubResource("Resource_r4tcc"),
+2: SubResource("Resource_3em2a")
+})

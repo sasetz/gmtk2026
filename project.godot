@@ -17,6 +17,8 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+Enums="*uid://cqe8sm22dagjl"
+ResourceCatalog="*uid://dm64ilcrovsc3"
 EventBus="*res://scripts/autoload/event_bus.gd"
 Settings="*res://scripts/autoload/settings.gd"
 Audio="*res://scripts/autoload/audio.gd"

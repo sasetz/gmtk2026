@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://b5prjlonfh4b4"]
+
+[ext_resource type="Script" uid="uid://bjreykpyk7n47" path="res://scripts/ui/push_button.gd" id="1_ctstm"]
+[ext_resource type="SpriteFrames" uid="uid://cnd317rld3yv3" path="res://data/buttons/white_cat_frames.tres" id="2_ctstm"]
+
+[node name="PushButton" type="Control" unique_id=641528986 node_paths=PackedStringArray("Sprite")]
+custom_minimum_size = Vector2(130.52, 117.55)
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_ctstm")
+Sprite = NodePath("AnimatedSprite2D")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1246577561]
+sprite_frames = ExtResource("2_ctstm")
+animation = &"idle"
+autoplay = "idle"
+centered = false
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

@@ -2,11 +2,12 @@
 
 [ext_resource type="Script" uid="uid://824o04ua85i6" path="res://scripts/ui/main_menu.gd" id="1_menu"]
 [ext_resource type="Texture2D" uid="uid://dyihfyrju5mvh" path="res://assets/art/bg/bg_full.png" id="2_8ln24"]
-[ext_resource type="PackedScene" path="res://scenes/animated_button.tscn" id="2_anim"]
+[ext_resource type="PackedScene" uid="uid://bkc7n2kydmqc4" path="res://scenes/animated_button.tscn" id="2_anim"]
 [ext_resource type="SpriteFrames" uid="uid://cmymrrw6f8vs7" path="res://assets/art/buttons/button_white_cat.tres" id="3_cat"]
 [ext_resource type="Texture2D" uid="uid://b58swf011x4ie" path="res://assets/art/ui/logo.png" id="5_8ln24"]
 [ext_resource type="Texture2D" uid="uid://n7wpetkoty46" path="res://assets/art/ui/Press Space to Stop BG-export.png" id="6_oa1go"]
 [ext_resource type="Texture2D" uid="uid://c5717n6rt133o" path="res://assets/art/ui/Corner For UI.png" id="7_tbmy8"]
+[ext_resource type="PackedScene" uid="uid://b5prjlonfh4b4" path="res://scenes/push_button.tscn" id="8_tbmy8"]
 
 [node name="MainMenu" type="Control" unique_id=466699047]
 layout_mode = 3
@@ -72,6 +73,7 @@ offset_top = 21.0
 offset_right = 304.0
 offset_bottom = 229.0
 grow_horizontal = 2
+mouse_filter = 2
 texture = ExtResource("5_8ln24")
 
 [node name="TextureRect2" type="TextureRect" parent="." unique_id=1235325304]
@@ -86,6 +88,7 @@ offset_top = -104.0
 offset_right = 144.0
 grow_horizontal = 2
 grow_vertical = 0
+mouse_filter = 2
 texture = ExtResource("6_oa1go")
 
 [node name="Label" type="Label" parent="." unique_id=970796064]
@@ -120,5 +123,12 @@ offset_right = 640.0
 offset_bottom = 361.0
 texture = ExtResource("7_tbmy8")
 flip_h = true
+
+[node name="PushButton" parent="." unique_id=641528986 instance=ExtResource("8_tbmy8")]
+layout_mode = 1
+offset_left = 497.0
+offset_top = 234.0
+offset_right = 627.52
+offset_bottom = 351.55
 
 [connection signal="pressed" from="Buttons/Play" to="." method="_on_play_pressed"]

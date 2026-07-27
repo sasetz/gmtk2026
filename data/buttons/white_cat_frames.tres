@@ -1,0 +1,70 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://cnd317rld3yv3"]
+
+[ext_resource type="Texture2D" uid="uid://dq2abm74c8wms" path="res://assets/art/buttons/Buttons Sheets-Cat White.png" id="1_pfx6l"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vj043"]
+atlas = ExtResource("1_pfx6l")
+region = Rect2(128, 0, 128, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aajni"]
+atlas = ExtResource("1_pfx6l")
+region = Rect2(256, 0, 128, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ctstm"]
+atlas = ExtResource("1_pfx6l")
+region = Rect2(0, 0, 128, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4rcne"]
+atlas = ExtResource("1_pfx6l")
+region = Rect2(128, 0, 128, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h75nc"]
+atlas = ExtResource("1_pfx6l")
+region = Rect2(256, 0, 128, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lm4ag"]
+atlas = ExtResource("1_pfx6l")
+region = Rect2(384, 0, 128, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jnghf"]
+atlas = ExtResource("1_pfx6l")
+region = Rect2(512, 0, 128, 112)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vj043")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aajni")
+}],
+"loop": 0,
+"name": &"hover",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ctstm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4rcne")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h75nc")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lm4ag")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jnghf")
+}],
+"loop": 1,
+"name": &"push",
+"speed": 5.0
+}]
