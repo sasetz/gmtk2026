@@ -7,7 +7,6 @@
 [ext_resource type="Texture2D" uid="uid://b58swf011x4ie" path="res://assets/art/ui/logo.png" id="5_8ln24"]
 [ext_resource type="Texture2D" uid="uid://n7wpetkoty46" path="res://assets/art/ui/Press Space to Stop BG-export.png" id="6_oa1go"]
 [ext_resource type="Texture2D" uid="uid://c5717n6rt133o" path="res://assets/art/ui/Corner For UI.png" id="7_tbmy8"]
-[ext_resource type="PackedScene" uid="uid://b5prjlonfh4b4" path="res://scenes/push_button.tscn" id="8_tbmy8"]
 
 [node name="MainMenu" type="Control" unique_id=466699047]
 layout_mode = 3
@@ -123,12 +122,5 @@ offset_right = 640.0
 offset_bottom = 361.0
 texture = ExtResource("7_tbmy8")
 flip_h = true
-
-[node name="PushButton" parent="." unique_id=641528986 instance=ExtResource("8_tbmy8")]
-layout_mode = 1
-offset_left = 497.0
-offset_top = 234.0
-offset_right = 627.52
-offset_bottom = 351.55
 
 [connection signal="pressed" from="Buttons/Play" to="." method="_on_play_pressed"]

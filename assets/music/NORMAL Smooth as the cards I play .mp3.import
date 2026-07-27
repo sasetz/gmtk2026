@@ -12,8 +12,8 @@ dest_files=["res://.godot/imported/NORMAL Smooth as the cards I play .mp3-66a9ad
 
 [params]
 
-loop=false
+loop=true
 loop_offset=0.0
-bpm=93.0
+bpm=95.0
 beat_count=0
 bar_beats=4
