@@ -36,7 +36,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	if target == null:
 		return
 	get_viewport().set_input_as_handled()
-	target.press_from_key()
 
 
 ## The stopwatch a keypress belongs to: the one already running, otherwise the

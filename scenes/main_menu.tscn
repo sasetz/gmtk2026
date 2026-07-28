@@ -2,11 +2,10 @@
 
 [ext_resource type="Script" uid="uid://824o04ua85i6" path="res://scripts/ui/main_menu.gd" id="1_menu"]
 [ext_resource type="Texture2D" uid="uid://dyihfyrju5mvh" path="res://assets/art/bg/bg_full.png" id="2_8ln24"]
-[ext_resource type="PackedScene" uid="uid://bkc7n2kydmqc4" path="res://scenes/animated_button.tscn" id="2_anim"]
-[ext_resource type="SpriteFrames" uid="uid://cmymrrw6f8vs7" path="res://assets/art/buttons/button_white_cat.tres" id="3_cat"]
 [ext_resource type="Texture2D" uid="uid://b58swf011x4ie" path="res://assets/art/ui/logo.png" id="5_8ln24"]
 [ext_resource type="Texture2D" uid="uid://n7wpetkoty46" path="res://assets/art/ui/Press Space to Stop BG-export.png" id="6_oa1go"]
 [ext_resource type="Texture2D" uid="uid://c5717n6rt133o" path="res://assets/art/ui/Corner For UI.png" id="7_tbmy8"]
+[ext_resource type="PackedScene" uid="uid://b5prjlonfh4b4" path="res://scenes/push_button.tscn" id="8_tbmy8"]
 
 [node name="MainMenu" type="Control" unique_id=466699047]
 layout_mode = 3
@@ -16,6 +15,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_menu")
+
+[node name="OnPlayTimer" type="Timer" parent="." unique_id=72706057]
+wait_time = 0.15
+one_shot = true
 
 [node name="Felt" type="TextureRect" parent="." unique_id=1260758426]
 layout_mode = 1
@@ -42,10 +45,9 @@ grow_vertical = 2
 theme_override_constants/separation = 12
 alignment = 1
 
-[node name="Play" parent="Buttons" unique_id=2029772177 instance=ExtResource("2_anim")]
+[node name="Play" parent="Buttons" unique_id=641528986 instance=ExtResource("8_tbmy8")]
 layout_mode = 2
-frames = ExtResource("3_cat")
-text = "PLAY"
+Type = 2
 
 [node name="Version" type="Label" parent="." unique_id=56618026]
 layout_mode = 1
@@ -123,4 +125,4 @@ offset_bottom = 361.0
 texture = ExtResource("7_tbmy8")
 flip_h = true
 
-[connection signal="pressed" from="Buttons/Play" to="." method="_on_play_pressed"]
+[connection signal="button_up" from="Buttons/Play" to="." method="_on_play_pressed"]

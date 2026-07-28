@@ -26,7 +26,7 @@ const OVERLAY_Z: int = 500
 @onready var _result: Panel = $Result
 @onready var _result_title: Label = $Result/Box/Title
 @onready var _result_sub: Label = $Result/Box/Sub
-@onready var _result_continue: AnimatedButton = $Result/Continue
+@onready var _result_continue: PushButton = $Result/Continue
 
 var _current: Scene = Scene.MAIN_MENU
 var _overlay: Control = null   # options / credits
@@ -108,11 +108,9 @@ func _on_round_result(won: bool, is_boss: bool, reward: int) -> void:
 	if won:
 		_result_title.text = "BOSS DEFEATED" if is_boss else "ROUND CLEARED"
 		_result_sub.text = "+$%d banked" % reward
-		_result_continue.text = "Continue"
 	else:
 		_result_title.text = "GAME OVER"
 		_result_sub.text = "You ran out of score."
-		_result_continue.text = "Menu"
 	_result.visible = true
 	_result_continue.grab_focus()
 

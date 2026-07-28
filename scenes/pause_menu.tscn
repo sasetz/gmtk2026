@@ -1,40 +1,44 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene format=3 uid="uid://b0xpgok1koka3"]
 
-[ext_resource type="Script" path="res://scripts/ui/pause_menu.gd" id="1_pause"]
-[ext_resource type="PackedScene" path="res://scenes/animated_button.tscn" id="2_anim"]
-[ext_resource type="SpriteFrames" path="res://assets/art/buttons/button_white_cat.tres" id="3_cat"]
+[ext_resource type="Script" uid="uid://ced3kvven1hab" path="res://scripts/ui/pause_menu.gd" id="1_pause"]
+[ext_resource type="PackedScene" uid="uid://b5prjlonfh4b4" path="res://scenes/push_button.tscn" id="2_5d2l8"]
 
 [sub_resource type="StyleBoxFlat" id="sb_pause"]
+content_margin_left = 20.0
+content_margin_top = 14.0
+content_margin_right = 20.0
+content_margin_bottom = 14.0
 bg_color = Color(0.06, 0.13, 0.11, 0.98)
-corner_radius_top_left = 14
-corner_radius_top_right = 14
-corner_radius_bottom_right = 14
-corner_radius_bottom_left = 14
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
 border_color = Color(0.45, 0.6, 0.55, 0.6)
-content_margin_left = 20.0
-content_margin_top = 14.0
-content_margin_right = 20.0
-content_margin_bottom = 14.0
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
 
-[node name="PauseMenu" type="Control"]
+[node name="PauseMenu" type="Control" unique_id=772506370 node_paths=PackedStringArray("ResumeButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_pause")
+ResumeButton = NodePath("Panel/Box/Buttons/ResumeContainer/PushButton")
 
-[node name="Dim" type="ColorRect" parent="."]
+[node name="Dim" type="ColorRect" parent="." unique_id=992868711]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0.02, 0.05, 0.04, 0.75)
 
-[node name="Panel" type="PanelContainer" parent="."]
+[node name="Panel" type="PanelContainer" parent="." unique_id=131464172]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -49,44 +53,64 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("sb_pause")
 
-[node name="Box" type="VBoxContainer" parent="Panel"]
+[node name="Box" type="VBoxContainer" parent="Panel" unique_id=1787334693]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="Title" type="Label" parent="Panel/Box"]
+[node name="Title" type="Label" parent="Panel/Box" unique_id=1354708859]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.86, 0.4, 1)
+theme_override_font_sizes/font_size = 24
 text = "PAUSED"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 24
-theme_override_colors/font_color = Color(0.98, 0.86, 0.4, 1)
 
-[node name="Buttons" type="HBoxContainer" parent="Panel/Box"]
+[node name="Buttons" type="HBoxContainer" parent="Panel/Box" unique_id=1079986900]
 layout_mode = 2
 theme_override_constants/separation = 8
 alignment = 1
 
-[node name="Resume" parent="Panel/Box/Buttons" instance=ExtResource("2_anim")]
+[node name="ResumeContainer" type="VBoxContainer" parent="Panel/Box/Buttons" unique_id=737989558]
 layout_mode = 2
-frames = ExtResource("3_cat")
+
+[node name="PushButton" parent="Panel/Box/Buttons/ResumeContainer" unique_id=988748054 instance=ExtResource("2_5d2l8")]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/Box/Buttons/ResumeContainer" unique_id=684554958]
+layout_mode = 2
 text = "RESUME"
+horizontal_alignment = 1
 
-[node name="Options" parent="Panel/Box/Buttons" instance=ExtResource("2_anim")]
+[node name="OptionsContainer" type="VBoxContainer" parent="Panel/Box/Buttons" unique_id=1195966596]
 layout_mode = 2
-frames = ExtResource("3_cat")
+
+[node name="PushButton" parent="Panel/Box/Buttons/OptionsContainer" unique_id=626883710 instance=ExtResource("2_5d2l8")]
+layout_mode = 2
+Type = 1
+
+[node name="Label" type="Label" parent="Panel/Box/Buttons/OptionsContainer" unique_id=1623023816]
+layout_mode = 2
 text = "OPTIONS"
+horizontal_alignment = 1
 
-[node name="MainMenu" parent="Panel/Box/Buttons" instance=ExtResource("2_anim")]
+[node name="MenuContainer" type="VBoxContainer" parent="Panel/Box/Buttons" unique_id=2129287217]
 layout_mode = 2
-frames = ExtResource("3_cat")
+
+[node name="PushButton" parent="Panel/Box/Buttons/MenuContainer" unique_id=262724603 instance=ExtResource("2_5d2l8")]
+layout_mode = 2
+Type = 3
+
+[node name="Label" type="Label" parent="Panel/Box/Buttons/MenuContainer" unique_id=687243338]
+layout_mode = 2
 text = "MENU"
+horizontal_alignment = 1
 
-[node name="Hint" type="Label" parent="Panel/Box"]
+[node name="Hint" type="Label" parent="Panel/Box" unique_id=1657183372]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.8, 0.76, 1)
+theme_override_font_sizes/font_size = 10
 text = "Esc to resume"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 10
-theme_override_colors/font_color = Color(0.7, 0.8, 0.76, 1)
 
-[connection signal="pressed" from="Panel/Box/Buttons/Resume" to="." method="_on_resume_pressed"]
-[connection signal="pressed" from="Panel/Box/Buttons/Options" to="." method="_on_options_pressed"]
-[connection signal="pressed" from="Panel/Box/Buttons/MainMenu" to="." method="_on_main_menu_pressed"]
+[connection signal="button_up" from="Panel/Box/Buttons/ResumeContainer/PushButton" to="." method="_on_resume_pressed"]
+[connection signal="button_up" from="Panel/Box/Buttons/OptionsContainer/PushButton" to="." method="_on_options_pressed"]
+[connection signal="button_up" from="Panel/Box/Buttons/MenuContainer/PushButton" to="." method="_on_main_menu_pressed"]

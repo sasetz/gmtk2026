@@ -1,19 +1,84 @@
 [gd_scene format=3 uid="uid://b5prjlonfh4b4"]
 
 [ext_resource type="Script" uid="uid://bjreykpyk7n47" path="res://scripts/ui/push_button.gd" id="1_ctstm"]
-[ext_resource type="SpriteFrames" uid="uid://cnd317rld3yv3" path="res://data/buttons/white_cat_frames.tres" id="2_ctstm"]
+[ext_resource type="Texture2D" uid="uid://dh6qqsir68fn5" path="res://assets/art/buttons/Buttons Sheets-Normal White.png" id="2_ctstm"]
 
-[node name="PushButton" type="Control" unique_id=641528986 node_paths=PackedStringArray("Sprite")]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rtw2f"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4imfc"]
+atlas = ExtResource("2_ctstm")
+region = Rect2(256, 0, 128, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ms0jc"]
+atlas = ExtResource("2_ctstm")
+region = Rect2(0, 0, 128, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jfax3"]
+atlas = ExtResource("2_ctstm")
+region = Rect2(128, 0, 128, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wk3qj"]
+atlas = ExtResource("2_ctstm")
+region = Rect2(256, 0, 128, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8w2ry"]
+atlas = ExtResource("2_ctstm")
+region = Rect2(384, 0, 128, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5okpf"]
+atlas = ExtResource("2_ctstm")
+region = Rect2(512, 0, 128, 112)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3em2a"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4imfc")
+}],
+"loop": 0,
+"name": &"hover",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ms0jc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jfax3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wk3qj")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8w2ry")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5okpf")
+}],
+"loop": 1,
+"name": &"push",
+"speed": 5.0
+}]
+
+[node name="PushButton" type="Button" unique_id=988748054 node_paths=PackedStringArray("Sprite")]
 custom_minimum_size = Vector2(130.52, 117.55)
-layout_mode = 3
-anchors_preset = 0
+offset_right = 130.52
+offset_bottom = 117.55
+theme_override_styles/focus = SubResource("StyleBoxEmpty_rtw2f")
+flat = true
 script = ExtResource("1_ctstm")
 Sprite = NodePath("AnimatedSprite2D")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1246577561]
-sprite_frames = ExtResource("2_ctstm")
+sprite_frames = SubResource("SpriteFrames_3em2a")
 animation = &"idle"
 autoplay = "idle"
+frame_progress = 0.93520945
 centered = false
 
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]

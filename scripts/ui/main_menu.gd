@@ -8,7 +8,8 @@ signal options_pressed
 signal credits_pressed
 signal quit_pressed
 
-@onready var _play: AnimatedButton = $Buttons/Play
+@onready var _play: PushButton = $Buttons/Play
+@onready var _transition_timer: Timer = $OnPlayTimer
 
 
 func _ready() -> void:
@@ -16,7 +17,6 @@ func _ready() -> void:
 	# The cat buttons sound themselves; anything else here gets the usual click.
 	UiSound.attach(self)
 	_play.grab_focus()
-	_play._label.hide()
 
 
 ## Space (or a click anywhere) starts the run. Unhandled input only, and on the
@@ -30,4 +30,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _on_play_pressed() -> void:
-	play_pressed.emit()
+	_transition_timer.one_shot = true
+	_transition_timer.timeout.connect(func (): play_pressed.emit())
+	_transition_timer.start()

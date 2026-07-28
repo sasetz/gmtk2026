@@ -8,12 +8,12 @@ signal resume_pressed
 signal options_pressed
 signal menu_pressed
 
-@onready var _resume: AnimatedButton = $Panel/Box/Buttons/Resume
+@export var ResumeButton: PushButton
 
 
 func _ready() -> void:
 	UiSound.attach(self)
-	_resume.grab_focus()
+	ResumeButton.grab_focus()
 
 
 func _on_resume_pressed() -> void:

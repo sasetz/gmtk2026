@@ -19,8 +19,7 @@
 [ext_resource type="Material" uid="uid://bs8uojdeaoxho" path="res://assets/font_outline.tres" id="16_jbj1t"]
 [ext_resource type="Texture2D" uid="uid://wkjtdi03m60q" path="res://assets/art/ui/settings.tres" id="17_2wyq8"]
 [ext_resource type="PackedScene" uid="uid://eocwdje2qfra" path="res://scenes/tutorial.tscn" id="18_tut"]
-[ext_resource type="PackedScene" uid="uid://bkc7n2kydmqc4" path="res://scenes/animated_button.tscn" id="19_anim"]
-[ext_resource type="SpriteFrames" uid="uid://cmymrrw6f8vs7" path="res://assets/art/buttons/button_white_cat.tres" id="20_cat"]
+[ext_resource type="PackedScene" uid="uid://b5prjlonfh4b4" path="res://scenes/push_button.tscn" id="20_gqmmt"]
 
 [sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_0dvnm"]
 clip_count = 5
@@ -226,7 +225,6 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="Result" type="Panel" parent="." unique_id=2005548149]
-visible = false
 z_index = 400
 layout_mode = 1
 anchors_preset = 15
@@ -265,21 +263,19 @@ theme_override_colors/font_color = Color(0.88, 0.9, 0.92, 1)
 theme_override_font_sizes/font_size = 12
 horizontal_alignment = 1
 
-[node name="Continue" parent="Result" unique_id=1916599643 instance=ExtResource("19_anim")]
+[node name="Continue" parent="Result" unique_id=641528986 instance=ExtResource("20_gqmmt")]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -150.0
-offset_top = -56.0
-offset_right = -22.0
-offset_bottom = 56.0
+offset_left = -130.52002
+offset_top = -58.775
+offset_bottom = 58.775
 grow_horizontal = 0
 grow_vertical = 2
-frames = ExtResource("20_cat")
-text = "Continue"
+Type = 2
 
 [connection signal="pressed" from="OptionsCorner" to="." method="_on_options_corner_pressed"]
-[connection signal="pressed" from="Result/Continue" to="." method="_on_continue_pressed"]
+[connection signal="button_up" from="Result/Continue" to="." method="_on_continue_pressed"]

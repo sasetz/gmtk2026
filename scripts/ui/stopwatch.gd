@@ -34,7 +34,7 @@ const ACTION_FRAMES := {
 @onready var _time: Label = $Face/Time
 @onready var _pips: HBoxContainer = $Pips
 @onready var _score: Label = $Score
-@onready var _action: AnimatedButton = $Action
+@onready var _action: PushButton = $CenterContainer/Action
 
 enum State { IDLE, RUNNING, DONE }
 
@@ -66,7 +66,6 @@ func _ready() -> void:
 	_pressed_tex = pair[1]
 	_tick = Audio.tick_for_face(def.face)
 	_face.texture = _base_tex
-	_action.frames = ACTION_FRAMES.get(def.face, ACTION_FRAMES[&"default"])
 	_build_badges()
 	_build_pips(def.clicks)
 	_time.text = _format(def.duration_ms)
@@ -109,11 +108,6 @@ func _on_pressed() -> void:
 		_refresh()
 	elif _state == State.RUNNING:
 		StopwatchManager.click()
-
-
-## Space (the "press" action) drives the stopwatch as well as the mouse.
-func press_from_key() -> void:
-	_action.press_from_key()
 
 
 ## Is this the one currently counting down?
