@@ -3,6 +3,7 @@ extends Node
 
 @export var push_button_catalog: Dictionary[Enums.ButtonType, PushButtonDefinition]
 @export var stopwatch_catalog: Dictionary[Enums.StopwatchType, StopwatchDefinition]
+@export var sfx: Dictionary[StringName, AudioStream]
 
 var _rng := RandomNumberGenerator.new()
 

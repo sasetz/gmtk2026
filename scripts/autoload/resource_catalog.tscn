@@ -41,6 +41,32 @@
 [ext_resource type="Texture2D" uid="uid://dyyk14rfe1k38" path="res://assets/art/stopwatches/stopwatch_pink_selected.tres" id="39_kd1lb"]
 [ext_resource type="AudioStream" uid="uid://d0vf271lv4qih" path="res://assets/sounds/Cassette Click 1.wav" id="40_c3afo"]
 [ext_resource type="AudioStream" uid="uid://b4hw1y2bxr1v3" path="res://assets/sounds/Cassette Click 2.wav" id="41_im2k8"]
+[ext_resource type="AudioStream" uid="uid://1wr4mwodnmrw" path="res://assets/sounds/click.wav" id="42_ee8c4"]
+[ext_resource type="AudioStream" uid="uid://bbcog2itp1jvw" path="res://assets/sounds/cancel.wav" id="43_c3afo"]
+[ext_resource type="AudioStream" uid="uid://ciypukw5ehofs" path="res://assets/sounds/point.wav" id="44_im2k8"]
+[ext_resource type="AudioStream" uid="uid://b6cgs2uj5ctg8" path="res://assets/sounds/multihit multipoints.wav" id="45_foet8"]
+[ext_resource type="AudioStream" uid="uid://c2xlfb4h2ndh6" path="res://assets/sounds/speech bubble 1.wav" id="46_day2o"]
+[ext_resource type="AudioStream" uid="uid://ctwe18c71srps" path="res://assets/sounds/speech bubble 2.wav" id="47_dux8t"]
+[ext_resource type="AudioStream" uid="uid://b1tkvwtmavcct" path="res://assets/sounds/speech bubble 3.wav" id="48_jinw1"]
+[ext_resource type="AudioStream" uid="uid://2kngpfls485a" path="res://assets/sounds/speech bubble 4.wav" id="49_swi4n"]
+[ext_resource type="AudioStream" uid="uid://1kd72c3kmt4f" path="res://assets/sounds/Jimbo Speak 01.wav" id="50_ld3sr"]
+[ext_resource type="AudioStream" uid="uid://du8atbu7xcksi" path="res://assets/sounds/Jimbo Speak 02.wav" id="51_wdc4n"]
+[ext_resource type="AudioStream" uid="uid://cvi3x5lsassgx" path="res://assets/sounds/Jimbo Speak 03.wav" id="52_l46c5"]
+[ext_resource type="AudioStream" uid="uid://bhb2vot0q31c5" path="res://assets/sounds/Jimbo Speak 04.wav" id="53_itps8"]
+[ext_resource type="AudioStream" uid="uid://toh34pqxxrky" path="res://assets/sounds/Jimbo Speak 05.wav" id="54_7f3mx"]
+[ext_resource type="AudioStream" uid="uid://lrhv3n6bnysb" path="res://assets/sounds/chip.wav" id="55_swi4n"]
+[ext_resource type="AudioStream" uid="uid://cljmwoerakb35" path="res://assets/sounds/chip 2.wav" id="56_ld3sr"]
+[ext_resource type="AudioStream" uid="uid://d05aphs7dq7s8" path="res://assets/sounds/chip 3.wav" id="57_wdc4n"]
+[ext_resource type="AudioStream" uid="uid://fk4nvngpl4hk" path="res://assets/sounds/crumple.wav" id="58_l46c5"]
+[ext_resource type="AudioStream" uid="uid://dgmvkt2kv7yen" path="res://assets/sounds/crumple 2.wav" id="59_itps8"]
+[ext_resource type="AudioStream" uid="uid://c3jgsohwyov3t" path="res://assets/sounds/crumple 3.wav" id="60_7f3mx"]
+[ext_resource type="AudioStream" uid="uid://ccdngd6ai1ewu" path="res://assets/sounds/coin.wav" id="61_7ctgm"]
+[ext_resource type="AudioStream" uid="uid://bhyf6552ebjbg" path="res://assets/sounds/coin 2.wav" id="62_sjmm1"]
+[ext_resource type="AudioStream" uid="uid://biq8vmrjqidpm" path="res://assets/sounds/coin 3.wav" id="63_8meyx"]
+[ext_resource type="AudioStream" uid="uid://wbbmk7x2a2us" path="res://assets/sounds/card slide.wav" id="64_sjmm1"]
+[ext_resource type="AudioStream" uid="uid://dmrtpduyqy4xm" path="res://assets/sounds/card flick.wav" id="65_ejj6x"]
+[ext_resource type="AudioStream" uid="uid://do0r7t0cs810p" path="res://assets/sounds/card flick 2.wav" id="66_dqefb"]
+[ext_resource type="AudioStream" uid="uid://b68t1y8ngdp6v" path="res://assets/sounds/card flick 3.wav" id="67_l4vfe"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_oi5p7"]
 streams_count = 3
@@ -543,6 +569,59 @@ selected = ExtResource("39_kd1lb")
 tick = SubResource("AudioStreamRandomizer_foet8")
 metadata/_custom_type_script = "uid://cg65lkbf6h6aw"
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_puq75"]
+random_pitch = 1.9999999
+streams_count = 1
+stream_0/stream = ExtResource("42_ee8c4")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_5a5qe"]
+random_pitch = 1.9999999
+streams_count = 1
+stream_0/stream = ExtResource("43_c3afo")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_7ctgm"]
+streams_count = 4
+stream_0/stream = ExtResource("46_day2o")
+stream_1/stream = ExtResource("47_dux8t")
+stream_2/stream = ExtResource("48_jinw1")
+stream_3/stream = ExtResource("49_swi4n")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_sjmm1"]
+streams_count = 5
+stream_0/stream = ExtResource("50_ld3sr")
+stream_1/stream = ExtResource("51_wdc4n")
+stream_2/stream = ExtResource("52_l46c5")
+stream_3/stream = ExtResource("53_itps8")
+stream_4/stream = ExtResource("54_7f3mx")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_l46c5"]
+streams_count = 3
+stream_0/stream = ExtResource("55_swi4n")
+stream_1/stream = ExtResource("56_ld3sr")
+stream_2/stream = ExtResource("57_wdc4n")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_8meyx"]
+streams_count = 3
+stream_0/stream = ExtResource("58_l46c5")
+stream_1/stream = ExtResource("59_itps8")
+stream_2/stream = ExtResource("60_7f3mx")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_4ic4r"]
+streams_count = 3
+stream_0/stream = ExtResource("61_7ctgm")
+stream_1/stream = ExtResource("62_sjmm1")
+stream_2/stream = ExtResource("63_8meyx")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_ejj6x"]
+streams_count = 1
+stream_0/stream = ExtResource("64_sjmm1")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_dqefb"]
+streams_count = 3
+stream_0/stream = ExtResource("65_ejj6x")
+stream_1/stream = ExtResource("66_dqefb")
+stream_2/stream = ExtResource("67_l4vfe")
+
 [node name="ResourceCatalog" type="Node" unique_id=2034690082]
 script = ExtResource("1_r4tcc")
 push_button_catalog = Dictionary[int, ExtResource("2_oi5p7")]({
@@ -558,4 +637,17 @@ stopwatch_catalog = Dictionary[int, ExtResource("18_nfsdf")]({
 1: SubResource("Resource_aoayq"),
 2: SubResource("Resource_8nl7j"),
 3: SubResource("Resource_5a5qe")
+})
+sfx = Dictionary[StringName, AudioStream]({
+&"bob": SubResource("AudioStreamRandomizer_sjmm1"),
+&"card_flick": SubResource("AudioStreamRandomizer_dqefb"),
+&"card_slide": SubResource("AudioStreamRandomizer_ejj6x"),
+&"chips": SubResource("AudioStreamRandomizer_l46c5"),
+&"coin": SubResource("AudioStreamRandomizer_4ic4r"),
+&"crumple": SubResource("AudioStreamRandomizer_8meyx"),
+&"multipoints": ExtResource("45_foet8"),
+&"points": ExtResource("44_im2k8"),
+&"speech_bubble": SubResource("AudioStreamRandomizer_7ctgm"),
+&"ui_cancel": SubResource("AudioStreamRandomizer_5a5qe"),
+&"ui_click": SubResource("AudioStreamRandomizer_puq75")
 })
