@@ -198,27 +198,6 @@ func round_track() -> StringName:
 func play_round_music() -> void:
 	play_music(round_track())
 
-
-# --- per-type cues ----------------------------------------------------------
-
-## The tick belonging to a stopwatch face.
-func tick_for_face(face: StringName) -> StringName:
-	return FACE_TICKS.get(face, &"tick_normal")
-
-
-## The press sound belonging to a consumable button.
-func sound_for_button(id: StringName) -> StringName:
-	return BUTTON_SOUNDS.get(id, &"btn_normal")
-
-
-## The press sound for an animated button, taken from the sheet it wears.
-func sound_for_sheet(frames: SpriteFrames) -> StringName:
-	if frames == null:
-		return &"btn_normal"
-	var sheet: StringName = StringName(frames.resource_path.get_file().get_basename())
-	return SHEET_SOUNDS.get(sheet, &"btn_normal")
-
-
 # --- gameplay event cues ----------------------------------------------------
 
 func _connect_events() -> void:

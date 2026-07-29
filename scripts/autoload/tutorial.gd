@@ -198,7 +198,7 @@ func _stopwatch(duration: int, clicks: int, rate: float, combos: Array) -> Stopw
 	s.duration_ms = duration
 	s.clicks = clicks
 	s.rate = rate
-	s.face = &"default"
+	s.type = Enums.random_stopwatch(_rng)
 	var typed: Array[ComboDef] = []
 	for c: ComboDef in combos:
 		typed.append(c)

@@ -15,3 +15,6 @@ enum StopwatchType {
 	CONSOLE,
 	CASSETTE,
 }
+
+func random_stopwatch(rng: RandomNumberGenerator) -> StopwatchType:
+	return StopwatchType.values()[rng.randi_range(0, StopwatchType.size() - 1)]

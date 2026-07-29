@@ -2,11 +2,11 @@
 
 [ext_resource type="Texture2D" uid="uid://dqikob4mado5m" path="res://assets/art/ui/button.tres" id="1_50bnw"]
 [ext_resource type="FontFile" uid="uid://dtifpwjfcfe1c" path="res://assets/fonts/Jersey25-Regular.ttf" id="1_e7bfs"]
-[ext_resource type="FontFile" uid="uid://dqextvo5t2g2k" path="res://assets/fonts/ThaleahFat.ttf" id="1_u7cj8"]
 [ext_resource type="Texture2D" uid="uid://c431l8w1gltet" path="res://assets/art/ui/button_pressed.tres" id="2_cefca"]
 [ext_resource type="Texture2D" uid="uid://ckc87k36dtbwy" path="res://assets/art/ui/toggle_on.tres" id="3_cefca"]
 [ext_resource type="Texture2D" uid="uid://5le5ix4654qg" path="res://assets/art/ui/toggle_off.tres" id="3_ed8xq"]
 [ext_resource type="Texture2D" uid="uid://cntkomh3nrt6r" path="res://assets/art/ui/slider_pin.tres" id="6_spin"]
+[ext_resource type="FontFile" uid="uid://ejue1usrtm36" path="res://assets/fonts/edit-undo/editundo.ttf" id="7_uwdo0"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7j863"]
 texture = ExtResource("1_50bnw")
@@ -37,7 +37,7 @@ default_font = ExtResource("1_e7bfs")
 default_font_size = 12
 Button/constants/outline_size = 7
 Button/font_sizes/font_size = 16
-Button/fonts/font = ExtResource("1_u7cj8")
+Button/fonts/font = ExtResource("7_uwdo0")
 Button/styles/hover = SubResource("StyleBoxTexture_7j863")
 Button/styles/normal = SubResource("StyleBoxTexture_50bnw")
 Button/styles/pressed = SubResource("StyleBoxTexture_3taad")
@@ -58,3 +58,4 @@ HSlider/icons/grabber_highlight = ExtResource("6_spin")
 HSlider/styles/grabber_area = SubResource("StyleBoxFlat_nh3dc")
 HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_uwdo0")
 HSlider/styles/slider = SubResource("StyleBoxFlat_ed8xq")
+Label/fonts/font = ExtResource("7_uwdo0")

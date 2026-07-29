@@ -4,28 +4,6 @@ extends VBoxContainer
 ## and an activate button below. While running it wears the sprite's _pressed
 ## variant. Only one stopwatch runs at a time, so the others disable their button.
 
-const FACES := {
-	&"default": [preload("res://assets/art/stopwatches/stopwatch_default.tres"),
-		preload("res://assets/art/stopwatches/stopwatch_default.tres")],
-	&"grey": [preload("res://assets/art/stopwatches/stopwatch_grey.tres"),
-		preload("res://assets/art/stopwatches/stopwatch_grey_pressed.tres")],
-	&"purple": [preload("res://assets/art/stopwatches/stopwatch_purple.tres"),
-		preload("res://assets/art/stopwatches/stopwatch_purple_pressed.tres")],
-	&"pink": [preload("res://assets/art/stopwatches/stopwatch_pink.tres"),
-		preload("res://assets/art/stopwatches/stopwatch_pink_pressed.tres")],
-	&"digital": [preload("res://assets/art/stopwatches/stopwatch_digital.tres"),
-		preload("res://assets/art/stopwatches/stopwatch_digital.tres")],
-}
-
-## The button a face is operated with, so a console watch has a console button.
-const ACTION_FRAMES := {
-	&"default": preload("res://assets/art/buttons/button_white_normal.tres"),
-	&"grey": preload("res://assets/art/buttons/button_black_normal.tres"),
-	&"purple": preload("res://assets/art/buttons/button_black_cat.tres"),
-	&"pink": preload("res://assets/art/buttons/button_bumblegum.tres"),
-	&"digital": preload("res://assets/art/buttons/button_black_normal.tres"),
-}
-
 @export var combo_chip_scene: PackedScene
 @export var pip_scene: PackedScene
 
@@ -34,7 +12,7 @@ const ACTION_FRAMES := {
 @onready var _time: Label = $Face/Time
 @onready var _pips: HBoxContainer = $Pips
 @onready var _score: Label = $Score
-@onready var _action: PushButton = $CenterContainer/Action
+@onready var _push_button: PushButton = $CenterContainer/Action
 
 enum State { IDLE, RUNNING, DONE }
 
@@ -48,12 +26,7 @@ var def: StopwatchDef
 var _state: State = State.IDLE
 var _pip_nodes: Array[ColorRect] = []
 var _chips: Array[Node] = []
-var _base_tex: Texture2D
-var _pressed_tex: Texture2D
-## The tick this face makes - a console beeps, a cassette clicks.
-var _tick: StringName = &"tick_normal"
-## The clock second the last tick was played on, so each one sounds once.
-var _ticked_second: int = -1
+var _ticked_second: int = 0
 
 
 func setup(d: StopwatchDef) -> void:
@@ -61,16 +34,13 @@ func setup(d: StopwatchDef) -> void:
 
 
 func _ready() -> void:
-	var pair: Array = FACES.get(def.face, FACES[&"default"])
-	_base_tex = pair[0]
-	_pressed_tex = pair[1]
-	_tick = Audio.tick_for_face(def.face)
-	_face.texture = _base_tex
+	_face.texture = ResourceCatalog.stopwatch_catalog[def.type].regular
+	_push_button.Type = ResourceCatalog.stopwatch_to_button(def.type)
 	_build_badges()
 	_build_pips(def.clicks)
 	_time.text = _format(def.duration_ms)
 	_score.text = ""
-	_action.pressed.connect(_on_pressed)
+	_push_button.pressed.connect(_on_pressed)
 	EventBus.stopwatch_started.connect(_on_any_started)
 	EventBus.stopwatch_clicked.connect(_on_any_clicked)
 	EventBus.stopwatch_ended.connect(_on_any_ended)
@@ -84,15 +54,12 @@ func _process(_delta: float) -> void:
 		_tick_clock()
 
 
-## A running stopwatch ticks once per second of its own clock, from the moment it
-## starts until it runs out. A lock freezes the clock, so the ticking pauses with
-## it, and a slow rate ticks slower - the sound follows the watch, not real time.
 func _tick_clock() -> void:
 	var second: int = StopwatchManager.remaining_ms / 1000
 	if second == _ticked_second:
 		return
 	_ticked_second = second
-	Audio.play_sfx(_tick, 1.0, TICK_DB)
+	Audio.stopwatch_tick(def.type)
 
 
 func _on_pressed() -> void:
@@ -100,7 +67,7 @@ func _on_pressed() -> void:
 		if StopwatchManager.running:
 			return
 		_state = State.RUNNING
-		_face.texture = _pressed_tex   # running animation: the _pressed variant
+		_face.texture = ResourceCatalog.stopwatch_catalog[def.type].pressed
 		_watch_badges(true)
 		StopwatchManager.begin(def)
 		_build_pips(StopwatchManager.total_clicks())
@@ -117,7 +84,7 @@ func is_live() -> bool:
 
 ## Would a press do anything right now?
 func can_press() -> bool:
-	return not _action.is_disabled()
+	return not _push_button.is_disabled()
 
 
 func _on_any_started() -> void:
@@ -135,7 +102,7 @@ func _on_any_clicked() -> void:
 func _on_any_ended() -> void:
 	if _state == State.RUNNING:
 		_state = State.DONE
-		_face.texture = _base_tex
+		_face.texture = ResourceCatalog.stopwatch_catalog[def.type].regular
 		_watch_badges(false)
 		_fill_pips(StopwatchManager.clicks.size())
 		if StopwatchManager.remaining_ms == 0:
@@ -184,15 +151,12 @@ func _update_score() -> void:
 func _refresh() -> void:
 	match _state:
 		State.IDLE:
-			_action.text = "Start"
-			_action.set_disabled(StopwatchManager.running)
+			_push_button.set_disabled(StopwatchManager.running)
 		State.RUNNING:
-			_action.text = "Lock (%d)" % StopwatchManager.remaining_clicks()
-			_action.set_disabled(false)
+			_push_button.set_disabled(false)
 		State.DONE:
-			_action.text = "Done"
-			_action.set_disabled(true)
+			_push_button.set_disabled(true)
 
 
 func _format(ms: int) -> String:
-	return "%d.%d" % [ms / 1000, (ms % 1000) / 100]
+	return "%02d : %d" % [ms / 1000, (ms % 1000) / 100]

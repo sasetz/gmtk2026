@@ -144,7 +144,7 @@ func _make_stopwatch(lap: int, positives: int, negatives: int) -> StopwatchDef:
 	# Early rounds stay short and readable; the ceiling opens up lap by lap.
 	s.clicks = clampi(_click_count(shape[1], t), MIN_CLICKS, _click_cap(t))
 	s.rate = _rate(shape[2])
-	s.face = FACE_POOL[rng.randi_range(0, FACE_POOL.size() - 1)]
+	s.type = Enums.random_stopwatch(rng)
 	s.combos = ComboCatalog.roll_combos(rng,
 		mini(positives, MAX_POSITIVE_COMBOS), mini(negatives, MAX_NEGATIVE_COMBOS))
 	# However many locks it ended up with, leave enough clock to make them.

@@ -4,7 +4,13 @@
 [ext_resource type="PackedScene" path="res://scenes/combo_chip.tscn" id="2_chip"]
 [ext_resource type="PackedScene" path="res://scenes/pip.tscn" id="3_pip"]
 [ext_resource type="Texture2D" uid="uid://drslxpd5d7jyw" path="res://assets/art/stopwatches/stopwatch_default.tres" id="4_face"]
+[ext_resource type="FontFile" uid="uid://ejue1usrtm36" path="res://assets/fonts/edit-undo/editundo.ttf" id="5_60hx5"]
 [ext_resource type="PackedScene" uid="uid://b5prjlonfh4b4" path="res://scenes/push_button.tscn" id="5_njw2k"]
+
+[sub_resource type="FontVariation" id="FontVariation_njw2k"]
+base_font = ExtResource("5_60hx5")
+spacing_glyph = 2
+spacing_space = -10
 
 [node name="Stopwatch" type="VBoxContainer" unique_id=48284263]
 theme_override_constants/separation = 3
@@ -31,13 +37,17 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = 5.0
+offset_bottom = 5.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_color = Color(0.98, 0.9, 0.7, 1)
-theme_override_colors/font_outline_color = Color(0.08, 0.06, 0.04, 1)
+theme_override_colors/font_color = Color(0.8220918, 0.87887007, 0.9209019, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 20
-text = "6.0"
+theme_override_constants/shadow_outline_size = 0
+theme_override_fonts/font = SubResource("FontVariation_njw2k")
+theme_override_font_sizes/font_size = 32
+text = "6:0"
 horizontal_alignment = 1
 vertical_alignment = 1
 

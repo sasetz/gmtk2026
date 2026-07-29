@@ -7,6 +7,4 @@ extends Resource
 @export var clicks: int = 3              ## locks the player makes before it scores
 @export var duration_ms: int = 5000      ## the clock counts down from this to zero
 @export var combos: Array[ComboDef] = []
-## Which stopwatch sprite to wear (see Stopwatch.FACES): default / grey / purple
-## / pink / digital.
-@export var face: StringName = &"default"
+@export var type: Enums.StopwatchType = Enums.StopwatchType.NORMAL
