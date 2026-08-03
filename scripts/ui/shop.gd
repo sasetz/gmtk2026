@@ -18,8 +18,6 @@ func _ready() -> void:
 	EventBus.shop_rolled.connect(_rebuild)
 	_reroll.pressed.connect(_on_reroll)
 	_continue.pressed.connect(_on_continue)
-	UiSound.attach(self, &"ui_click", ["Reroll"])
-	UiSound.play_on(_reroll, &"chip")
 	_rebuild()
 	_continue.grab_focus()
 

@@ -40,6 +40,7 @@ func _ready() -> void:
 	else:
 		# Sell stays in the layout (so hover doesn't resize the card) but hidden
 		# and disabled until hovered.
+		@warning_ignore("integer_division")
 		_action.text = "Sell $%d" % (card.cost / 2)
 		_action.modulate.a = 0.0
 		_action.disabled = true
@@ -67,8 +68,8 @@ func _hover_changed(on: bool) -> void:
 
 func _on_action() -> void:
 	if _shop_mode:
-		Audio.play_sfx(&"card_slide")
+		Audio.sfx(&"card_slide")
 		RunManager.buy_card(_shop_index)
 	else:
-		Audio.play_sfx(&"crumple")
+		Audio.sfx(&"crumple")
 		RunManager.sell_card(card)

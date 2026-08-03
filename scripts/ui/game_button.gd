@@ -25,8 +25,10 @@ func _ready() -> void:
 func _on_toggled(on: bool) -> void:
 	RoundManager.set_button_active(def, on)
 	if on:
-		Audio.play_sfx(Audio.sound_for_button(def.id))
+		Audio.sfx(&"ui_click")
 		Shake.play(self)   # activation animation
+	else:
+		Audio.sfx(&"ui_cancel")
 
 
 func _on_stopwatch_started() -> void:

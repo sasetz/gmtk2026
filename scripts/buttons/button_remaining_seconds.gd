@@ -7,6 +7,7 @@ extends ButtonDef
 func on_finish() -> bool:
 	var mult: int = 0
 	for ms: int in StopwatchManager.clicks:
+		@warning_ignore("integer_division")
 		mult += ms / 1000
 	if mult == 0:
 		return false

@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://c50dsn4e5lv22"]
 
-[ext_resource type="Script" path="res://scripts/ui/game_button.gd" id="1_btn"]
+[ext_resource type="Script" uid="uid://b1br43fljv5xb" path="res://scripts/ui/game_button.gd" id="1_btn"]
 
-[node name="GameButton" type="Button"]
+[node name="GameButton" type="Button" unique_id=359770500]
 custom_minimum_size = Vector2(80, 24)
 text = "Button"
 script = ExtResource("1_btn")

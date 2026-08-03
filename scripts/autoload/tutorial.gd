@@ -167,22 +167,22 @@ func _anchored_combos() -> Array[ComboDef]:
 	var best: Array[ComboDef] = []
 	var best_overlap: int = -1
 	for attempt in 20:
-		var set: Array[ComboDef] = ComboCatalog.roll_combos(_rng, 3, 0)
-		var overlap: int = _best_overlap(set)
+		var combo_set: Array[ComboDef] = ComboCatalog.roll_combos(_rng, 3, 0)
+		var overlap: int = _best_overlap(combo_set)
 		if overlap > best_overlap:
 			best_overlap = overlap
-			best = set
+			best = combo_set
 		if overlap >= 2:
 			break
 	return best
 
 
-## The most positive combos in `set` that a single decimal satisfies.
-func _best_overlap(set: Array[ComboDef]) -> int:
+## The most positive combos in `combo_set` that a single decimal satisfies.
+func _best_overlap(combo_set: Array[ComboDef]) -> int:
 	var best: int = 0
 	for d in 10:
 		var n: int = 0
-		for c: ComboDef in set:
+		for c: ComboDef in combo_set:
 			if not c.negative and c.digits.has(d):
 				n += 1
 		best = maxi(best, n)

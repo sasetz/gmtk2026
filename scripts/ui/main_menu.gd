@@ -4,18 +4,12 @@ extends Control
 ## reached from inside the options menu. It just reports which button was pressed.
 
 signal play_pressed
-signal options_pressed
-signal credits_pressed
-signal quit_pressed
 
 @onready var _play: PushButton = $Buttons/Play
 @onready var _transition_timer: Timer = $OnPlayTimer
 
 
 func _ready() -> void:
-	# There's no meaningful "quit" in a browser tab.
-	# The cat buttons sound themselves; anything else here gets the usual click.
-	UiSound.attach(self)
 	_play.grab_focus()
 
 

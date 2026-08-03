@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://ku5v8enri36p" path="res://scripts/ui/options_menu.gd" id="1_opts"]
 [ext_resource type="Texture2D" uid="uid://cdngk27fn2ow2" path="res://assets/art/ui/options_bg.tres" id="2_bg"]
+[ext_resource type="Script" uid="uid://dynt2t8qabp44" path="res://scripts/ui/sound_button.gd" id="3_hm4m4"]
 
 [sub_resource type="StyleBoxTexture" id="sb_opt"]
 content_margin_left = 16.0
@@ -46,6 +47,9 @@ theme_override_styles/panel = SubResource("sb_opt")
 
 [node name="Box" type="VBoxContainer" parent="Panel" unique_id=135989506]
 layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 14)
+offset_transform_visual_only = false
 theme_override_constants/separation = 6
 alignment = 1
 
@@ -163,15 +167,20 @@ layout_mode = 2
 theme_override_constants/separation = 8
 alignment = 1
 
-[node name="Back" type="Button" parent="Panel/Box/Buttons" unique_id=1934975611]
+[node name="Back" type="Button" parent="Panel/Box/Buttons" unique_id=1913558842]
 custom_minimum_size = Vector2(72, 20)
 layout_mode = 2
 text = "Back"
+script = ExtResource("3_hm4m4")
+sfx_name = &"ui_cancel"
+metadata/_custom_type_script = "uid://dynt2t8qabp44"
 
-[node name="Credits" type="Button" parent="Panel/Box/Buttons" unique_id=1304768933]
+[node name="Credits" type="Button" parent="Panel/Box/Buttons" unique_id=1395126725]
 custom_minimum_size = Vector2(72, 20)
 layout_mode = 2
 text = "Credits"
+script = ExtResource("3_hm4m4")
+metadata/_custom_type_script = "uid://dynt2t8qabp44"
 
 [connection signal="value_changed" from="Panel/Box/Master/Slider" to="." method="_on_master_changed"]
 [connection signal="value_changed" from="Panel/Box/Music/Slider" to="." method="_on_music_changed"]

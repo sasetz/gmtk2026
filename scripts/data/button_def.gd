@@ -34,4 +34,5 @@ func on_finish() -> bool:
 
 ## The tenths-of-a-second digit of a millisecond time.
 func tenths(ms: int) -> int:
+	@warning_ignore("integer_division")
 	return (ms / 100) % 10

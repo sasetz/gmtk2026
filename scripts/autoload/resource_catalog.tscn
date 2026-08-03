@@ -569,23 +569,6 @@ selected = ExtResource("39_kd1lb")
 tick = SubResource("AudioStreamRandomizer_foet8")
 metadata/_custom_type_script = "uid://cg65lkbf6h6aw"
 
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_puq75"]
-random_pitch = 1.9999999
-streams_count = 1
-stream_0/stream = ExtResource("42_ee8c4")
-
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_5a5qe"]
-random_pitch = 1.9999999
-streams_count = 1
-stream_0/stream = ExtResource("43_c3afo")
-
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_7ctgm"]
-streams_count = 4
-stream_0/stream = ExtResource("46_day2o")
-stream_1/stream = ExtResource("47_dux8t")
-stream_2/stream = ExtResource("48_jinw1")
-stream_3/stream = ExtResource("49_swi4n")
-
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_sjmm1"]
 streams_count = 5
 stream_0/stream = ExtResource("50_ld3sr")
@@ -594,17 +577,21 @@ stream_2/stream = ExtResource("52_l46c5")
 stream_3/stream = ExtResource("53_itps8")
 stream_4/stream = ExtResource("54_7f3mx")
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_dqefb"]
+streams_count = 3
+stream_0/stream = ExtResource("65_ejj6x")
+stream_1/stream = ExtResource("66_dqefb")
+stream_2/stream = ExtResource("67_l4vfe")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_ejj6x"]
+streams_count = 1
+stream_0/stream = ExtResource("64_sjmm1")
+
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_l46c5"]
 streams_count = 3
 stream_0/stream = ExtResource("55_swi4n")
 stream_1/stream = ExtResource("56_ld3sr")
 stream_2/stream = ExtResource("57_wdc4n")
-
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_8meyx"]
-streams_count = 3
-stream_0/stream = ExtResource("58_l46c5")
-stream_1/stream = ExtResource("59_itps8")
-stream_2/stream = ExtResource("60_7f3mx")
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_4ic4r"]
 streams_count = 3
@@ -612,15 +599,28 @@ stream_0/stream = ExtResource("61_7ctgm")
 stream_1/stream = ExtResource("62_sjmm1")
 stream_2/stream = ExtResource("63_8meyx")
 
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_ejj6x"]
-streams_count = 1
-stream_0/stream = ExtResource("64_sjmm1")
-
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_dqefb"]
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_8meyx"]
 streams_count = 3
-stream_0/stream = ExtResource("65_ejj6x")
-stream_1/stream = ExtResource("66_dqefb")
-stream_2/stream = ExtResource("67_l4vfe")
+stream_0/stream = ExtResource("58_l46c5")
+stream_1/stream = ExtResource("59_itps8")
+stream_2/stream = ExtResource("60_7f3mx")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_7ctgm"]
+streams_count = 4
+stream_0/stream = ExtResource("46_day2o")
+stream_1/stream = ExtResource("47_dux8t")
+stream_2/stream = ExtResource("48_jinw1")
+stream_3/stream = ExtResource("49_swi4n")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_5a5qe"]
+random_pitch = 1.9999999
+streams_count = 1
+stream_0/stream = ExtResource("43_c3afo")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_puq75"]
+random_pitch = 1.9999999
+streams_count = 1
+stream_0/stream = ExtResource("42_ee8c4")
 
 [node name="ResourceCatalog" type="Node" unique_id=2034690082]
 script = ExtResource("1_r4tcc")

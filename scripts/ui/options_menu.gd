@@ -25,7 +25,6 @@ func _ready() -> void:
 	_sfx.set_value_no_signal(Settings.sfx_volume)
 	_shake.set_pressed_no_signal(Settings.screen_shake)
 	_refresh_labels()
-	UiSound.attach(self)
 	_back.grab_focus()
 
 

@@ -6,7 +6,6 @@ signal closed
 
 
 func _ready() -> void:
-	UiSound.attach(self)
 	$Panel/Box/People/Back.grab_focus()
 
 

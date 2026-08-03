@@ -82,7 +82,7 @@ func _say(lines: Array) -> void:
 func _show_line() -> void:
 	_text.text = str(_lines[_line])
 	_hint.text = "Click to continue"
-	Audio.play_sfx(&"speech")
+	Audio.sfx(&"bob")
 
 
 ## Any click moves to the next line; the last one hands the round over.
@@ -140,6 +140,6 @@ func _release_skip() -> void:
 
 func _do_skip() -> void:
 	_release_skip()
-	Audio.play_sfx(&"ui_cancel")
+	Audio.sfx(&"ui_cancel")
 	EventBus.tutorial_highlight.emit(&"none")
 	Tutorial.skip()

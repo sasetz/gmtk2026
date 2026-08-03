@@ -111,6 +111,7 @@ func _boss_round(lap: int) -> RoundDef:
 	r.is_boss = true
 	r.display_name = "Boss"
 	var count: int = 2 if lap <= 1 else MAX_STOPWATCHES
+	@warning_ignore("integer_division")
 	var negatives: int = clampi(1 + (tier(lap) - 1) / 2, 1, MAX_NEGATIVE_COMBOS)
 	for i in count:
 		r.stopwatches.append(_make_stopwatch(lap, _positive_count(lap), negatives))
@@ -171,6 +172,7 @@ func _duration_ms(duration: Duration, t: int) -> int:
 
 
 func _click_count(clicks: Clicks, t: int) -> int:
+	@warning_ignore("integer_division")
 	var bonus: int = (t - 1) / 2      # the whole band shifts up every other lap
 	match clicks:
 		Clicks.LOW:

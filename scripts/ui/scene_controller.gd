@@ -41,7 +41,6 @@ func _ready() -> void:
 	EventBus.toggle_pause.connect(_toggle_pause)
 	EventBus.tutorial_finished.connect(_close_tutorial)
 	# The cat button sounds itself; the corner cog is a plain click.
-	UiSound.play_on($OptionsCorner, &"ui_click")
 	_select_scene(Scene.MAIN_MENU)
 
 
@@ -82,9 +81,6 @@ func _select_scene(scene: Scene) -> void:
 			_hud.visible = false
 			var menu: Control = menu_scene.instantiate()
 			menu.play_pressed.connect(RunManager.start_run)
-			menu.options_pressed.connect(_open_options)
-			menu.credits_pressed.connect(_open_credits)
-			menu.quit_pressed.connect(func() -> void: get_tree().quit())
 			_screen.add_child(menu)
 			Audio.play_music(&"Normal")
 		Scene.ROUND:

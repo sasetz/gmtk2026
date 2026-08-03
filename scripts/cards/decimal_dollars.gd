@@ -28,4 +28,5 @@ func _on_click() -> void:
 
 ## The tenths-of-a-second digit of a millisecond time.
 func _decimal(ms: int) -> int:
+	@warning_ignore("integer_division")
 	return (ms / 100) % 10

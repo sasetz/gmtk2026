@@ -46,6 +46,7 @@ func _process(delta: float) -> void:
 	if remaining_ms < 0:
 		remaining_ms = 0
 	# A buffered press fires as soon as the decimal advances past the last lock.
+	@warning_ignore("integer_division")
 	if _buffered and remaining_ms / 100 != _last_lock_ds:
 		_lock(remaining_ms)
 		return
@@ -84,6 +85,7 @@ func begin(def: StopwatchDef) -> void:
 func click() -> void:
 	if not running:
 		return
+	@warning_ignore("integer_division")
 	if remaining_ms / 100 == _last_lock_ds:
 		_buffered = true
 		return
@@ -120,6 +122,7 @@ func adjust_last_click(ms: int) -> void:
 	if clicks.is_empty():
 		return
 	clicks[-1] = ms
+	@warning_ignore("integer_division")
 	_last_lock_ds = ms / 100
 
 
@@ -148,6 +151,7 @@ func reset() -> void:
 
 func _lock(ms: int) -> void:
 	clicks.append(ms)
+	@warning_ignore("integer_division")
 	_last_lock_ds = ms / 100
 	_buffered = false
 	points += _lock_points(ms)

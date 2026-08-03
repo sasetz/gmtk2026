@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://djpiw7bk5kt6r" path="res://scenes/options_menu.tscn" id="6_options"]
 [ext_resource type="PackedScene" uid="uid://b35xs8nwklbpp" path="res://scenes/credits.tscn" id="7_credits"]
 [ext_resource type="AudioStream" uid="uid://cr4ajwr5v7gtl" path="res://assets/music/NORMAL Smooth as the cards I play .mp3" id="8_a8y0u"]
-[ext_resource type="PackedScene" path="res://scenes/pause_menu.tscn" id="8_pause"]
+[ext_resource type="PackedScene" uid="uid://b0xpgok1koka3" path="res://scenes/pause_menu.tscn" id="8_pause"]
 [ext_resource type="PackedScene" uid="uid://dbfxw11vxefdi" path="res://scenes/card.tscn" id="9_card"]
 [ext_resource type="AudioStream" uid="uid://clqptim7xkd7l" path="res://assets/music/SHOP Smooth as the cards I play .mp3" id="9_jkv2x"]
 [ext_resource type="AudioStream" uid="uid://dpffjkhgym3uj" path="res://assets/music/Intense, like my play style!.mp3" id="10_jbj1t"]
@@ -20,6 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://wkjtdi03m60q" path="res://assets/art/ui/settings.tres" id="17_2wyq8"]
 [ext_resource type="PackedScene" uid="uid://eocwdje2qfra" path="res://scenes/tutorial.tscn" id="18_tut"]
 [ext_resource type="PackedScene" uid="uid://b5prjlonfh4b4" path="res://scenes/push_button.tscn" id="20_gqmmt"]
+[ext_resource type="Script" uid="uid://dynt2t8qabp44" path="res://scripts/ui/sound_button.gd" id="20_yc10j"]
 
 [sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_0dvnm"]
 clip_count = 5
@@ -214,6 +215,7 @@ offset_right = 26.0
 offset_bottom = -6.0
 grow_vertical = 0
 texture_normal = ExtResource("17_2wyq8")
+script = ExtResource("20_yc10j")
 
 [node name="Overlays" type="Control" parent="." unique_id=119692354]
 layout_mode = 1
@@ -272,6 +274,7 @@ anchor_right = 1.0
 anchor_bottom = 0.5
 offset_left = -130.52002
 offset_top = -58.775
+offset_right = 0.0
 offset_bottom = 58.775
 grow_horizontal = 0
 grow_vertical = 2

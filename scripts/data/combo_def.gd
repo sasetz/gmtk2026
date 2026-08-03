@@ -47,4 +47,5 @@ func would_hit(clicks: Array[int], candidate: int) -> bool:
 
 ## The tenths-of-a-second digit of a millisecond time (the "decimal").
 func tenths(ms: int) -> int:
+	@warning_ignore("integer_division")
 	return (ms / 100) % 10

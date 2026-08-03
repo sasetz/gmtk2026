@@ -1,4 +1,5 @@
 extends Node
+@warning_ignore_start("unused_signal")
 ## The game's spine. Everything that crosses a system boundary rides these
 ## signals: scene changes, economy, the four lifecycles, card/combo/button
 ## activation, and the shop. Nodes subscribe to what they care about and push
@@ -41,3 +42,5 @@ signal shop_left
 signal shop_rolled
 signal card_bought(new_card_index: int)
 signal card_sold(old_card_index: int)
+
+@warning_ignore_restore("unused_signal")

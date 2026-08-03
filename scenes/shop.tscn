@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://ntl0pn0idho6" path="res://scripts/ui/shop.gd" id="1_shop"]
 [ext_resource type="PackedScene" uid="uid://dbfxw11vxefdi" path="res://scenes/card.tscn" id="2_shopcard"]
 [ext_resource type="Texture2D" uid="uid://v0ja4lvvcxou" path="res://assets/art/ui/shop.png" id="3_1l46r"]
+[ext_resource type="Script" uid="uid://dynt2t8qabp44" path="res://scripts/ui/sound_button.gd" id="3_032fp"]
 
 [node name="Shop" type="Control" unique_id=83787153]
 layout_mode = 3
@@ -58,15 +59,20 @@ grow_vertical = 0
 theme_override_constants/separation = 24
 alignment = 1
 
-[node name="Reroll" type="Button" parent="Footer" unique_id=1103698184]
+[node name="Reroll" type="Button" parent="Footer" unique_id=1337814047]
 custom_minimum_size = Vector2(180, 48)
 layout_mode = 2
 text = "Reroll  $5"
+script = ExtResource("3_032fp")
+sfx_name = &"coin"
+metadata/_custom_type_script = "uid://dynt2t8qabp44"
 
-[node name="Continue" type="Button" parent="Footer" unique_id=335899294]
+[node name="Continue" type="Button" parent="Footer" unique_id=1340392907]
 custom_minimum_size = Vector2(180, 48)
 layout_mode = 2
 text = "Continue"
+script = ExtResource("3_032fp")
+metadata/_custom_type_script = "uid://dynt2t8qabp44"
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=1594714872]
 layout_mode = 1

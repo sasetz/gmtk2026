@@ -90,6 +90,7 @@ func sell_card(card: Card) -> void:
 	var idx: int = cards.find(card)
 	if idx < 0:
 		return
+	@warning_ignore("integer_division")
 	add_money(card.cost / 2)
 	remove_card(card)
 	EventBus.card_sold.emit(idx)

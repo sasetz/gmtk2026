@@ -12,7 +12,6 @@ signal menu_pressed
 
 
 func _ready() -> void:
-	UiSound.attach(self)
 	ResumeButton.grab_focus()
 
 

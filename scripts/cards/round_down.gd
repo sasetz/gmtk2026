@@ -21,5 +21,6 @@ func _on_click() -> void:
 	var d: int = tenths(ms)
 	if d < 1 or d > 3:
 		return
+	@warning_ignore("integer_division")
 	StopwatchManager.adjust_last_click((ms / 1000) * 1000)
 	activate()

@@ -55,6 +55,7 @@ func _process(_delta: float) -> void:
 
 
 func _tick_clock() -> void:
+	@warning_ignore("integer_division")
 	var second: int = StopwatchManager.remaining_ms / 1000
 	if second == _ticked_second:
 		return
@@ -159,4 +160,5 @@ func _refresh() -> void:
 
 
 func _format(ms: int) -> String:
+	@warning_ignore("integer_division")
 	return "%02d : %d" % [ms / 1000, (ms % 1000) / 100]

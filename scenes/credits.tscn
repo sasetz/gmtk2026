@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c6htiqx60l2tx" path="res://scripts/ui/credits.gd" id="1_credits"]
 [ext_resource type="Texture2D" uid="uid://bnvdj8lvmj1h0" path="res://assets/art/ui/credits_bg.tres" id="2_2ckv8"]
+[ext_resource type="Script" uid="uid://dynt2t8qabp44" path="res://scripts/ui/sound_button.gd" id="3_0ctdu"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0bpdh"]
 content_margin_left = 14.0
@@ -266,11 +267,14 @@ theme_override_colors/font_color = Color(0.78, 0.85, 0.88, 1)
 theme_override_font_sizes/font_size = 9
 text = "Discord: eri_2005"
 
-[node name="Back" type="Button" parent="Panel/Box/People" unique_id=569685398]
+[node name="Back" type="Button" parent="Panel/Box/People" unique_id=432419891]
 custom_minimum_size = Vector2(80, 24)
 custom_maximum_size = Vector2(80, 24)
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Back"
+script = ExtResource("3_0ctdu")
+sfx_name = &"ui_cancel"
+metadata/_custom_type_script = "uid://dynt2t8qabp44"
 
 [connection signal="pressed" from="Panel/Box/People/Back" to="." method="_on_back_pressed"]
