@@ -613,12 +613,12 @@ stream_2/stream = ExtResource("48_jinw1")
 stream_3/stream = ExtResource("49_swi4n")
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_5a5qe"]
-random_pitch = 1.9999999
+random_pitch = 1.1892071
 streams_count = 1
 stream_0/stream = ExtResource("43_c3afo")
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_puq75"]
-random_pitch = 1.9999999
+random_pitch = 1.1892071
 streams_count = 1
 stream_0/stream = ExtResource("42_ee8c4")
 
